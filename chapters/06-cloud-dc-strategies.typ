@@ -4,7 +4,7 @@
 
 = CLOUD AND DC GLOBAL STRATEGIES
 #extra[
-  Package: Cloud and DC Global Strategies - `Cloud and DC Global Strategies.pdf`
+  Package: Cloud and Data Ceneter Global Strategies - `Cloud and DC Global Strategies.pdf`
 ]
 
 A Cloud is not just a collection of servers: it is a *big data center (DC), federated with other ones*, capable of giving *good and fast answers* to users. Two contrasting requirements must be balanced simultaneously:

@@ -267,7 +267,7 @@ Targeted at highly streamlined and optimized applications that require rapid, ef
 #def("On-Demand Integration Middleware")[
       An #kw[On-Demand Integration Middleware] is a flexible layer designed to facilitate straightforward cooperation and interoperability among running applications at execution time.
       - *On-Demand Deployment:* The middleware infrastructure is spun up strictly on demand when applications need to interact (e.g., via Distributed Object Computing - DOC).
-      - *Tied Lifecycle:* As highlighted in *QuickLook_wFLTMyZbes.jpg*, the middleware's lifetime is tightly coupled to the lifecycle of the applications using it; it does not persist independently.
+      - *Tied Lifecycle:* The middleware's lifetime is tightly coupled to the lifecycle of the applications using it; it does not persist independently. When the last application exits, the middleware shuts down.
 ]
 #v(-1em)
 #example("Microsoft Component Middleware")[
@@ -391,7 +391,7 @@ The cloud is delivered as a *layered architecture* of service models:
 
 === Architecture Comparison: What the Customer Manages
 
-- *On-premises (Private Cloud)*: customer manages everything — applications, data, OS, virtualization, servers, storage, networking.
+- *On-premises (Private Cloud)*: customer manages everything: applications, data, OS, virtualization, servers, storage, networking.
 - *IaaS*: provider manages servers, storage, networking. Customer manages OS upward.
 - *PaaS*: provider manages up through the runtime. Customer manages applications and data only.
 - *SaaS*: provider manages everything. Customer just uses the application.
@@ -401,7 +401,7 @@ The cloud is delivered as a *layered architecture* of service models:
   caption: "Cloud service models comparison."
 )
 
-== XaaS — Anything as a Service
+== XaaS: Anything as a Service
 
 #def("XaaS")[
   #kw[XaaS] (Anything as a Service): all Cloud stakeholders provide the richest set of services for any possible user request, accompanying users toward the best choices (Storage as a Service, Container as a Service, and more).

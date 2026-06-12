@@ -4,7 +4,7 @@
 
 = MIDDLEWARE AND CLOUD MODELS
 #extra[
-  Package: Middleware & Cloud Models - `Middleware and Cloud 25.pdf`
+  Package: Middleware and Cloud - `Middleware and Cloud 25.pdf`
 ]
 
 This chapter covers two deeply connected topics:

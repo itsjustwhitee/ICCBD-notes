@@ -13,20 +13,20 @@ Dependable systems must continue to operate correctly even in the presence of fa
 
 === Some Definitions
 
-#def("Dependability / Fault Tolerance (FT)")[
-  The customer has a *full confidence in the system*, both in the sense of hardware, software, and in general any design aspect. Complete confidence in *any* design aspect.
+#def("Dependability / Fault Tolerance")[
+  #kw[Dependability] is the umbrella property that makes a system *trustworthy*: users and operators can rely on it to deliver correct service continuously, even under hardware failures, software bugs, and adverse events. It encompasses availability, reliability, and recoverability, all of which must hold at every level: hardware, software, and protocol.
 ]
 #v(-1em)
-#def("Availability (continuity of services)")[
-  The system must provide *correct answers in an agreed limited time*: the stress is on correct response, *not on timing*. Memory copies can provide fast response time.
+#def("Availability (continuity of service)")[
+  #kw[Availability] is the fraction of time the system is *operational and accessible*. It is formally $A = "MTBF" \/ ("MTBF" + "MTTR")$, where MTBF is the mean time between failures and MTTR is the mean time to repair. High availability requires both infrequent failures *and* fast recovery. In-memory replication on multiple nodes is a typical technique to reduce MTTR.
 ]
 #v(-1em)
-#def("Reliability (correct answers)")[
-  The system must provide *only correct results* (no time constraints). Disk copies can achieve it via stable memory.
+#def("Reliability (correctness of results)")[
+  #kw[Reliability] is the ability to deliver *only correct results*, without any erroneous output, over an extended period. Unlike availability, it does not promise when the result arrives, only that what it returns is right. Reliable storage on disk (stable memory) is a classic mechanism for preserving correct state across crashes.
 ]
 #v(-1em)
-#def("Recoverability (recovery via state persistency)")[
-  *Safety is Correctness* and there are also other aspects of Reliability: Safety, Consistency, Security, Privacy, ... (ACID typically).
+#def("Recoverability (state restoration after failure)")[
+  #kw[Recoverability] is the ability to *restore correct service state* after a fault, by returning to a previously saved consistent state (a checkpoint). A recoverable system does not lose committed work. Safety, consistency, security, and privacy are all aspects that the recovered state must still satisfy.
 ]
 
 === Faults, Errors, and Failures
@@ -48,16 +48,16 @@ An application can fail and it can cause a wrong update on a database.
 
 Faults can be *transient*, *intermittent*, or *permanent*:
 
-- *Bohrbug*: repeatable, neat failures, often easy to be corrected.
-- *Eisenbug*: less repeatable, hard to be understood failures, hard to correct. _Eisenbug is often tied to specific runs and events, so not easy to be corrected._
+- *Bohrbug*: a fault that is *deterministic and repeatable*: it appears every time the same conditions occur, so it is relatively easy to reproduce, isolate, and fix. Named after Niels Bohr's solid atomic model (you know exactly where the electron is).
+- *Eisenbug*: a fault that *disappears or changes behavior when you try to observe it*: for example, a race condition that only shows up under specific timing or load. Named after Heisenberg's uncertainty principle. Eisenbugs are tied to particular execution contexts and often vanish when debugging instrumentation is added, making them very hard to diagnose.
 
 === Services Unavailability
 
-Any system can crash and may become unavailable for some time. Causes of unavailability can stem from many different reasons, either planned ones or not planned. We need phases of *fault/error identification* and *recovery* to go back to normal operations.
+Any system can crash and may become unavailable for some time. *Planned downtime* (maintenance windows, software upgrades) can be scheduled and communicated in advance. *Unplanned downtime* is the real problem: it hits users without warning and is harder to recover from quickly.
 
-Common causes of downtime include: hardware drive/server failures (55%), human factors (22%), software errors (18%), and natural disasters (5%).
+Regardless of the cause, restoring normal operation requires two sequential phases: *fault/error identification* (detecting that something went wrong and localizing the cause) followed by *recovery* (returning the system to a correct, operational state).
 
-The main downtime causes by frequency: Human Error (60), Unexpected Updates (56), Server Room Environment (44), Power Outages (29), On-site Disaster (26), Virus or Malware Attack (18), Hardware Error/Theft (14), Natural Disaster (10).
+Common causes of downtime by business impact: hardware drive or server failures (55%), human error (22%), software bugs (18%), and natural disasters (5%). By raw incident frequency, human error and unexpected configuration changes are actually the most common triggers.
 
 === Service Unavailability Indicators
 
@@ -114,15 +114,15 @@ Downtime costs vary greatly by industry due to the different impact on society o
 
 === Fault Identification in Client/Server Systems
 
-Client and Server play a reciprocal role in control and identification:
-- The *client waits* for the answer from the server synchronously.
-- The *server waits* for the answer delivery, verifying it; messages have timeout and are resent.
+In a client/server interaction, both sides monitor each other:
+- The *client* sends a request and waits with a timeout; if no reply arrives in time, it assumes the server has failed or is unreachable.
+- The *server* sends its reply and may wait for an acknowledgment; unacknowledged messages are resent up to a configured limit.
 
-Fault identification and recovery strategies:
-- *Faults that can be tolerated without causing failure* (at any time, all together and during the recovery protocol).
-- *Number of repetitions* #arrow *possible fault number*.
+The difficulty is that neither side can directly distinguish a crashed server from a very slow one, or a lost message from a delayed one. This ambiguity is why *fault assumptions* matter: by agreeing in advance on what kinds of faults can occur and how many simultaneously, designers can keep detection and recovery protocols tractable.
 
-#note[The design can be very hard and intricate. Fault assumptions simplify the complex duty.]
+The number of message retransmissions also determines how many faults can be masked: more retransmissions mean more fault coverage, but also higher latency and communication overhead in the normal case.
+
+#note[Fault tolerance design can be very intricate. Fault assumptions (explicit agreements about what can go wrong and how often) are the engineering tool that keeps the complexity manageable.]
 
 === Single Point of Failure (SPoF)
 
@@ -210,26 +210,31 @@ More advanced fault assumptions on communication:
 
 Formal properties of dependable systems:
 
-- *Correctness = Safety = RELIABILITY*: guarantees that there are *no problems*: all invariants are always met.
-- *Vitality = Liveness = AVAILABILITY*: achieving goals with *success*: the goal is completely reached.
+Two formal properties capture the essential quality requirements of a dependable system:
+
+- *Safety (Correctness)*: nothing bad ever happens. All system invariants are always satisfied: the system never returns a wrong answer, never enters a corrupt state. If uncertain, it does nothing rather than risking incorrect output.
+- *Liveness (Vitality / Availability)*: something good eventually happens. Every valid request eventually receives a response; the system makes progress and never stays blocked forever.
 
 #note[
-  A system *without* safety and liveness gives no guarantee for any specific fault (no tolerance). A system *with safety* without liveness operates always correctly and can give results, without guarantee of respecting timing constraints. A system *without safety* with liveness always provides a result in the required time, even if the results may be incorrect (e.g., an exception). In any case, to grant any of those solutions should *consider replication either in time or space*.
+  These two properties trade off against each other under failures:
+  - A system with *only safety* (no liveness) will always give correct answers, but may simply stop responding when uncertain. It is correct but potentially frozen.
+  - A system with *only liveness* (no safety) will always respond, but may return wrong or stale data. It is responsive but potentially incorrect.
+  - A fully dependable system requires both. To achieve both under faults, *space replication* (multiple simultaneous copies) or *time replication* (retries, checkpoints, replaying from log) is necessary.
 ]
 
 == Fault-Tolerance Architectures
 
 === Replicated Components
 
-Fault-tolerant architectures use *replicated components* that introduce added costs and require new execution models. HW replication, but replication also propagates at any level.
+Fault-tolerant architectures use *replicated components*: multiple copies of the same logical resource placed on different machines, so that if one fails, the others can take over. Replication applies at every level: hardware disks (RAID), processors (TMR), services, and data stores.
 
-Differentiated execution: *several copies* either all active or not, over the same service, or working on different operations:
+The key design question is *how active each replica is*:
 
-1. *(Passive copies)*: only *one component executes* and produces the result; all the others are there as *backups*.
-2. *(Active copies)*: all components are *equal in role* and execute the same operation to produce a coordinated unique result (_maximum correctness: also by executing diverse algorithms and comparing results_).
-- *All components equal and playing the same role*, executing different services at the same time and giving out different answers (*max throughput* in clusters of processors).
+1. *Passive replication (master-slave)*: only one copy, the master, actually executes requests and produces results. The other copies are backups that receive periodic state updates but do no work. Simple to reason about, but the master is a bottleneck and its failure requires explicit failover.
+2. *Active replication*: all copies execute the same request independently and then coordinate to agree on a common answer. Faults are masked without failover delay, but the coordination overhead is higher.
+3. *Load-sharing clusters*: all copies are equal in role but execute *different* requests simultaneously, splitting the workload. This maximizes throughput without requiring coordination among requests, but provides no single-fault masking on a per-request basis.
 
-#note[These architectures are typically *metalevel organizations*, because they introduce parts that control the system behavior and manage replication.]
+#note[These architectures introduce a *metalevel*: parts that control the rest of the system (managing replication, detecting failures, coordinating state). The metalevel itself must be dependable, or the whole scheme collapses.]
 
 === Stable Memory
 
@@ -257,29 +262,29 @@ The recovery protocol has the goal of recovering both copies to a safe state, ev
 === TANDEM Systems
 
 #def("TANDEM")[
-  A special-purpose system with *online data* (not disk). TANDEM (bought and adopted by Compaq and HP, nonstop) uses replication via *two copies of any system component* (two processors, two buses, two disks, …) and the system works in a *perfectly synchronous approach*.
+  TANDEM (later acquired by Compaq then HP, marketed as "NonStop") is a *special-purpose fault-tolerant system* designed for continuous online operation - it keeps data in memory (not solely on disk) and replicates every hardware component: two processors, two buses, two disks, and so on. All copies operate in *perfectly synchronous lockstep*.
 ]
 
-The goal: *fail-safe* system dependable with *single fault assumption*.
-- Any error is identified via component replication and the double approach can tolerate it.
-- The stable memory approach is implemented via access to the double bus to a doubled disk with double data replicated.
+The goal is a *fail-safe* system that tolerates any single hardware fault:
+- Every component is mirrored, so if one fails, its twin continues without interruption.
+- Stable memory is implemented by writing to both buses, which each write to a mirrored pair of disks.
 
-#note[The system cost is high and makes it special purpose (banks). Tandem has a high cost, both for resources and timing.]
+#note[The cost is very high: double hardware, strict synchrony overhead. This makes TANDEM a special-purpose solution for mission-critical environments like banking and financial transaction processing.]
 
-Replicated copies can push to two strategies: make actions *twice*, in any component, or make actions *only once* and use the other copy as a back up.
+Replication can follow two strategies: execute every action on *both* copies simultaneously (active replication), or execute on *one* copy and use the other purely as a hot standby backup.
 
 === RAID: Redundant Array of Inexpensive Disks
 
 #def("RAID")[
-  A *general-purpose organization of disks* with a replication goal but low-cost intention. A set of low-cost disks coordinated toward common actions with different goals in shared common actions to achieve different standard objectives. Commercial low cost off-the-shelf systems.
+  #kw[RAID] is a general-purpose technique that coordinates a set of commodity disks to improve either *performance* (via striping) or *fault tolerance* (via redundancy), or both, at a much lower cost than special-purpose hardware like TANDEM.
 ]
 
-The initial goal of RAID was to offer *low response time* via *data striping*, so that a content is split among different disks to be read/written in parallel. Then some standards extended to consider *data replication*. Some classes consider different organizations for different standard goals.
+The original goal was to improve *throughput* via *data striping*: split a file across multiple disks so they can be read or written in parallel. Later RAID levels added *parity* or *mirroring* to recover from disk failures. Each level trades off cost, capacity, and protection differently:
 
-- *RAID 0 - simple striping*: parallel I/O but no redundancy; suitable for I/O intensive applications but *worse MTBF*.
-- *RAID 1 - mirroring*: maximum redundancy; for high availability even if higher cost; good performances in reading and less in writing.
-- *RAID 3 & 4 - striping with dedicated parity disk*: high speed to support operations on large contents (images); one I/O operation at a time, for the contention on the parity disk.
-- *RAID 5 & 6 - striping without dedicated parity disk*: the *distributed parity check* achieves good speed in case of many readings for small contents and good writing operations for large contents.
+- *RAID 0 - striping only*: data split across N disks for maximum parallel I/O throughput. No redundancy: any single disk failure loses all data. Suitable for performance-critical scratch storage where loss is acceptable.
+- *RAID 1 - mirroring*: every disk has an exact copy. Maximum redundancy: survives failure of any one disk. Reads can be load-balanced across both; writes must hit both. Cost: 50% capacity overhead.
+- *RAID 3 & 4 - striping with a dedicated parity disk*: data striped byte-by-byte (RAID 3) or block-by-block (RAID 4), with a single dedicated parity disk. The parity disk becomes a bottleneck: only one write I/O at a time can proceed.
+- *RAID 5 & 6 - distributed parity*: parity blocks are spread across all disks, eliminating the parity-disk bottleneck. RAID 5 tolerates one disk failure; RAID 6 adds a second parity block to tolerate two simultaneous failures. Best balance of performance, capacity, and fault tolerance for general use.
 
 == Fault Tolerant Support: Costs and Principles
 
@@ -421,15 +426,12 @@ An activity executes the operation for any private data copy. Client external re
 
 === Active Copies Replication: Manager Strategy
 
-Usually, the FT is an *implicit private strategy* of resources:
-- *Either* there exists *one manager only* (static organization): centralized farm that receives the request and commands the operations, collects the answer and gives it back to the client.
-- *Or* there exist *several managers* (dynamic): any operation gets a different manager in charge of it, with no central role and also balancing of requests.
+Fault tolerance is usually an *invisible internal detail* of the replicated resource: the client sees a single logical service and is unaware of how many copies exist. To coordinate requests across copies, a *manager* role is needed:
 
-Policy for choosing the manager:
-- *Static*.
-- *Dynamic*: by *locality* or by *rotation*.
+- *Single manager (static)*: one designated copy acts as manager for all operations. It receives every request, distributes it to other copies, collects their results, and returns the agreed answer to the client. Simple to implement and easy to reason about, but the manager is both a performance bottleneck and a potential single point of failure.
+- *Rotating managers (dynamic)*: each operation gets a different manager, chosen by locality (the copy closest to the client) or by rotation (round-robin across copies). This distributes the coordination load evenly and removes the single point of failure, but requires careful handling when multiple operations are in flight simultaneously to avoid conflicting decisions by different concurrent managers.
 
-#note[If several operations are alive at the same time, we need to avoid any interference among the different concurrent managers.]
+#note[When several operations are handled by different managers at the same time, the managers must avoid interfering with each other: for example, by acquiring per-object locks or using atomic multicast to impose a consistent execution order.]
 
 === Active Copies Coordination
 
@@ -487,37 +489,23 @@ To make clear the needs of different steps and one general workflow, we can mode
 
 === Phase 1: Client Request
 
-The client can send the request of an operation:
-- *Only to one of the copies*.
-- *To all copies*.
-
-In case of a delivery to copy only, it is that copy that should propagate the requests to all other ones. The *manager* is in charge of re-bouncing the first phase. The specific copy can be decided either dynamically or statically.
+The client initiates the operation by sending its request to the replicated resource. It has two options: send to *one copy only* (a designated manager, which then internally forwards the request to all other replicas), or send directly to *all copies simultaneously*. Sending to one copy is simpler for the client but puts more coordination responsibility on that copy; sending to all is more robust against a single-copy failure at the cost of requiring the client to know the full replica set. Which copy acts as manager can be fixed at deployment time or elected dynamically per operation.
 
 === Phase 2: Copy Coordination
 
-The copies must *coordinate with each other*, to define a negotiated policy in scheduling. One master copy can become the manager of that operation:
-- All copies must decide *how and when to execute* the operation to prepare the correct execution.
-- Different copies may have *different weight* within the group and also *different roles*.
-
-This is the *first coordination phase*.
+Before executing, copies must coordinate to agree on *when and in which order to run* the operation. This is critical when multiple operations may be in flight simultaneously: without prior coordination, different replicas could apply concurrent operations in different orders, leading to divergent states. One copy acts as *manager* for this operation, proposing an execution schedule. Copies may carry different weights (as in weighted quorum protocols) and play different roles. This is the *first coordination phase*.
 
 === Phase 3: Copy Execution
 
-The coordination phase influences the execution and some scheduling can be avoided or prevented. In general, some degree of freedom can be still left to individual decisions:
-- All copies *execute* with proper decision (some copies maybe prevented, up to a master-slave case).
-- Clashing executions may require coordination or a-posteriori actions.
+With coordination complete, copies actually run the operation. In an *active model*, all replicas execute independently and produce their own result; in a *passive model*, only the master executes while backups wait. Some local freedom may still exist: for instance, a copy may skip execution if it has already received the committed result from the manager. Conflicting executions due to concurrent overlapping operations are resolved here or corrected in the next phase.
 
 === Phase 4: Copy Agreement
 
-All copies (some are out of the group) must agree on the result to be given back: some results are not conformant to the group whole decision. The group must decide either the commit or also some undo on some actions and the exclusion of related divergent copies from the group for incorrectness.
-
-This is the *second coordination phase*.
+After executing, all copies must agree on the *final result* before it is delivered to the client. Some copies may have produced divergent outputs due to faults or concurrent operations from other managers. The group votes: if a quorum agrees on the same result, that becomes the committed answer; divergent copies are excluded from the group and must be recovered and re-synchronized before they can rejoin. If agreement cannot be reached (too many copies failed), the operation is rolled back. This is the *second coordination phase*.
 
 === Phase 5: Result Delivery
 
-This phase has the goal of *delivering the correct result to the waiting client*:
-- *One unified answer* to the client that has sent the request.
-- *Answers from all copies separately* (overhead of handling all responses).
+Finally, the agreed result is returned to the waiting client. The preferred form is a *single unified answer*: the client should not need to know that replication exists. If the client sent its request to all copies directly in Phase 1, it may receive multiple identical responses and must accept the first valid one while discarding duplicates. Minimizing complexity on the client side is a key design goal.
 
 === Observations on Active Copies Operations
 
@@ -603,9 +591,7 @@ Flow: Phase 1 (Client) #arrow Phase 2 (Atomic Broadcast in Server Coordination) 
 
 === Widespread Replication Models
 
-Which is the FT replication model more common and widespread?
-- The *Master-Slave* model is simpler and with only one execution point.
-- The *Active Copies* is more complex and implies more coordination.
+The *Master-Slave* (passive) model is simpler and has only one execution point per operation. *Active Copies* replication is more complex and requires coordination across all replicas for every operation.
 
 In any model, the cost is influenced by the *group replication degree*: the number of copies, either working or not. A search on the most common applications and more widespread ones, the *replication degree is typically very limited* (no more than a few copies).
 
@@ -615,14 +601,14 @@ There are also *intermediate replication models*, non-FT oriented, with a set of
 
 === Industrial Safety Evolution
 
-After many years, such assumptions have dictated safety rules. *Once you detect the problem it is also correcting*:
+Modern industrial fault-tolerant systems are classified by how they *respond to failures*, progressing from simple detection toward autonomous prediction and prevention:
 
-- *2016 - Fail Safe* (High Failure): Detection.
-- *2018 - Fail Silent* (Flexible Failure): Reaction.
-- *2020 - Fail Operational* (Intelligent Failure): Reconfiguration.
-- *2030 - High Dependability* (Advanced Failure): Prediction.
+- *Fail Safe*: on fault detection, the system transitions to a known safe, inert state. The priority is preventing harm, even at the cost of stopping all operation. Classic example: a railway signal defaulting to red when the control system loses power.
+- *Fail Silent*: instead of entering a safe state, the system simply *stops producing output* on fault. Other components detect the silence and take over. More flexible than fail-safe because no pre-defined safe state is required.
+- *Fail Operational*: the system continues functioning, possibly in a degraded mode, by automatically reconfiguring around the failed component. This is required in autonomous vehicles: a self-driving car cannot simply stop in the middle of a motorway when a sensor fails.
+- *High Dependability*: the system uses continuous monitoring, telemetry, and analytics to *predict* impending failures and act proactively before the fault occurs, avoiding any disruption.
 
-#note[Modern industrial operations move from detection to prediction, with increasing levels of safety and security.]
+#note[The progression reflects the increasing autonomy of safety systems: from "stop on failure" (fail safe) to "predict and prevent" (high dependability). Automotive functional safety standards (ISO 26262) and industrial standards (IEC 61508) formalize these levels.]
 
 == Case Study: ALMA Web Service Architecture
 
@@ -679,13 +665,12 @@ In case of failover, the data must be available to the new node of the cluster v
 
 === Red Hat Cluster
 
-*Red Hat Cluster suite (open source)*: a replication degree of two comprising also some shared disks to share data:
+*Red Hat Cluster suite (open source)*: a typical two-node cluster with shared disk storage. Its main components are:
 
-- *Cluster Infrastructure*: CMAN/DLM, Fencing, CCS.
-- *HA Service Management*: rgmanager.
-- *Shared Storage*: GFS and CLVM.
-- *Cluster Administration tools*.
-- *GNBD*.
+- *Cluster Infrastructure*: CMAN (Cluster Manager, handles node membership and quorum), DLM (Distributed Lock Manager, coordinates shared access to resources), Fencing (isolates a failed node by cutting off its access to shared storage, preventing data corruption), CCS (Cluster Configuration System).
+- *HA Service Management*: rgmanager, the resource group manager that monitors services and triggers failover when a node fails.
+- *Shared Storage*: GFS (Global Filesystem, a shared-disk filesystem all nodes can mount simultaneously), CLVM (Clustered LVM, manages logical volumes across the cluster).
+- *GNBD* (Global Network Block Device): exports a local disk over the network so other nodes can use it as a block device, enabling shared storage without dedicated SAN hardware.
 
 Red Hat Cluster suite evolved a lot and is off-the-shelf. Red Hat Cluster can coexist with most widespread architectures (e.g., OpenStack: Nova, Glance, Swift, Quantum, Cinder, Keystone).
 
@@ -728,13 +713,13 @@ In the case of *Amazon S3* you can also control both the allocation for your cop
 
 === Docker Swarm
 
-#def("Docker Swarm (orchestrator)")[
-  Docker Swarm proposes the feature of *loading a distributed system*: the picture is with three nodes with one manager invoked via a central console for a *portable dynamic loading*.
+#def("Docker Swarm")[
+  #kw[Docker Swarm] is Docker's native container orchestration mode. A Swarm cluster consists of *manager nodes* and *worker nodes*: managers schedule and coordinate containers (called *services*), while workers execute them. A single manager console can distribute a containerized application across many nodes dynamically.
 ]
 
-Docker Swarm can *automatically take care* of the case of failure of a node, and can *transfer some components to new or available containers* for a 'degraded' execution.
+Docker Swarm provides built-in fault tolerance: if a worker node fails, the manager detects it via heartbeats and *reschedules the affected containers onto healthy nodes*, allowing the system to continue running (possibly in a degraded state until the new containers are ready).
 
-Docker Swarm can also allow *high availability* and can replicate also the *manager* for the distribution to overcome the *single point of failure of the manager*. In case of failure of *any kind of node*, it *can still operate and without interruption*.
+For the manager itself, Swarm supports *multiple manager replicas* using the Raft consensus algorithm, removing the single point of failure. As long as a majority of manager nodes are alive, the cluster continues to schedule and coordinate services without interruption.
 
 == Apache ZooKeeper <ch12-zookeeper>
 
@@ -744,35 +729,37 @@ Docker Swarm can also allow *high availability* and can replicate also the *mana
   ZooKeeper is a service for storing some *limited client data*, by using a *distributed replicated cluster of nodes* with excellent QoS, both *available and reliable*.
 ]
 
-Design goals:
-1. *Zookeeper is Simple*.
-2. *Zookeeper is Replicated*.
-3. *How is the Order Beneficial?*
-4. *Zookeeper is Fast*.
+ZooKeeper is designed around four core principles:
+1. *Simple*: the data model is a small hierarchical namespace of znodes (similar to a filesystem tree), each holding a small amount of data. No complex queries: just read, write, and watch.
+2. *Replicated*: ZooKeeper runs as a cluster (an ensemble) of servers, all holding a copy of the state. Clients can connect to any server; all reads are local and fast; writes go through the leader.
+3. *Ordered*: every write is assigned a globally unique, monotonically increasing transaction ID. Clients can use these IDs to impose their own ordering invariants on top of ZooKeeper's operations.
+4. *Fast*: optimized for read-heavy workloads. Reads are served directly from any server's in-memory state without contacting the leader. The typical workload is far more reads than writes.
 
-The *Zookeeper service* is to store *very high-quality data available to all clients*. The internal architecture is based on several nodes to keep in memory data clients are interested in getting *very fast*.
-
-Data are kept by Zookeeper server *znodes*, by using a *master/slave replication* (leader-followers).
+Data are kept by ZooKeeper servers as *znodes*, organized in a UNIX-like hierarchical namespace and replicated using *leader-follower (master-slave) replication*.
 
 === ZooKeeper Architecture
 
-Internally, *znodes organize a name space UNIX-like*. Servers implement *regular znodes* that, internally, *elect a leader*, majority voted, to control that data. Clients add *ephemeral nodes* (copies with limited lifetime dependent on client presence).
+ZooKeeper organizes its data in a *hierarchical namespace* similar to a UNIX filesystem. Each node in the tree is called a *znode* and can hold a small amount of data (typically metadata, not large blobs).
 
-- The permanent znodes use *passive replication*. The *master is elected* and it is capable of *triggering also clients interested on the data change*.
-- A simple set of primitives is available to client (Java & C) to manage data in hierarchies via API:
-  - `Create` (path, data, flags) and `Delete` (path, version)
-  - `getData` (path, watch)
-  - `setData` (path, data, version) ...
+Two types of znodes exist:
+- *Persistent znodes*: survive client disconnections. Used for configuration data and service registrations.
+- *Ephemeral znodes*: exist only as long as the client session that created them is alive. When the client disconnects or crashes, its ephemeral znodes are automatically deleted. This property is the basis for distributed *presence detection* and *lock release on failure*.
 
-The servers are capable of granting access to *fresh data to the group of authorized clients* via *transaction numbering*.
+The leader is elected among server nodes using majority voting. A simple API (available in Java and C) lets clients manage the namespace:
+- `Create(path, data, flags)`, `Delete(path, version)`
+- `getData(path, watch)`, `setData(path, data, version)`
+- `getChildren(path, watch)`, `exists(path, watch)`
+
+Clients can attach a *watch* flag to any read call: they receive a one-time notification the next time that znode changes. Watches are reset after firing, so a client that wants continuous notification must re-register after each event. Transaction IDs on every write let servers serve clients fresh, ordered data.
 
 === ZooKeeper Reads and Writes
 
-Znodes create *in memory copies* of client requested data:
+ZooKeeper keeps all data *in memory* across the ensemble. This makes reads extremely fast but limits the total data size to available RAM.
 
-- The permanent znodes use *passive replication*: the master is elected and it is capable of triggering also clients interested on the data change.
+- *Reads* are served locally by any server in the ensemble. They are fast but may return slightly stale data (since followers may lag behind the leader momentarily).
+- *Writes* always go through the *leader*, which uses a two-phase broadcast (ZAB protocol) to commit the write to a majority of followers before acknowledging the client. This ensures linearizable writes.
 
-The servers are capable of granting access to fresh data to the group of authorized clients via *transaction numbering*.
+Clients can *watch* a znode: they register a one-time notification that fires when that znode's data or children change. This watch mechanism is the foundation for implementing distributed locks, configuration distribution, and leader election on top of ZooKeeper.
 
 === ZooKeeper Leader Election
 

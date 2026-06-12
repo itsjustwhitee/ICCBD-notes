@@ -44,17 +44,15 @@ Every node in an ON follows a lifecycle:
 
 === Key Management Requirements
 
-Running an ON involves dealing with the following challenges:
+Running an overlay network is harder than running a static network because the membership changes constantly. Every practical ON must address:
 
-- *Maintaining* edge links (via pointers to IP addresses)
-- *Favoring* insertion in the neighborhood
-- *Checking* link liveness (heartbeats, pings)
-- *Identifying* problems and faults
-- *Recovering* edges after failure
-- *Overcoming* nodes going down and their unavailability
-- *Re-organizing* the overlay when nodes leave and new ones enter
-- *Keeping the structure* despite intermittent presence and crashes
-- *Creating a robust connection* independently of omissions and crashes
+- *Maintaining edge links*: each node keeps a routing table of neighbor IP addresses. These must be kept fresh as nodes move or change address.
+- *Favoring insertion*: when a new node joins, it must find and connect to appropriate neighbors quickly, without disrupting the existing structure.
+- *Checking liveness*: nodes periodically ping their neighbors (heartbeats) to detect silent failures before they affect routing.
+- *Identifying and recovering from faults*: when a neighbor fails, its edges must be detected as stale and replaced with alternative paths.
+- *Handling churn*: nodes join and leave (or crash) continuously. A well-designed ON restructures itself after each event in O(log N) operations, not O(N).
+- *Maintaining structure under failures*: even when multiple nodes are absent simultaneously, the overlay must remain connected and correctly routed.
+- *Robustness to omissions*: message losses should be tolerable; the overlay should use redundant paths so that the failure of one route does not silence a node.
 
 #prop("Two Fundamental ON Properties")[
   - *Dynamicity* of supporting nodes: nodes can get in and out at any time, even by crashes
@@ -126,13 +124,13 @@ The Gnutella network exhibits a *scale-free* topology following a *power law* (o
 
 ==== Gnutella Replication
 
-To improve search hit rates, objects are replicated:
+To improve search hit rates, objects are replicated across multiple nodes. Three strategies exist, each with different trade-offs:
 
-- *Owner replication*: produce replicas proportional to $q_i$ (number of queries for object $i$)
-- *Path replication*: produce replicas over the path with replication as square root to $q_i$
-- *Random replication*: same as path replication to $q_i$, only using random nodes instead of the path
+- *Owner replication*: the original owner creates a number of replicas proportional to $q_i$ (the query frequency for object $i$). Popular objects get more copies; rare objects stay rare. Simple but requires the owner to know global demand.
+- *Path replication*: every node along the query path that returns a hit stores a copy. The number of replicas grows proportionally to $sqrt(q_i)$, naturally placing copies near where demand is coming from. More balanced than owner replication.
+- *Random replication*: same replication factor as path replication ($sqrt(q_i)$), but replicas are placed on randomly chosen nodes rather than the query path. Easier to implement but less locality-aware.
 
-#note[Replication helps popular objects be found easier. *Rare objects remain difficult to find* in unstructured overlays regardless of replication strategy: this is the fundamental limitation of Gnutella-like systems.]
+#note[Replication helps popular objects be found more easily, since more copies are spread across the network. However, *rare objects remain difficult to find* regardless of which strategy is used: in an unstructured overlay, a query for an object with very few copies must traverse many nodes before hitting one. This is the fundamental scalability limitation of Gnutella-like systems.]
 
 == Structured Overlays: Distributed Hash Tables
 

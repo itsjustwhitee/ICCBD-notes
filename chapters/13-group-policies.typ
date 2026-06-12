@@ -36,13 +36,13 @@ How many times to retransmit? When? To how many receivers? These are all design 
 
 The #kw[multicast] action could make the multiple group sending operations *atomic*, but implementations can associate different and more suitable meanings.
 
-#why("")[
-  *Motivations for multicast interest:*
-  - Fault tolerance and dependability
-  - Object copy location within a system
-  - Use of data replication and streaming
-  - Multiple changes on group entities
-  - Even different senders can be involved
+#why("Why multicast matters")[
+  Multicast is essential whenever the same information must reach a group of processes:
+  - *Fault tolerance*: replicated servers must all receive the same requests in the same order so they stay consistent.
+  - *Object location*: locating a resource that may reside on any node in the group.
+  - *Data replication and streaming*: pushing updates to all replicas efficiently with one send instead of N unicasts.
+  - *Coordinated updates*: changing the state of multiple group entities atomically.
+  - *Multiple concurrent senders*: several producers pushing events to the same consumer group.
 ]
 
 The two aspects of multicast semantics are intertwined but *can be untangled*:
@@ -184,17 +184,15 @@ So, *ordering on important events must be enforced*.
 The classical approach uses *physical time* and *physical clock*: typical on one local environment only. Unique time can be determined if either a unique clock is available on every node, or one clock for any node all in perfect sync. *This is perfectly admissible in concentrated or limited systems, but absolutely not feasible and difficult to be granted in distributed and global environments.*
 
 #def("UTC: Universal Coordinated Time")[
-  #kw[UTC] is based on the transmission of the value and on local correction. Some systems are based on a *coordination clock*: a node verifies the time of all group members, computes the average, and distributes it to all as the group time (*Berkeley time*).
+  #kw[UTC] is the global reference time standard, maintained by atomic clocks. In a distributed system, nodes try to synchronize to UTC by receiving time broadcasts (radio, GPS, or internet servers) and correcting their local clocks. However, network transmission delay introduces uncertainty: by the time the time value arrives, it is already slightly stale. The *Berkeley algorithm* handles this locally: a coordinator node polls the clocks of all group members, computes the average, and distributes correction offsets to each node, avoiding the need for any node to have an external time source.
 ]
 #v(-1em)
 #def("NTP: Network Time Protocol")[
-  #kw[NTP] introduces a protocol based on UTC and on synchronization to achieve an *agreement on clocks*. NTP tries to overcome possible transmission delay of the common time through *statistical filtering policies* based on historic behavior of servers.
-  - Starts with a higher *server hierarchy*, where every node transmit time to *lower-level neighbors* (its subtree).
-  - The *primary* nodes are more accurate and going farther from the root, accuracy decreases.
+  #kw[NTP] is the standard internet protocol for clock synchronization, designed to keep thousands of machines within a few milliseconds of UTC. It organizes servers in a *hierarchy of strata*: stratum-0 devices are atomic clocks; stratum-1 servers are directly connected to them; stratum-2 servers synchronize from stratum-1, and so on. Clients at higher strata are less accurate. NTP uses *statistical filtering*: it sends multiple timing messages to several servers and selects the most reliable reference based on round-trip delay and jitter history, discarding outliers.
 ]
 
 #note[
-  The problem that can occur, by using clocks not perfectly in sync: an event that happened afterwards may be labeled and considered before an event that precedes it in time: this may produce a *wrong time synchronization*.
+  When clocks are not perfectly in sync, an event that actually happened later may receive a lower timestamp than one that happened earlier, violating the cause-effect ordering we rely on. This is precisely why *logical clocks* (Lamport, vector clocks) are preferred over physical clocks for ordering distributed events: logical clocks depend on message passing, not on clock accuracy.
 ]
 
 === Synchronization in Large Systems
@@ -416,9 +414,9 @@ For every action on the critical section, the number of exchanged messages is (c
 
 #def("Ricart-Agrawala (R.A.) Protocol")[
   1. Process P_i sends the *request message* T_m:P_i to any process (even in its queue) to signal its intention to access to the resource
-  2. At message T_m:P_i reception the process P_j:
-     - *Sends an immediate approval reply* if it does not *need the resource* or if the requester has a *higher priority*
-     - *Delays its approval reply* if it is *using the resource* or it has already asked to enter and it has a higher priority
+  2. At message T_m:P_i reception, process P_j:
+     - *Sends an immediate approval reply* if it does not need the resource, or if the requester P_i has higher priority (i.e., P_i's timestamp is smaller, or equal timestamp but lower process ID).
+     - *Delays its approval reply* if it is currently using the resource, or if it has already sent its own request and that request has higher priority than P_i's (P_j's timestamp is smaller, or equal but lower ID). P_j queues the reply and sends it when it releases the resource.
   3. Process P_i accesses the resource only if it receives N-1 *approval messages*
   4. At release, process P_i must send approval to all arrived requests
   5. *The requests (and replies) are deleted after approval*
@@ -573,12 +571,10 @@ In this case, the token can be regenerated only by the node with highest priorit
 
 === Bully Algorithm
 
-Every participant P_i that detects necessity of an election (event local to a recovery toward a management role can do it). Three types of messages are considered:
-- message *Election*
-- answer *Answer*
-- announcement *IAmCoordinator*
-
-*How many phases there are in election protocols?*
+Every participant P_i that detects necessity of an election (event local to a recovery toward a management role can do it). Three types of messages are used:
+- message *Election*: a process announces it is starting an election
+- answer *Answer*: a higher-priority process responds to block the election attempt of a lower-priority one
+- announcement *IAmCoordinator*: the winner notifies all lower-priority processes
 
 #def("Bully Protocol")[
   Every participant can start the *election at any time*, triggered by some timeout events. It sends an *election message* to *processes with higher priority* (Election). In case of election message from a lower priority process, sends an *answer* to block and *a new election is started*.
@@ -660,11 +656,11 @@ Every process is characterized by IN and OUT channels in FIFO mode and enough co
 
 *Every process receiving a marker or deciding a snapshot* makes a local state save and sends one marker message via any OUT channels. The process that receives the marker becomes red. The markers pass through channels in FIFO message ordering.
 
-Steps:
-- *a) After a)*
-- *b) The process Q sends out new markers to output queues and start recording all incoming messages from open input channels*. These messages are meanwhile processed and consumed.
-- *c) The process Q receives a marker on a specific input channel (except the one where it arrived first that is already closed)*
-- *d) The process Q closes the registration for that channel* (but messages continue to be served)
+The algorithm proceeds as follows:
+1. *A process Q decides to start a snapshot* (or receives the first marker): it records its local state and sends one marker on every output channel, then starts recording all messages arriving on its input channels (which are still open).
+2. *Q receives a marker on an input channel*: that channel is now closed for recording (the marker signals "everything before this point has been captured"). Messages on other input channels are still being recorded.
+3. *Q receives a marker on each remaining input channel*: it closes recording for each one, saving the in-transit messages that arrived before the marker.
+4. When Q has received a marker on *all* input channels, it has *completed its local snapshot* (its own state plus the state of every input channel).
 
 When a process ends the snapshot on all input channels, it has *completed the node snapshot* (state plus all messages saved from input channels).
 
@@ -681,11 +677,13 @@ Every process that receives the marker makes the *checkpoint* of its local state
 
 The *global state* is composed by:
 - *Local state* of every process
-- *State of connection channels* (messages sent)
-- *bb* messages before and *rr* messages after the snapshot
-- *br messages to be recorded in the channel state*
-- *rb messages not consistent* (avoided by the protocol since the marker will pass before other messages and makes the node red before the reception of other message)
-- Messages as rb are avoided by protocol construction
+- *State of connection channels* (messages in transit at snapshot time)
+
+Messages in a channel can be classified by the color of sender and receiver at snapshot time:
+- *bb* (white sender, white receiver): sent and received before snapshot - already captured in local states.
+- *rr* (red sender, red receiver): sent and received after snapshot - irrelevant to this snapshot.
+- *br* (white sender, red receiver): sent before snapshot but received after - these *must be recorded* in the channel state (the receiver records them while its channel is open).
+- *rb* (red sender, white receiver): sent after snapshot but received before - an *inconsistency*. The protocol avoids this by construction: the marker always precedes any post-snapshot message (FIFO channels), so the receiver turns red before any red-sender message arrives.
 
 === Distributed Snapshot Management
 

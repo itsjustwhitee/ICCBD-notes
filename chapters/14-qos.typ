@@ -513,8 +513,16 @@ The standard Internet router (best-effort) executes for every packet:
 
 === Service Levels Summary
 
-| Service Level | Characteristics | Use Cases |
-|---|---|---|
-| *Best-effort* | No guaranteed throughput, possible delays, no duplication control | Elastic Internet services |
-| *Controlled load* | Similar to best-effort with low load, some delay limits | Elastic services, tolerant real-time |
-| *Guaranteed load* | Tight delay limits, maximum guarantees on flows | Non-tolerant real-time services |
+#table(
+  columns: (auto, 1fr, auto),
+  align: (left, left, left),
+  fill: (x, y) => if y == 0 { accent.lighten(45%) } else {
+    if calc.rem(y, 2) == 0 { gray.lighten(70%) } else { white }
+  },
+  stroke: 0.5pt,
+  inset: 0.8em,
+  table.header([*Service Level*], [*Characteristics*], [*Use Cases*]),
+  [*Best-effort*], [No guaranteed throughput, possible delays, no duplication control], [Elastic Internet services],
+  [*Controlled load*], [Similar to best-effort with low load, some delay limits], [Elastic services, tolerant real-time],
+  [*Guaranteed load*], [Tight delay limits, maximum guarantees on flows], [Non-tolerant real-time services],
+)

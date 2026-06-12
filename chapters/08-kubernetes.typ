@@ -145,12 +145,12 @@ The workflow is:
 
 Kubernetes manages different kinds of #kw[resources]:
 
-- *Workloads*: applications running on Kubernetes —
+- *Workloads*: applications running on Kubernetes:
   Deployment, ReplicaSet, StatefulSet, DaemonSet, Job, CronJob.
 - *Services, Load Balancing, Networking*: networking resources that enable
-  communication between workloads —
+  communication between workloads:
   Service, Ingress, IngressController, EndpointSlices, Gateway API, Network Policies.
-- *Configurations*: dynamic configuration injected into workloads —
+- *Configurations*: dynamic configuration injected into workloads:
   Secrets, ConfigMaps.
 - *Storage*: PersistentVolumes, PersistentVolumeClaims, StorageClasses.
 - *Custom Resources* (CRDs): user-defined resource types that extend the API.
@@ -549,7 +549,7 @@ Observed metrics can be:
 - Per-pod custom metrics.
 - External metrics (e.g., queue depth from a message broker).
 
-=== KEDA — Kubernetes Event-Driven Autoscaling
+=== KEDA: Kubernetes Event-Driven Autoscaling
 
 #def("KEDA")[
   #kw[KEDA] (Kubernetes Event-Driven Autoscaling) extends the HPA mechanism to

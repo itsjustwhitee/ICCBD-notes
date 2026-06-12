@@ -12,7 +12,7 @@ This chapter traces the path from *monolithic* architectures to *microservices*,
 then explains how *containers* solve the hosting, isolation, and reproducibility
 problems that microservices introduce.
 
-== From Monolith to Microservices
+== From Monolith to Microservices <ch04-microservices>
 
 === The Monolith
 
@@ -235,7 +235,7 @@ Key controllers:
   - #hl[*Reproducibility*]: the container #hl[*image* bundles the application] with all its dependencies. The same image runs identically on any machine.
 ]
 
-== Docker
+== Docker <ch04-docker>
 
 Docker is the dominant *container engine*: a platform for configuring, building,
 distributing, and managing the full lifecycle of containers.

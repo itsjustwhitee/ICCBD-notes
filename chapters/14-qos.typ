@@ -2,7 +2,7 @@
 
 #pagebreak()
 
-= QOS: QUALITY OF SERVICE
+= QOS: QUALITY OF SERVICE <ch14-qos>
 
 #extra[
   Package: QoS basis and protocols — `9 - QoS 26.pdf`

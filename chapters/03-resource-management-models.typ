@@ -14,7 +14,7 @@ Once an application is launched, it should ideally #hl[*run forever without inte
 
 This chapter covers the fundamental models and strategies behind this runtime management.
 
-== Quality of Service (QoS)
+== Quality of Service (QoS) <ch03-qos>
 
 Every system must clearly define the *quality* of the services it offers. The notion of #kw[QoS] (Quality of Service) #hl[quantifies how well a service is delivered] and connects directly to the system lifecycle.
 
@@ -61,7 +61,7 @@ Once QoS is defined, the system must *verify* it at runtime and *act* when devia
 1. #hl[*Monitoring support*] #swarrow collects fresh information on system state (logs, online metrics) to identify trends and anticipate problems.
 2. #hl[*Control actions*] #swarrow allow interventions on the system to correct settings before a failure or degradation occurs.
 
-=== The 3 Planes
+=== The 3 Planes <ch03-three-planes>
 
 To support an application execution, modern IT systems separate concerns into distinct planes:
 
@@ -83,11 +83,16 @@ To support an application execution, modern IT systems separate concerns into di
   The control and managment planes introduce overhead, anyway they are needed.\
   Business logic (data plane) and control/steering are *separated*. Typically in microservices, these are interconnected by a service mesh (e.g., *Istio*).
 ]
+#v(-1em)
+#note[
+  Network-level QoS protocols (IntServ/RSVP, DiffServ, SIP, SNMP, router scheduling) are covered in the #link(<ch14-qos>)[_*Network Quality of Service* chapter_].
+]
+
 #figure(
   image("../assets/control-planes.jpg", width: 40%),
   caption: "The 3 planes."
 )
-\
+
 === Service Level Agreement (SLA)
 #def("SLA — Service Level Agreement")[
   An #kw[SLA] is a *clean *and* non-ambiguous contract*, a formal agreement between a service provider and its requestors that precisely defines *how the service has to be granted*: the quality targets to be met and the consequences if those targets are violated.
@@ -515,6 +520,8 @@ Key features:
 #v(-1em)
 #note[
   K8s manages *state* *outside*, in just one component (*etcd*). This is the key design decision that makes K8s scalable.
+
+  The full Kubernetes architecture (control plane, pods, services, networking, autoscaling, and RAFT consensus) is covered in the *Kubernetes* chapter.
 ]
 
 == Modern Microservice Support: Service Mesh
@@ -540,53 +547,19 @@ Cloud-native: Azure, IBM, AWS have their own tools.
 === Istio
 
 #def("Istio")[
-  #kw[Istio] is an open-source service mesh that can support any interaction among microservices, providing all execution tools via a *control plane* that works with *Envoy proxies* sidecar to each service.
+  #kw[Istio] is an open-source service mesh that provides *observability*, traffic management, and security for microservices via *Envoy proxy* sidecars injected next to each service. A central control plane distributes configuration to all proxies.
+]
+#v(-1em)
+#note[
+  The full Istio architecture (traffic management policies, mTLS security, distributed tracing, and integration with Kubernetes) is covered in the #link(<ch08-service-mesh>)[_*Kubernetes* chapter_].
 ]
 
-Istio allows to choose the number of services per control plane. The control plane manages and observes, acting on data planes.
-
-Architecture components:
-- *Pilot* = configuration (distributes config to proxies).
-- *Galley* = security (certificate management).
-- *Citadel* = changing data planes (TLS certificates to proxies).
-- *Mixer* = policy checks and telemetry.
-- #hl[Each service has an *Envoy proxy* sidecar handling all traffic].
-
-#figure(
-  image("../assets/istio-service-mesh.svg", width: 80%),
-  caption: [Istio service mesh.]
-)
-
-Istio provides:
-- #hl[*Observability*]: metrics, KPI dashboard, trace over nodes, logs.
-- #hl[*Traffic management*]: service discovery, traffic inter-microservice routing, load balancing, versioning, replication/routing, and take actions as consequence (metrics, replication, routing).
-- *Extensibility*: add-ons, proxy filtering, different interactions (HTTP, gRPC...).
-
-// TODO: Merge/Move in chapter 02-goals-basics-models (in DevOps section)
 == Continuous DevOps (CI/CD)
 
-An application can be *continuously upgraded while in execution*, without interfering with the current application.
-
-#def("CI/CD Pipeline")[
-  A #kw[CI/CD] (Continuous Integration / Continuous Delivery / Continuous Deployment) pipeline is the practice of automatically building, testing, merging, and deploying new versions of an application in a continuous loop.
-]
-
-#table(
-  columns: (auto, 1fr),
-  align: (x, y) => if y == 0 { center } else { left },
-  fill: (x, y) => if y == 0 { accent.lighten(45%) } else {
-    if calc.rem(y, 2) == 0 { gray.lighten(70%) } else { white }
-  },
-  stroke: 0.5pt,
-  inset: 1em,
-  table.header([*Stage*], [*Description*]),
-  [*Continuous Integration*], [Build → Test → Merge: developers merge frequently, automated tests run.],
-  [*Continuous Delivery*], [Automatically release to repository: always a deployable artifact.],
-  [*Continuous Deployment*], [Automatically deploy to production: every passing change goes live.],
-)
-
-#extra[
-  While things are going on, new versions take on old ones *but before it is widely tested*. So updated versions are served without disconnecting or causing problems. Updates are *rolled out gradually* (blue/green, canary), ensuring old clients are still served until new versions are validated.
+An application can be *continuously upgraded while in execution* without disrupting current users. New versions are rolled out gradually (blue/green, canary deployments) so old clients are served until the new version is validated.
+#v(-1em)
+#note[
+  The DevOps methodology, CI/CD pipeline stages (Integration, Delivery, Deployment), and the Twin System Principle are detailed in the #link(<ch02-devops>)[_*Goals, Basics, Models* chapter_].
 ]
 
 == Infrastructure as Code (IaC)

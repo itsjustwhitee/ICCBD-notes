@@ -128,7 +128,7 @@ The three CAP combinations:
   [*User / Optimistic*\ (e.g. Internet)], [Systems that work most of the time, that scale well. Consistency is not important per se.],
 )
 
-== ACID Properties
+== ACID Properties <ch06-acid>
 
 #def("ACID")[
   The #kw[ACID] properties define *maximum consistency* for database transactions:
@@ -168,7 +168,7 @@ In distributed systems, one transaction may contain others at *different nesting
   2PC guarantees atomicity but is expensive and has a single point of failure (the coordinator). In large-scale cloud environments with many replicas across different data centers, 2PC creates serious performance bottlenecks.
 ]
 
-== BASE Properties
+== BASE Properties <ch06-base>
 
 #def("BASE")[
   #kw[BASE] is the "opposite" of ACID, reflecting experience with real cloud applications:

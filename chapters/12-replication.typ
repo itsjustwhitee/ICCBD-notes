@@ -699,7 +699,11 @@ Amazon memory and persistence support *renounces to any strict consistency* and 
 ]
 
 So concurrent operations over other copies can see different values. On a long term, copy values are *reconciliated* and a consistent view is achieved. The *inconsistency window* may depend on many factors: communication delays, workload of the system, copy replication degree, ...
-
+#v(-0.7em)
+#note[
+  The ACID vs. BASE framing (CAP theorem, 2PC, BASE properties) is covered in the #link(<ch06-acid>)[_*ACID*_] and #link(<ch06-base>)[_*BASE* sections of the Cloud and Data Center Global Strategies chapter_]. This section focuses on eventual consistency as a replication policy.
+]
+#v(-1em)
 #note[(We are happy if it is *as limited as possible*.)]
 
 === Amazon S3 — Optimistic Lazy Policies
@@ -727,7 +731,7 @@ Docker Swarm can *automatically take care* of the case of failure of a node, and
 
 Docker Swarm can also allow *high availability* and can replicate also the *manager* for the distribution to overcome the *single point of failure of the manager*. In case of failure of *any kind of node*, it *can still operate and without interruption*.
 
-== Apache ZooKeeper
+== Apache ZooKeeper <ch12-zookeeper>
 
 === ZooKeeper Overview
 

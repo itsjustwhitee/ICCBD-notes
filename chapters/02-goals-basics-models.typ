@@ -150,24 +150,17 @@ The #hl[*DPE* is the key layer: it hides the heterogeneity of the underlying] ha
 
 ==  Monitoring and Observability
 
-In modern distributed systems, a *three-plane architecture* separates concerns:
+#important("Monitoring vs. Observability")[
+  Modern IT systems separate concerns into three planes (User / Management / Control), the full model is covered in the #link(<ch03-three-planes>)[_*Resource Management Models* chapter_].
 
-#def("Three-Plane Architecture")[
-  - *User plane*: where the actual application runs and serves requests.
-  - *Management plane*: collects metrics from the running application #swarrow #kw[monitoring].
-  - *Control plane* (Signaling plane): reacts to changes detected by the management plane, adjusting the system for better performance #swarrow #kw[observability].
+  - #hl[*Monitoring*] = *gathering* metrics (what is happening now: CPU, memory, latency, error rate).
+  - #hl[*Observability*] = *analyzing* those metrics to *understand why* and *react* (tuning resources, rerouting traffic, scaling).
+
+  Monitoring feeds data, observability acts on it.
 ]
 
 #def("Monitoring")[
   #kw[Monitoring] is a critical support function that #hl[*collects* information about the *current state* of] #hl[the system] (processor load, resource usage, network bandwidth) #hl[to allow *control* and *adaptation*.]
-]
-
-#important("Monitoring vs. Observability")[
-  - #hl[*Monitoring*] = *gathering* metrics 
-    #extra[What is happening right now: CPU, memory, latency, error rate).]
-  - #hl[*Observability*] = *analyzing* those metrics to *understand why* and *react* (tuning resources, rerouting traffic, scaling up/down).
-
-  Monitoring feeds data, observability acts on it.
 ]
 
 Method of data collection:
@@ -443,7 +436,7 @@ A container relieves components of cross-cutting concerns by providing them *aut
   J2EE (Java 2 Enterprise Edition) and EJB (Enterprise Java Beans) are classic examples: a container hosts EJBs and automatically provides lifecycle management, naming, transactions, and persistence, the developer writes only the business logic.
 ]
 
-== DevOps
+== DevOps <ch02-devops>
 
 #def("DevOps")[
   #kw[DevOps] (*Development* + *Operations*) is a methodology that couples the application development phase with the infrastructure/operations phase, enabling *continuous* and *rapid* deployment of changes #underline[without disrupting the running system].
@@ -468,6 +461,24 @@ The core motivation is that #hl[large systems require *frequent updates*] (new r
   - *Test* #swarrow validate behavior in isolation and in integration.
   - *Release* #swarrow promote to production, rolling out with no downtime.
   The two #hl[key practices are *CI* (Continuous Integration) and *CD* (Continuous Deployment)].
+]
+
+#table(
+  columns: (auto, 1fr),
+  align: (x, y) => if y == 0 { center } else { left },
+  fill: (x, y) => if y == 0 { accent.lighten(45%) } else {
+    if calc.rem(y, 2) == 0 { gray.lighten(70%) } else { white }
+  },
+  stroke: 0.5pt,
+  inset: 1em,
+  table.header([*Stage*], [*Description*]),
+  [*Continuous Integration*], [Build → Test → Merge: developers integrate frequently; automated tests run on every merge.],
+  [*Continuous Delivery*], [Automatically release to a repository: a deployable artifact is always ready.],
+  [*Continuous Deployment*], [Automatically deploy to production: every passing change goes live.],
+)
+
+#extra[
+  Updates are *rolled out gradually* (blue/green or canary deployments), ensuring old clients are still served until the new version is validated.
 ]
 #v(-1em)
 #important("Twin System Principle")[
@@ -505,6 +516,8 @@ Microservices are essentially a modern answer to the granularity problem: they a
 #v(-1em)
 #note[
   Microservices are *not a new idea*: the underlying principles (small components, web interfaces, independent deployment) existed long before the term. What changed is the *tooling* (containers, orchestrators) that made them practical at scale.
+
+  The full microservice decomposition, trade-offs, hosting problems, and Docker are covered in the #link(<ch04-microservices>)[_*Components, Microservices, and Containers* chapter_].
 ]
 
 == Docker and Modern Containers
@@ -567,6 +580,10 @@ Docker is organized around three elements:
 Docker exposes an API (used by its own CLI) that allow to execute commands to manage and control containers and to exec commands inside the containers.
 
 The #hl[#kw[Dockerfile] describes how an image has to be] (its *layers*), in a *standard*, *uniform* way. From *images* containers are built. The #hl[image is *static* and *immutable*].
+#v(-0.8em)
+#note[
+  The full Docker engine internals (images, layered filesystem, networks, Dockerfile instructions, Docker Compose) are covered in the #link(<ch04-docker>)[_*Components, Microservices, and Containers* chapter_].
+]
 
 #important("Container as an Application Platform")[
   A Docker container:

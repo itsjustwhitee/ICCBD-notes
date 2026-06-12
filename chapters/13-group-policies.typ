@@ -513,28 +513,11 @@ The group is achieving consistency in operation ordering and, so, *atomicity and
 
 == Apache ZooKeeper
 
-There is more and more need of containing data in a distributed way and with good properties as a commodity. ZooKeeper uses *replication over several Z-nodes*.
-
-#def("Apache ZooKeeper")[
-  ZooKeeper is a *centralized service* for maintaining configuration information, naming, providing distributed synchronization, and providing group services. Distributed applications can use all of these services in some forms or another.
-
-  ZooKeeper is an open-source *Distributed Coordination Service* for Distributed Applications:
-  - Can propose a unique *memory space with very fast access* in reading and writing with *some quality* (QoS: replication is paramount and dynamicity too)
-  - Exposes a *simple set of primitives* to implement higher level services for synchronization, configuration maintenance, and groups naming
-  - Relieves distributed applications from *implementing coordination services from scratch*
+ZooKeeper is a *Distributed Coordination Service*: it provides group services (synchronization, configuration, naming) leveraging *replication over several znodes* with ordering semantics (*FIFO, Atomic, Causal*). This makes it a natural building block for the CATOCS-style coordination described in this chapter.
+#v(-0.7em)
+#note[
+  The full ZooKeeper architecture (znodes, leader election via majority voting, passive replication, reads/writes model, and how it is used as a coordination backbone such as in Kafka) is covered in the #link(<ch12-zookeeper>)[_*Replication for Dependability* chapter_].
 ]
-
-The *data model* is shaped after the familiar *directory tree structure of file systems*, and it runs in Java with bindings for both Java and C.
-
-ZooKeeper is used as a *unique access space with very fast operations to read and write data* with many supported different ordering semantics (*FIFO, Atomic, Causal* — please note those orderings). Data are *dynamically mapped over several nodes* and their location can be dynamically changed and adjusted without any actions of clients.
-
-=== ZooKeeper Design Goals
-
-ZooKeeper flagship requirements:
-1. *Zookeeper is Simple* — a straightforward shared hierarchical namespace similar to a standard file system
-2. *Zookeeper is Replicated* — like the distributed processes it coordinates, ZooKeeper itself is intended to be replicated over a sets of hosts
-3. *How is the Order Beneficial?* — ZooKeeper stamps each update with a number that reflects the order of all ZooKeeper transactions
-4. *Zookeeper is Fast* — it is especially fast in read-dominant workloads
 
 == Token-Based Synchronization
 

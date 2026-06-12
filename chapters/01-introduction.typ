@@ -391,7 +391,10 @@ QoS can include: response time, correctness, availability, confidence, security,
 - *Automated management*: infrastructure that manages itself with minimal human intervention.
 - *Batch data processing*: storing and processing massive amounts ofdata (e.g., Google Web indexing).
 - *Streaming data*: handling continuous information series from sensors, video feeds, etc..
-
+#v(-0.7em)
+#note[
+  QoS is a recurring theme throughout the course. Resource-level QoS management (SLA, allocation strategies, load balancing) is covered in the #link(<ch03-qos>)[_*Resource Management Models* chapter_]. Network-level QoS protocols (IntServ/RSVP, DiffServ, traffic shaping) are covered in the #link(<ch14-qos>)[_*QoS: Quality of Service* chapter_].
+]
 
 == Middleware
 Complex, large-scale distributed applications cannot be built from scratch every time. The answer is *Middleware*.

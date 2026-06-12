@@ -561,7 +561,7 @@ Observed metrics can be:
   scheduler if the default scoring functions are insufficient for your workload.
 ]
 
-== Service Mesh
+== Service Mesh <ch08-service-mesh>
 
 === What is a Service Mesh?
 

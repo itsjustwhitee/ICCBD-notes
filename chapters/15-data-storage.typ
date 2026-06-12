@@ -419,16 +419,10 @@ Uses an *oplog (operation log)* for data sync:
 
 == ACID vs. BASE: A Fundamental Trade-Off
 
-#important("The Core Trade-Off")[
-  The fundamental architectural choice in distributed data storage is between *ACID* and *BASE*:
-  - *ACID* (RDBMS): Atomicity, Consistency, Isolation, Durability — favors correctness. Strong but expensive at scale.
-  - *BASE* (NoSQL): Basically Available, Soft-state, Eventual Consistency — favors availability and performance. Accepts stale reads; converges eventually.
-
-  NoSQL systems *prefer availability over consistency* — and the application designer must understand and work within this constraint.
-]
-
-#analogy("ACID vs. BASE")[
-  ACID is like a bank: every transaction is perfectly recorded, every cent accounted for, and you can never see an inconsistent balance. BASE is like a social media like-counter: you might see 1,002 likes when the true count is 1,003, but the number will catch up shortly — and the counter never goes down or becomes corrupted.
+The key architectural trade-off in distributed data storage is between *ACID* (correctness-first, RDBMS) and *BASE* (availability-first, NoSQL): NoSQL systems prefer availability over strict consistency, accepting stale reads that converge eventually.
+#v(-0.7em)
+#note[
+  The full treatment of _#link(<ch06-acid>)[ACID properties]_ (atomicity, 2PC, nested transactions) and #link(<ch06-base>)[_BASE_] (basically available, soft-state, eventual consistency), including the CAP theorem and eBay's internet-scale principles, is in the *Cloud and Data Center Global Strategies* chapter.
 ]
 
 == Big Data Infrastructure Properties

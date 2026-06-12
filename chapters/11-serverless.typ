@@ -115,6 +115,21 @@ BaaS components:
   - *Fine-grained autoscaling with zero-scaling*: the platform scales from zero to thousands of concurrent instances automatically, and scales back to zero when idle.
 ]
 
+#def("Cold Start")[
+  When a FaaS platform has scaled a function to *zero instances* (no traffic), the next incoming request must trigger provisioning of a new container from scratch. This initialization phase — pulling the image, starting the runtime, loading the function code — is called a #kw[cold start] and introduces *additional latency* on the first request after a period of inactivity.
+
+  Once the container is running and serving requests, subsequent invocations are *warm starts* — no overhead.
+]
+
+#important("Cold Start Mitigation")[
+  - *Use slim/alpine base images*: smaller images start faster (less to pull and unpack).
+  - *Minimize dependencies*: fewer libraries to initialize at startup.
+  - *Keep functions warm*: some platforms allow scheduling periodic pings or "warm pools" of pre-initialized containers (at additional cost).
+  - *HTTP-mode watchdogs*: persistent child processes (as in OpenFaaS HTTP mode) amortize cold start across many requests.
+
+  FaaS is a poor fit for *latency-critical applications* where every cold start is unacceptable.
+]
+
 #note[
   Functions can be composed into *pipelines* and *workflows*. Reducing the scope of
   each function enables easy parallelism and higher throughput. A pipeline of functions

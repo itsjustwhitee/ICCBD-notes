@@ -23,31 +23,35 @@
 #include "chapters/03b-unix-files-atomicity.typ"
 
 // ─────────────────────────────────────────────────────────────
-// PART 2: Middleware and Communication
+// PART 2: Middleware and Architecture
 // ─────────────────────────────────────────────────────────────
 #include "chapters/04-microservices-containers.typ"
 #include "chapters/05-middleware-cloud.typ"
-#include "chapters/07-corba-mom.typ"
 #include "chapters/06-cloud-dc-strategies.typ"
+#include "chapters/07-corba-mom.typ"
 
 // ─────────────────────────────────────────────────────────────
-// PART 3: Cloud Infrastructure
+// PART 3: Cloud Infrastructure and Services
 // ─────────────────────────────────────────────────────────────
 #include "chapters/08-kubernetes.typ"
 #include "chapters/10-openstack.typ"
 #include "chapters/11-serverless.typ"
+#include "chapters/17-streaming.typ"
 
 // ─────────────────────────────────────────────────────────────
-// PART 4: Dependability and QoS
+// PART 4: Distributed Coordination
 // ─────────────────────────────────────────────────────────────
 #include "chapters/12-replication.typ"
 #include "chapters/13-group-policies.typ"
+
+// ─────────────────────────────────────────────────────────────
+// PART 5: Network Quality of Service
+// ─────────────────────────────────────────────────────────────
 #include "chapters/14-qos.typ"
 
 // ─────────────────────────────────────────────────────────────
-// PART 5: Big Data Infrastructure
+// PART 6: Big Data Infrastructure
 // ─────────────────────────────────────────────────────────────
 #include "chapters/09-overlay-filesystems.typ"
 #include "chapters/15-data-storage.typ"
 #include "chapters/16-data-batching.typ"
-#include "chapters/17-streaming.typ"

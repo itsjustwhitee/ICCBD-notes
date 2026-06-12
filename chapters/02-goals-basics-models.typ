@@ -49,7 +49,7 @@ Both perspectives are valuable and often used together in a gradual approach sta
 ]
 
 === Abstraction
-#kw[Abstraction] is a fondamental guideline in any complex system. It means #hl[focusing on the right] #hl[level of detail, ignoring what is not relevant] at that level.
+#kw[Abstraction] is a fundamental guideline in any complex system. It means #hl[focusing on the right] #hl[level of detail, ignoring what is not relevant] at that level.
 
 #example("Abstraction: The underground Map")[
   A good analogy is the *London Underground map*: the geographic map is accurate but overwhelming. The simplified tube map hides distances and curves, but is perfectly useful for navigating the network. Abstraction is not about being inaccurate #swarrow it is about being *appropriately* simplified for the task at hand.
@@ -149,8 +149,25 @@ The #hl[*DPE* is the key layer: it hides the heterogeneity of the underlying] ha
 )
 
 ==  Monitoring and Observability
+
+In modern distributed systems, a *three-plane architecture* separates concerns:
+
+#def("Three-Plane Architecture")[
+  - *User plane*: where the actual application runs and serves requests.
+  - *Management plane*: collects metrics from the running application #swarrow #kw[monitoring].
+  - *Control plane* (Signaling plane): reacts to changes detected by the management plane, adjusting the system for better performance #swarrow #kw[observability].
+]
+
 #def("Monitoring")[
   #kw[Monitoring] is a critical support function that #hl[*collects* information about the *current state* of] #hl[the system] (processor load, resource usage, network bandwidth) #hl[to allow *control* and *adaptation*.]
+]
+
+#important("Monitoring vs. Observability")[
+  - #hl[*Monitoring*] = *gathering* metrics 
+    #extra[What is happening right now: CPU, memory, latency, error rate).]
+  - #hl[*Observability*] = *analyzing* those metrics to *understand why* and *react* (tuning resources, rerouting traffic, scaling up/down).
+
+  Monitoring feeds data, observability acts on it.
 ]
 
 Method of data collection:

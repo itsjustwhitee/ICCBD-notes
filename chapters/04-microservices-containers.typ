@@ -321,3 +321,56 @@ It allows specifying services, their images, networks, volumes, and dependencies
   Docker Compose is the natural stepping stone between running containers manually and using a full orchestrator like Kubernetes.
   It works well for local development and small deployments, but does not handle cross-host scaling or self-healing (that is Kubernetes's domain).
 ]
+
+== Microservice Resilience Patterns
+
+When services call each other over the network, failures in one service can cascade across the whole system. Two foundational patterns address this: the *Circuit Breaker* and *Retry/Timeout* policies.
+
+=== Circuit Breaker
+
+#def("Circuit Breaker")[
+  The #kw[Circuit Breaker] is a stability pattern that prevents *cascading failures* in a distributed system. It wraps calls to a downstream service and monitors their success/failure rate. When failures exceed a threshold, the breaker *trips open* and short-circuits all subsequent calls immediately, returning a fallback response without touching the broken service, giving it time to recover.
+
+  The breaker operates as a *three-state machine*:
+  - #hl[*CLOSED*] (normal): all requests flow through. The breaker tracks outcomes in a rolling window. If failures exceed the *Failure Rate Threshold*, it trips to OPEN.
+  - #hl[*OPEN*] (broken): all requests are immediately short-circuited, no call reaches the downstream service. A *Sleep Window* timer runs #arrow when it expires, the breaker moves to HALF-OPEN.
+  - #hl[*HALF-OPEN*] (probing): a limited number of trial requests are let through. If they succeed, the breaker returns to CLOSED. If any fails, it goes back to OPEN and resets the timer.
+]
+#v(-1em)
+#analogy("Electrical Breaker")[
+  The pattern is named after the electrical circuit breaker.\
+  An electrical circuit breaker monitors current. If it spikes, it trips to protect the wiring and appliances. The software circuit breaker monitors call failure rate. If it spikes, it trips to protect the upstream service's resources and let the downstream service recover.
+]
+
+#v(-1em)
+#figure(
+  image("../assets/circuit-breaker.png"),
+  caption: [Circuit Breaker pattern.]
+)
+
+#prop("Key Configuration Parameters")[
+  - *Failure Rate Threshold* #swarrow percentage of failures (e.g., 50%) within the rolling window that trips the breaker OPEN.
+  - *Sliding Window Size* #swarrow sample size for computing the failure rate: count-based (last N calls) or time-based (last N seconds).
+  - *Minimum Number of Calls* #swarrow minimum volume required before the failure rate can be calculated (prevents premature tripping on 1–2 early failures).
+  - *Wait Duration in Open State* #swarrow length of the Sleep Window before the breaker tries HALF-OPEN.
+  - *Permitted Calls in Half-Open* #swarrow how many trial requests probe the downstream health.
+  - *Slow Call Rate Threshold* #swarrow calls exceeding a duration threshold are treated as failures.
+]
+#v(-0.8em)
+#important("Benefits of Circuit Breaking")[
+  - #hl[*Prevents cascading failures*]: a slow downstream service cannot exhaust thread pools in upstream services.
+  - #hl[*Graceful degradation*]: return cached data or a default response instead of a hard crash.
+  - #hl[*Self-healing*]: downstream services get breathing room to recover without being bombarded by retries.
+  - #hl[*Fast failure*]: instead of blocking for a 10-second timeout, the caller gets an instant response.
+]
+#v(-1em)
+#note[
+  Circuit breakers should *not* trip on 4xx client errors (e.g., `404 Not Found`), those indicate caller mistakes, not service health. Only trip on 5xx server errors, network timeouts, and connection failures.
+]
+
+=== Implementation
+
+Circuit breakers can be implemented at two levels:
+
+- *Application level*: embed a library in each service. Common choices: *Resilience4j* (Java/Spring Boot), *Polly* (.NET), *go-resiliency* (Go). Netflix's *Hystrix* is legacy/archived.
+- *Infrastructure level (Service Mesh)*: the circuit breaker logic lives in a sidecar proxy, transparent to application code. *Istio/Envoy* uses outlier detection, *Linkerd* tracks failure rates per cluster. This keeps application code free of resilience plumbing.

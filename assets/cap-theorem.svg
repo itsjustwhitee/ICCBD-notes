@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 420 330" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;">
+    <g transform="matrix(1,0,0,1,0,10)">
+        <path d="M210,30L50,280L370,280L210,30Z" style="fill:none;fill-rule:nonzero;stroke:rgb(85,85,85);stroke-width:2px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,10)">
+        <circle cx="210" cy="30" r="38" style="fill:rgb(204,229,255);stroke:rgb(74,144,217);stroke-width:2px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,10)">
+        <circle cx="50" cy="280" r="38" style="fill:rgb(212,237,218);stroke:rgb(40,167,69);stroke-width:2px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,10)">
+        <circle cx="370" cy="280" r="38" style="fill:rgb(255,243,205);stroke:rgb(240,173,78);stroke-width:2px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,210,42)">
+        <text x="-8.1px" y="0px" style="font-family:'JetBrainsMono-Bold', 'JetBrains Mono', monospace;font-weight:700;font-size:27px;fill:rgb(26,74,128);">C</text>
+    </g>
+    <g transform="matrix(1,0,0,1,210,53)">
+        <text x="-26.73px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:8.1px;fill:rgb(26,74,128);">Consistency</text>
+    </g>
+    <g transform="matrix(1,0,0,1,50,292)">
+        <text x="-8.1px" y="0px" style="font-family:'JetBrainsMono-Bold', 'JetBrains Mono', monospace;font-weight:700;font-size:27px;fill:rgb(21,87,36);">A</text>
+    </g>
+    <g transform="matrix(1,0,0,1,50,303)">
+        <text x="-29.16px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:8.1px;fill:rgb(21,87,36);">Availability</text>
+    </g>
+    <g transform="matrix(1,0,0,1,370,292)">
+        <text x="-8.1px" y="0px" style="font-family:'JetBrainsMono-Bold', 'JetBrains Mono', monospace;font-weight:700;font-size:27px;fill:rgb(125,90,0);">P</text>
+    </g>
+    <g transform="matrix(1,0,0,1,370,303)">
+        <text x="-34.02px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:8.1px;fill:rgb(125,90,0);">Partition Tol.</text>
+    </g>
+    <g transform="matrix(0.504283,-0.863538,0.863538,0.504283,113.267611,160.002922)">
+        <text x="-8.4px" y="0px" style="font-family:'JetBrainsMono-Bold', 'JetBrains Mono', monospace;font-weight:700;font-size:14px;fill:rgb(85,85,85);">CA</text>
+    </g>
+    <g transform="matrix(0.505524,-0.862813,0.862813,0.505524,123.870178,166.599216)">
+        <text x="-54px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:12px;fill:rgb(102,102,102);">Traditional DBs</text>
+    </g>
+    <g transform="matrix(0.488897,0.872341,-0.872341,0.488897,309.720479,161.634204)">
+        <text x="-8.4px" y="0px" style="font-family:'JetBrainsMono-Bold', 'JetBrains Mono', monospace;font-weight:700;font-size:14px;fill:rgb(85,85,85);">CP</text>
+    </g>
+    <g transform="matrix(0.541232,0.840873,-0.840873,0.541232,299.647941,168.906288)">
+        <text x="-57.6px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:12px;fill:rgb(102,102,102);">HBase, Zookeeper</text>
+    </g>
+    <g transform="matrix(1,0,0,1,210.252441,275.222609)">
+        <text x="-8.4px" y="0px" style="font-family:'JetBrainsMono-Bold', 'JetBrains Mono', monospace;font-weight:700;font-size:14px;fill:rgb(85,85,85);">AP</text>
+    </g>
+    <g transform="matrix(1,0,0,1,210.101074,284.547826)">
+        <text x="-75.6px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:12px;fill:rgb(102,102,102);">Cassandra, DNS, Cloud</text>
+    </g>
+    <g transform="matrix(1,0,0,1,210,190)">
+        <text x="-39px" y="0px" style="font-family:'JetBrainsMono-Italic', 'JetBrains Mono', monospace;font-style:italic;font-size:13px;fill:rgb(136,136,136);">Pick any 2</text>
+    </g>
+    <g transform="matrix(1,0,0,1,210,320)">
+        <text x="-85.8px" y="0px" style="font-family:'JetBrainsMono-BoldItalic', 'JetBrains Mono', monospace;font-weight:700;font-style:italic;font-size:11px;fill:rgb(51,51,51);">CAP Theorem (Brewer, 2000)</text>
+    </g>
+</svg>

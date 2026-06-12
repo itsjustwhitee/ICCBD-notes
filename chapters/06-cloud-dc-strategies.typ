@@ -4,10 +4,10 @@
 
 = CLOUD AND DATA CENTER GLOBAL STRATEGIES
 #extra[
-  Package: Cloud and Data Center Global Strategies — `Cloud and DC Global Strategies.pdf`
+  Package: Cloud and Data Center Global Strategies - `Cloud and DC Global Strategies.pdf`
 ]
 
-A Cloud is not just a collection of servers — it is a *big data center (DC), federated with other ones*, capable of giving *good and fast answers* to users. Two contrasting requirements must be balanced simultaneously:
+A Cloud is not just a collection of servers: it is a *big data center (DC), federated with other ones*, capable of giving *good and fast answers* to users. Two contrasting requirements must be balanced simultaneously:
 
 - *Speed*: users expect very fast answers; the system must never make them wait too long.
 - *Safety/Correctness*: answers must be correct and data must be persistent.
@@ -24,8 +24,8 @@ The Cloud DC serves users through a *two-level architecture*. The two levels hav
   The #kw[Cloud Edge] is the layer very close to the client, responsible for *fast answers* to user needs. It handles many possible client requests, including concurrent ones with user reciprocal interaction. Its first requirement is *velocity*.
 ]
 
-- *Read operations*: replication makes parallel reads easy — no problem.
-- *Write operations*: updates are tricky; the edge uses a *guessing model* — try to forecast the update outcome and answer fast, but operate on the update in the background with level 2.
+- *Read operations*: replication makes parallel reads easy, no problem.
+- *Write operations*: updates are tricky; the edge uses a *guessing model*: try to forecast the update outcome and answer fast, but operate on the update in the background with level 2.
 
 #why("Why a guessing model?")[
   Waiting for all replicas to confirm a write would make the response slow. Instead, the edge *optimistically predicts* the result and sends the answer immediately, then reconciles asynchronously. If the guess is wrong, corrections happen later.
@@ -37,8 +37,8 @@ The Cloud DC serves users through a *two-level architecture*. The two levels hav
   The #kw[Cloud Internal] layer is responsible for *stable, correct answers* to queries given to level 1. It is hidden from users and focused on *deep data management*, replication, and consistency. It is in charge of replicating data and keeping caches to favor user answers.
 ]
 
-- Replication policies do *not* require replicating everything — only *significant parts* (called #kw[shards]) are replicated, dynamically decided based on usage.
-- The second level optimizes data in terms of smaller pieces called #kw[shards] and also supports many forms of *caching services* (memcached, Dynamo, Bigtable, …).
+- Replication policies do *not* require replicating everything: only *significant parts* (called #kw[shards]) are replicated, dynamically decided based on usage.
+- The second level optimizes data in terms of smaller pieces called #kw[shards] and also supports many forms of *caching services* (memcached, Dynamo, Bigtable, ...).
 
 #analogy("Two levels as front-office and back-office")[
   Level 1 is the front desk: it must answer immediately, even if it does not have the most up-to-date information yet. Level 2 is the back office: it processes everything carefully, keeps the real records, and eventually reconciles the front desk's guesses.
@@ -62,7 +62,7 @@ Both levels replicate, but with different goals:
 ]
 
 Sharding rules:
-- Shards must be *dynamically decided* — usage patterns change.
+- Shards must be *dynamically decided*: usage patterns change.
 - Not too small: avoid fragmentation management overhead.
 - Not too large: avoid making coordination too hard.
 - Shards can be *local* or *coordinated with other data centers* to grant consistency.
@@ -77,7 +77,7 @@ The most requested pieces are replicated most; those operated upon by concurrent
 
 === Critical Paths and Asynchronous Effects
 
-Fast answers are *difficult when working synchronously with subservices*. If a service calls multiple slow subservices, the total response time is the *critical path* — the longest chain of dependent calls. With replicas and parallelism, reads can be served quickly; but *write operations* involving multiple replicas introduce asynchronous effects:
+Fast answers are *difficult when working synchronously with subservices*. If a service calls multiple slow subservices, the total response time is the *critical path*: the longest chain of dependent calls. With replicas and parallelism, reads can be served quickly; but *write operations* involving multiple replicas introduce asynchronous effects:
 
 - Replicas receiving operations in a different schedule #arrow their final state can differ (inconsistency).
 - If some replicas fail, the given answer may be incorrect.
@@ -92,7 +92,7 @@ All these issues contribute to #hl[inconsistency that clashes with safety and co
   - YouTube video counters: is it a real issue if the view count differs by a few?
   - Amazon "units available" counters: small variations are invisible to customers.
 
-  *There are many cases in which you do not need a real correct answer, but only a good approximation* — the closer the better, but perfect is not required.
+  *There are many cases in which you do not need a real correct answer, but only a good approximation*: the closer the better, but perfect is not required.
 ]
 
 == The CAP Theorem
@@ -103,10 +103,15 @@ All these issues contribute to #hl[inconsistency that clashes with safety and co
   - *High Availability (A)*: all clients can find at least one replica anytime, even in the presence of failures.
   - *Partition Tolerance (P)*: system properties hold even when the system is partitioned and must keep working.
 ]
-
+#v(-1em)
 #note[
-  Since *availability* is paramount for fast answers, and transient faults often make it impossible to reach all copies, caches must be used even if they are stale. The CAP conclusion is to *weaken consistency for faster response* — choosing AP and neglecting C.
+  Since *availability* is paramount for fast answers, and transient faults often make it impossible to reach all copies, caches must be used even if they are stale. The CAP conclusion is to *weaken consistency for faster response*: choosing AP and neglecting C.
 ]
+
+#figure(
+  image("../assets/cap-theorem.svg", width: 50%),
+  caption: "CAP Theorem: pick any two. Cloud systems typically choose AP."
+)
 
 The three CAP combinations:
 - *CA* (Consistency + Availability): single-site or clustered databases. When a partition occurs, no work can go on and reconnection must be awaited.
@@ -142,7 +147,7 @@ A "serial" ACID execution runs at most one transaction at a time. *Serializabili
 
 Two extreme cases:
 - *Embarrassingly easy*: transactions that never conflict at all (Facebook updates by a single owner).
-- *Conflict-prone*: transactions that interfere and can leave replicas in conflicting states — *scalability here is terrible*.
+- *Conflict-prone*: transactions that interfere and can leave replicas in conflicting states: *scalability here is terrible*.
 
 #important("ACID Cost in the Cloud")[
   The costs of transactional ACID on replicated global data can be surprisingly high. Solutions must involve ad-hoc mechanisms such as *sharding* and *coding ad-hoc transactions*. Brewer's CAP theorem states: *"you cannot use transactions at large scale in the cloud"*.
@@ -161,7 +166,7 @@ In distributed systems, one transaction may contain others at *different nesting
 ]
 
 - If *anyone disagrees*: global undo (rollback).
-- If the *coordinator fails*: participants are blocked waiting — this is the fundamental weakness of 2PC.
+- If the *coordinator fails*: participants are blocked waiting: this is the fundamental weakness of 2PC.
 - *Concurrent coordinators* over the same data: one of the two must abort.
 
 #note[
@@ -172,11 +177,11 @@ In distributed systems, one transaction may contain others at *different nesting
 
 #def("BASE")[
   #kw[BASE] is the "opposite" of ACID, reflecting experience with real cloud applications:
-  - *Basically Available*: fast response even if some replicas are slow or crashed. Partitioning faults are mapped to crash failures, forcing isolated machines to reboot — but rapid responses are still needed.
+  - *Basically Available*: fast response even if some replicas are slow or crashed. Partitioning faults are mapped to crash failures, forcing isolated machines to reboot: but rapid responses are still needed.
   - *Soft State Service*: the first tier cannot store any permanent data and restarts in a "clean" state after a crash. To maintain data, either replicate in memory in enough copies or pass to another service that keeps "hard state".
   - *Eventual Consistency*: send "optimistic" answers to the external client; could use cached data without checking for staleness; could *guess* at the outcome of an update; might skip locks hoping no conflicts; later correct any inconsistencies with an *offline cleanup activity* (reconciliation).
 ]
-
+#v(-1em)
 #analogy("BASE as the eBay philosophy")[
   eBay researchers found that programmers with a transactional mindset built applications that did not scale well on their cloud. BASE was designed to guide those programmers: *embrace the reality that big distributed systems are inherently uncertain*, and design around it rather than fighting it.
 ]
@@ -186,10 +191,10 @@ In distributed systems, one transaction may contain others at *different nesting
 With BASE:
 - Code is *more concurrent*, hence faster.
 - *Locking is eliminated*, making end-user experience snappy and positive.
-- *Weird behavior may occasionally appear* when looked at hard — but the achieved speed is worth the behavioral change.
+- *Weird behavior may occasionally appear* when looked at hard: but the achieved speed is worth the behavioral change.
 
 #example("eBay Auction")[
-  In a fast-running eBay auction, does every single bidder necessarily see every bid? And in the same order? Clearly everyone needs to see the *winning bid*, but slightly different bidding histories should not hurt much — and that makes eBay *10x faster*.
+  In a fast-running eBay auction, does every single bidder necessarily see every bid? And in the same order? Clearly everyone needs to see the *winning bid*, but slightly different bidding histories should not hurt much: and that makes eBay *10x faster*.
 ]
 
 === ACID vs. BASE Summary
@@ -203,7 +208,7 @@ With BASE:
   stroke: 0.5pt,
   inset: 1em,
   table.header([*ACID*], [*BASE*]),
-  [Strong consistency — highest priority], [Availability and scaling — highest priorities],
+  [Strong consistency: highest priority], [Availability and scaling: highest priorities],
   [Availability less important], [Weak consistency],
   [Pessimistic], [Optimistic],
   [Rigorous analysis], [Best effort],
@@ -212,7 +217,7 @@ With BASE:
 
 == Consistency Spectrum
 
-There is no single definition of "consistency" — it is a spectrum:
+There is no single definition of "consistency": it is a spectrum:
 
 - *Strict consistency*: updates happen instantly everywhere. A read must return the result of the latest write. Not realistic with instantaneous propagation.
 - *Linearizable*: updates appear to happen instantaneously at some point in time, ordered by a global clock. Used for formal verification of concurrent programs.
@@ -246,12 +251,12 @@ Writes are written to a *log* and applied in the same order at all replicas (tim
   [MapReduce], [Functional computing model with very strong guarantees],
   [Zookeeper], [Yahoo! file system with sophisticated properties],
   [PNUTS], [Yahoo! database, sharded data, spectrum of consistency options],
-  [Chubby], [Locking service — very strong guarantees],
+  [Chubby], [Locking service: very strong guarantees],
 )
 
 == eBay Principles: Five Commandments for Internet Scale
 
-At internet scale (eBay: 276M users, 2B photos, \$2040/second in trade, >48 billion SQL executions/day), standard transactional thinking fails. Randy Shoup described the *eBay Five Commandments* — design principles that push toward high scalability, availability, low latency, high manageability, and low cost.
+At internet scale (eBay: 276M users, 2B photos, \$2040/second in trade, >48 billion SQL executions/day), standard transactional thinking fails. Randy Shoup described the *eBay Five Commandments*: design principles that push toward high scalability, availability, low latency, high manageability, and low cost.
 
 #important("eBay Five Commandments")[
   1. *Partition Everything*
@@ -271,7 +276,7 @@ Consistency is viewed as *a spectrum, not a specific position*: some operations 
 
 Corollaries:
 - *No Database Transactions*: no client-side transactions, no two-phase commit. Auto-commit for the vast majority of DB writes.
-- *No Session State*: user session flow moves through multiple application pools. No session state in the application tier — sharding only.
+- *No Session State*: user session flow moves through multiple application pools. No session state in the application tier: sharding only.
 
 === 2 — Asynchrony Everywhere
 
@@ -307,7 +312,7 @@ Design assuming failures happen constantly.
 Patterns:
 - *Failure Detection*: servers log all requests (all application activity, DB and service calls on a multicast message bus — more than *2 TB* of log messages per day); listeners automate failure detection and notification.
 - *Rollback*: absolutely no changes to the site that cannot be undone. The system does not take any action if irreversible actions are to be taken. Every feature has an on/off state driven by central configuration. Features can be deployed "wired-off" to unroll dependencies.
-- *Graceful Degradation*: application marks down an unavailable or distressed resource. Non-critical functionality is removed or ignored. Critical functionality is retried or deferred — retried until completed in case of failure.
+- *Graceful Degradation*: application marks down an unavailable or distressed resource. Non-critical functionality is removed or ignored. Critical functionality is retried or deferred: retried until completed in case of failure.
 
 === 5 — Embrace Inconsistency
 
@@ -321,7 +326,7 @@ Patterns:
 - Achieve eventual consistency through *asynchronous event or reconciliation batch*.
 
 #important("Consistency as a Spectrum")[
-  The final commandment is not "be inconsistent" but rather *release consistency* — look at it as a spectrum and not a specific position. Choose the right consistency level per operation:
+  The final commandment is not "be inconsistent" but rather *release consistency*: look at it as a spectrum and not a specific position. Choose the right consistency level per operation:
   - *Immediate consistency*: bids, purchases.
   - *Eventual consistency*: search engine, billing systems.
   - *No consistency required*: user preferences.

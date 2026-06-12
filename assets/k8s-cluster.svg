@@ -1,0 +1,92 @@
+<svg viewBox="0 0 580 340" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="10">
+
+  <!-- Title -->
+  <text x="290" y="18" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">Kubernetes Cluster Architecture</text>
+
+  <!-- Control Plane box -->
+  <rect x="20" y="30" width="250" height="200" rx="8" fill="#e8f4ff" stroke="#4a90d9" stroke-width="2"/>
+  <text x="145" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#1a4a80">Control Plane</text>
+
+  <!-- API Server -->
+  <rect x="35" y="58" width="220" height="28" rx="4" fill="#cce5ff" stroke="#4a90d9" stroke-width="1"/>
+  <text x="145" y="77" text-anchor="middle" font-weight="bold" fill="#1a4a80">kube-apiserver</text>
+
+  <!-- etcd -->
+  <rect x="35" y="93" width="100" height="28" rx="4" fill="#f0d0ff" stroke="#9c27b0" stroke-width="1"/>
+  <text x="85" y="112" text-anchor="middle" font-weight="bold" fill="#4a0072">etcd</text>
+  <text x="85" y="123" text-anchor="middle" fill="#4a0072">(state store)</text>
+
+  <!-- scheduler -->
+  <rect x="155" y="93" width="100" height="28" rx="4" fill="#d4edda" stroke="#28a745" stroke-width="1"/>
+  <text x="205" y="107" text-anchor="middle" font-weight="bold" fill="#155724">kube-scheduler</text>
+
+  <!-- controller manager -->
+  <rect x="35" y="135" width="220" height="28" rx="4" fill="#fff3cd" stroke="#f0ad4e" stroke-width="1"/>
+  <text x="145" y="154" text-anchor="middle" font-weight="bold" fill="#7d5a00">kube-controller-manager</text>
+
+  <!-- cloud controller -->
+  <rect x="35" y="170" width="220" height="28" rx="4" fill="#ffe0cc" stroke="#e8721a" stroke-width="1"/>
+  <text x="145" y="184" text-anchor="middle" fill="#7d2e00">cloud-controller-manager</text>
+  <text x="145" y="194" text-anchor="middle" fill="#7d2e00">(optional)</text>
+
+  <!-- Arrow from control plane to workers -->
+  <line x1="270" y1="130" x2="305" y2="130" stroke="#555" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrd)"/>
+  <text x="287" y="122" text-anchor="middle" font-size="9" fill="#666">gRPC</text>
+
+  <!-- Worker Node 1 -->
+  <rect x="305" y="30" width="255" height="130" rx="8" fill="#f0fff4" stroke="#28a745" stroke-width="2"/>
+  <text x="432" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#155724">Worker Node</text>
+
+  <!-- kubelet -->
+  <rect x="320" y="58" width="100" height="28" rx="4" fill="#d4edda" stroke="#28a745" stroke-width="1"/>
+  <text x="370" y="77" text-anchor="middle" font-weight="bold" fill="#155724">kubelet</text>
+
+  <!-- kube-proxy -->
+  <rect x="445" y="58" width="100" height="28" rx="4" fill="#d4edda" stroke="#28a745" stroke-width="1"/>
+  <text x="495" y="77" text-anchor="middle" font-weight="bold" fill="#155724">kube-proxy</text>
+
+  <!-- Pod 1 -->
+  <rect x="320" y="95" width="100" height="55" rx="4" fill="#fff" stroke="#28a745" stroke-width="1"/>
+  <text x="370" y="112" text-anchor="middle" fill="#155724">Pod</text>
+  <rect x="330" y="118" width="35" height="22" rx="3" fill="#d4edda" stroke="#28a745" stroke-width="0.8"/>
+  <text x="347" y="133" text-anchor="middle" font-size="9" fill="#155724">C1</text>
+  <rect x="375" y="118" width="35" height="22" rx="3" fill="#d4edda" stroke="#28a745" stroke-width="0.8"/>
+  <text x="392" y="133" text-anchor="middle" font-size="9" fill="#155724">sidecar</text>
+
+  <!-- Pod 2 -->
+  <rect x="445" y="95" width="100" height="55" rx="4" fill="#fff" stroke="#28a745" stroke-width="1"/>
+  <text x="495" y="112" text-anchor="middle" fill="#155724">Pod</text>
+  <rect x="455" y="118" width="35" height="22" rx="3" fill="#d4edda" stroke="#28a745" stroke-width="0.8"/>
+  <text x="472" y="133" text-anchor="middle" font-size="9" fill="#155724">C1</text>
+  <rect x="500" y="118" width="35" height="22" rx="3" fill="#d4edda" stroke="#28a745" stroke-width="0.8"/>
+  <text x="517" y="133" text-anchor="middle" font-size="9" fill="#155724">C2</text>
+
+  <!-- Worker Node 2 -->
+  <rect x="305" y="175" width="255" height="100" rx="8" fill="#f0fff4" stroke="#28a745" stroke-width="2"/>
+  <text x="432" y="195" text-anchor="middle" font-size="12" font-weight="bold" fill="#155724">Worker Node</text>
+  <rect x="320" y="205" width="100" height="28" rx="4" fill="#d4edda" stroke="#28a745" stroke-width="1"/>
+  <text x="370" y="224" text-anchor="middle" font-weight="bold" fill="#155724">kubelet</text>
+  <rect x="445" y="205" width="100" height="28" rx="4" fill="#d4edda" stroke="#28a745" stroke-width="1"/>
+  <text x="495" y="224" text-anchor="middle" font-weight="bold" fill="#155724">kube-proxy</text>
+  <rect x="350" y="240" width="165" height="28" rx="4" fill="#fff" stroke="#28a745" stroke-width="1"/>
+  <text x="432" y="259" text-anchor="middle" fill="#155724">Pod  |  Pod  |  Pod</text>
+
+  <!-- kubectl external -->
+  <rect x="20" y="255" width="100" height="32" rx="5" fill="#ffe0b2" stroke="#e8721a" stroke-width="1.5"/>
+  <text x="70" y="275" text-anchor="middle" font-weight="bold" fill="#7d2e00">kubectl / User</text>
+  <line x1="120" y1="271" x2="145" y2="85" stroke="#e8721a" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arro)"/>
+  <text x="95" y="215" text-anchor="middle" font-size="9" fill="#e8721a">HTTPS/REST</text>
+
+  <!-- Legend -->
+  <text x="20" y="310" font-size="10" fill="#555">C = Container</text>
+
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arrd" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#555"/>
+    </marker>
+    <marker id="arro" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#e8721a"/>
+    </marker>
+  </defs>
+</svg>

@@ -4,12 +4,12 @@
 
 = KUBERNETES
 #extra[
-  Package: Kubernetes — `b - Kubernetes.pdf`
+  Package: Kubernetes - `b - Kubernetes.pdf`
 ]
 
 Kubernetes is the industry-standard platform for running containerised applications at scale.
 Where Docker solves the problem of *packaging* a single service, Kubernetes solves the
-problem of *operating thousands of containers* across a fleet of machines — scheduling them,
+problem of *operating thousands of containers* across a fleet of machines: scheduling them,
 keeping them healthy, connecting them to each other, and exposing them to the outside world.
 
 == What is Kubernetes
@@ -27,7 +27,7 @@ keeping them healthy, connecting them to each other, and exposing them to the ou
 === From Docker to Kubernetes
 
 Docker communicates between its CLI, daemon, and container runtime via HTTP/JSON messages
-following the OpenAPI v3 contract. Kubernetes exploits the *same principle* — it talks
+following the OpenAPI v3 contract. Kubernetes exploits the *same principle*: it talks
 directly to the container runtime through the CRI (Container Runtime Interface),
 bypassing Docker entirely.
 
@@ -36,21 +36,21 @@ bypassing Docker entirely.
   fast deployments, and versioning. But they do not handle:
   - *Networking* across multiple hosts.
   - *Deployment* and rolling updates at cluster scale.
-  - *Service Discovery* — dynamically finding where each service is running.
-  - *Auto Scaling* — adjusting the number of replicas under load.
+  - *Service Discovery*: dynamically finding where each service is running.
+  - *Auto Scaling*: adjusting the number of replicas under load.
   - *Persisting Data* with distributed storage.
   - *Logging* and *Access Control* at scale.
   Kubernetes addresses all of these.
 ]
-
+#v(-1em)
 #prop("Kubernetes Key Features")[
   - *Multi-container* application deployment.
   - *Automatic and dynamic scaling* of application replicas.
   - *Rolling updates* that preserve service availability during changes.
   - *Computation, network, and storage resources* with built-in service discovery.
-  - *Infrastructure independence* — the same manifest runs on any conformant cluster.
+  - *Infrastructure independence*: the same manifest runs on any conformant cluster.
 ]
-
+#v(-1em)
 #important("Long-term payoff")[
   Kubernetes requires significant upfront investment in configuration and operations.
   The payoff comes over time: a more manageable, resilient, and self-healing
@@ -67,42 +67,46 @@ bypassing Docker entirely.
   - *Worker nodes*: run actual application workloads (Pods).
 ]
 
+#figure(
+  image("../assets/k8s-cluster.svg", width: 95%),
+  caption: "Kubernetes cluster: control plane components and worker nodes with Pods and sidecars."
+)
+
 === Control Plane
 
 #def("Control Plane")[
-  The #kw[control plane] makes *global decisions* about the cluster — scheduling,
+  The #kw[control plane] makes *global decisions* about the cluster: scheduling,
   detecting and responding to cluster events (e.g., a Pod dying). It is the "brain"
   of Kubernetes.
 ]
 
 Control plane components:
 
-- `etcd` — the *only stateful component* of the infrastructure. A distributed
+- `etcd`: the *only stateful component* of the infrastructure. A distributed
   key-value store that holds the entire cluster state and configuration.
-- `kube-apiserver` — the *front door* of Kubernetes. All components communicate
+- `kube-apiserver`: the *front door* of Kubernetes. All components communicate
   exclusively through the API server; nothing talks to etcd directly.
-- `kube-controller-manager` — runs the core *control loops* that keep actual state
+- `kube-controller-manager`: runs the core *control loops* that keep actual state
   converging toward desired state.
-- `kube-scheduler` — decides *which node* a newly created Pod should run on.
-- `cloud-controller-manager` (optional) — integrates with the cloud provider's API
+- `kube-scheduler`: decides *which node* a newly created Pod should run on.
+- `cloud-controller-manager` (optional): integrates with the cloud provider's API
   (load balancers, node lifecycle, storage) at a pace independent of the main project.
 
 === Worker Node Components
 
 Each worker node runs:
 
-- `kubelet` — the primary *node agent*. It watches the API server for PodSpecs
+- `kubelet`: the primary *node agent*. It watches the API server for PodSpecs
   assigned to its node and ensures the described containers are running and healthy.
-- `kube-proxy` — the *network proxy*. It runs on every node, reflects Services
+- `kube-proxy`: the *network proxy*. It runs on every node, reflects Services
   defined in the Kubernetes API, and programs the data plane (iptables/IPVS) to
   forward traffic.
-- *Container Runtime* — the software that actually runs containers (containerd,
-  CRI-O…).
+- *Container Runtime*: the software that actually runs containers (containerd, CRI-O...).
 
 #analogy("The Airport Analogy")[
   The API server is the airport's central hub. Every passenger (request) must pass
-  through it. etcd is the database of all flight bookings — it is the one source of
-  truth. Controllers are ground crew teams each responsible for one type of task
+  through it. etcd is the database of all flight bookings: the one source of truth.
+  Controllers are ground crew teams each responsible for one type of task
   (gate changes, baggage, refuelling). The scheduler is the dispatcher who assigns
   planes to gates. Kubelets are pilots on each plane, ensuring their specific
   aircraft is operational.
@@ -113,7 +117,7 @@ Each worker node runs:
 #def("Declarative Model")[
   In Kubernetes you *declare the desired state* of your application in a *manifest*
   file (JSON or YAML). You post the manifest to the API server; Kubernetes is
-  responsible for making reality match the declaration — and keeping it that way.
+  responsible for making reality match the declaration and keeping it that way.
 ]
 
 The workflow is:
@@ -129,9 +133,9 @@ The workflow is:
   Imperative commands ("start 3 replicas") are one-shot: if a replica crashes,
   nothing restarts it. Declaring desired state ("there should always be 3 replicas
   running") hands that responsibility to Kubernetes. The system becomes *self-healing*
-  automatically — no operator needs to be paged at 3 a.m.
+  automatically: no operator needs to be paged at 3 a.m.
 ]
-
+#v(-1em)
 #note[
   The *only state Kubernetes cares about is the desired one*, not the current one.
   This is the fundamental insight behind the declarative model.
@@ -141,15 +145,15 @@ The workflow is:
 
 Kubernetes manages different kinds of #kw[resources]:
 
-- *Workloads* — applications running on Kubernetes:
+- *Workloads*: applications running on Kubernetes —
   Deployment, ReplicaSet, StatefulSet, DaemonSet, Job, CronJob.
-- *Services, Load Balancing, Networking* — networking resources that enable
-  communication between workloads:
+- *Services, Load Balancing, Networking*: networking resources that enable
+  communication between workloads —
   Service, Ingress, IngressController, EndpointSlices, Gateway API, Network Policies.
-- *Configurations* — dynamic configuration injected into workloads:
+- *Configurations*: dynamic configuration injected into workloads —
   Secrets, ConfigMaps.
-- *Storage* — PersistentVolumes, PersistentVolumeClaims, StorageClasses.
-- *Custom Resources* (CRDs) — user-defined resource types that extend the API.
+- *Storage*: PersistentVolumes, PersistentVolumeClaims, StorageClasses.
+- *Custom Resources* (CRDs): user-defined resource types that extend the API.
 
 == Controllers and the Control Loop
 
@@ -216,7 +220,7 @@ The operator lifecycle:
 #example("Prometheus Operator")[
   The Prometheus Operator introduces CRDs such as `Prometheus`, `AlertManager`,
   `ServiceMonitor`, and `PodMonitor`. Defining a `ServiceMonitor` resource
-  automatically configures Prometheus to scrape the matching services — the
+  automatically configures Prometheus to scrape the matching services: the
   operator handles the complex Prometheus configuration file generation, reloads,
   and certificate management.
 ]
@@ -234,7 +238,7 @@ The operator lifecycle:
 #def("etcd")[
   #kw[etcd] (*distributed etc directory*) is a *strongly consistent*, distributed
   key-value store that implements the RAFT algorithm. In Kubernetes it stores
-  *all cluster data and configuration* — the single source of truth.
+  *all cluster data and configuration*: the single source of truth.
 ]
 
 Properties:
@@ -270,12 +274,12 @@ RAFT decomposes the consensus problem into three relatively independent subprobl
 *Safety*
 - Logs are kept consistent across the cluster.
 - Only servers with up-to-date committed logs can become leader.
-- Leader is *stateless* between terms — it rebuilds state from the log.
+- Leader is *stateless* between terms: it rebuilds state from the log.
 
 #analogy("RAFT as a Parliament")[
   RAFT's leader is like a Parliament's Speaker: only one can chair a session
   at a time. A bill (log entry) only passes when a majority of members vote for
-  it. If the Speaker is absent, members elect a new one — but only a member
+  it. If the Speaker is absent, members elect a new one, but only a member
   who has read all previous bills can stand for election.
 ]
 
@@ -292,7 +296,7 @@ RAFT decomposes the consensus problem into three relatively independent subprobl
 === Pods
 
 #def("Pod")[
-  A #kw[Pod] is the *atomic unit of deployment* in Kubernetes — the smallest
+  A #kw[Pod] is the *atomic unit of deployment* in Kubernetes: the smallest
   deployable object. A Pod represents a group of *one or more containers* that
   share:
   - A *network namespace* (same IP address and port space).
@@ -304,7 +308,7 @@ Key Pod properties:
 
 - Pods are *mortal and unreliable*: if a Pod terminates, Kubernetes starts a new one
   (with a different IP) rather than restarting the old one.
-- Pods are the minimum unit of *scaling* — you never scale individual containers,
+- Pods are the minimum unit of *scaling*: you never scale individual containers,
   you scale Pods.
 - When a Deployment creates Pods, each Pod is *scheduled* (tied to a Node); if that
   Node fails, identical Pods are scheduled on other available nodes.
@@ -342,7 +346,7 @@ Scheduling algorithm:
   It takes a set of PodSpecs provided through the API server and ensures that
   the containers described in those PodSpecs are running and healthy.
 ]
-
+#v(-1em)
 #note[
   The kubelet is similar to an Operator, but with one key difference: it does not
   have a proper etcd backing. Its state is *local to the node*, and stale state
@@ -359,7 +363,7 @@ Scheduling algorithm:
   at any time. If Pods die, the ReplicaSet creates replacements; if too many run,
   it deletes the excess.
 ]
-
+#v(-1em)
 #def("Deployment")[
   A #kw[Deployment] wraps a ReplicaSet and adds *rolling update* and *rollback*
   capabilities. It is the recommended way to manage stateless applications.
@@ -446,17 +450,17 @@ Common volume uses:
 
 #prop("Kubernetes Network Fundamentals")[
   - Every Pod gets its own *unique cluster-wide IP address*.
-  - A Pod has its own *private network namespace* shared by all its containers —
+  - A Pod has its own *private network namespace* shared by all its containers:
     containers within a Pod communicate via `localhost`.
   - The *pod network* (cluster network) handles communication between Pods.
   - *All Pods can communicate with all other Pods* on any node, without NAT or
     proxies, whether they are on the same node or different nodes.
 ]
-
+#v(-1em)
 #why("Why flat networking without NAT?")[
   NAT creates hidden address translations that complicate service discovery and
   debugging. A flat model where every Pod has a real, routable IP simplifies
-  the programming model enormously — you can treat any Pod like a local process.
+  the programming model enormously: you can treat any Pod like a local process.
 ]
 
 === Kube-Proxy
@@ -510,7 +514,7 @@ objects and programs the data plane accordingly.
 - A cluster can host multiple Ingress implementations sharing the same interface.
 - Each implementation has a custom *Ingress Controller* that manages the lifecycle
   of the ingress and translates rules into configuration for the underlying
-  load balancer (NGINX, Traefik, HAProxy, cloud LBs…).
+  load balancer (NGINX, Traefik, HAProxy, cloud LBs...).
 
 #analogy("Ingress as Hotel Reception")[
   An Ingress is like a hotel receptionist: external guests (clients) arrive at the
@@ -535,9 +539,9 @@ It computes the desired replica count using:
 $ "desiredReplicas" = ceil\( "currentReplicas" times "currentMetricValue" / "desiredMetricValue" \) $
 
 Configurable parameters:
-- *Min/Max replicas* — hard bounds on the replica count.
+- *Min/Max replicas*: hard bounds on the replica count.
 - *Percent of replicas* that can be concurrently scaled up or down.
-- *Stabilisation windows* — prevents flapping by requiring the metric to stay
+- *Stabilisation windows*: prevents flapping by requiring the metric to stay
   above/below a threshold for a configurable duration before scaling.
 
 Observed metrics can be:
@@ -551,9 +555,9 @@ Observed metrics can be:
   #kw[KEDA] (Kubernetes Event-Driven Autoscaling) extends the HPA mechanism to
   support *event-driven scaling* based on the number of events needing to be
   processed. Key properties:
-  - *Lightweight and flexible* — runs as a single deployment.
+  - *Lightweight and flexible*: runs as a single deployment.
   - *Built-in scalers* for 50+ platforms (databases, cloud queues, messaging systems).
-  - *Scale to zero* — can optionally reduce a workload to 0 replicas when idle.
+  - *Scale to zero*: can optionally reduce a workload to 0 replicas when idle.
 ]
 
 #extra[
@@ -573,9 +577,9 @@ Observed metrics can be:
   - *Traffic Management*
   - *Observability*
   - *Security*
-  - *Dev/Ops* capabilities (fault injection, canary releases…)
+  - *Dev/Ops* capabilities (fault injection, canary releases...)
 ]
-
+#v(-1em)
 #why("Why do you need a service mesh?")[
   In a modern microservice deployment with dozens or hundreds of services,
   each service needs to handle retries, timeouts, circuit breaking, mTLS,
@@ -593,7 +597,7 @@ A Service Mesh has two macro layers:
   Pod as each hosted service. The sidecar acts as the unique point of access for all
   communication and implements monitoring and security strategies inside the Pod.
 - *Control Plane*: a Kubernetes Controller that acts as registry for configuration of
-  proxies — realises observability, traffic management, and security features.
+  proxies: realises observability, traffic management, and security features.
 
 #example("Istio")[
   In Istio, the control plane component is called *Istiod*. It provides:
@@ -603,17 +607,22 @@ A Service Mesh has two macro layers:
     certificates to allow secure *mTLS* communication in the data plane.
 ]
 
+#figure(
+  image("../assets/istio-service-mesh.svg", width: 85%),
+  caption: "Istio service mesh: Envoy sidecars in the data plane, Istiod in the control plane."
+)
+
 === Traffic Management
 
 Service Mesh manages network requests between services. Because traffic flows
 through the *local sidecar proxy*, the mesh can implement at infrastructure level:
 
-- *Request Routing* — path-based and header-based routing rules.
-- *Load Balancing* — round-robin, least connections, consistent hashing.
-- *Fault Mitigation* — retries, timeouts, circuit breaking.
-- *Traffic Shifting* — canary releases (e.g., 5% to new version, 95% to stable).
-- *Traffic Mirroring* — shadow traffic to test new versions without user impact.
-- *Content-based traffic steering* — route by `User-Agent`, cookies, or request headers.
+- *Request Routing*: path-based and header-based routing rules.
+- *Load Balancing*: round-robin, least connections, consistent hashing.
+- *Fault Mitigation*: retries, timeouts, circuit breaking.
+- *Traffic Shifting*: canary releases (e.g., 5% to new version, 95% to stable).
+- *Traffic Mirroring*: shadow traffic to test new versions without user impact.
+- *Content-based traffic steering*: route by `User-Agent`, cookies, or request headers.
 - *Locality-aware load balancing*.
 - *Ingress/Egress abstractions*.
 
@@ -661,8 +670,8 @@ Service Mesh supports security at the infrastructure level:
 
   - *Sidecar-Proxy* load balancing (standard).
   - *Dedicated Load Balancers* (centralized).
-  - *Lookaside Load Balancers* — a centralized lookup service that clients query.
-  - *Embedded Routing Libraries* — routing logic compiled into the client itself.
+  - *Lookaside Load Balancers*: a centralized lookup service that clients query.
+  - *Embedded Routing Libraries*: routing logic compiled into the client itself.
 
   Their architecture relies on three components:
   - *RIB (Routing Information Base)*: a strongly consistent key-value store replicated

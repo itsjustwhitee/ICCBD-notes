@@ -1,0 +1,102 @@
+<svg viewBox="0 0 580 280" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="10">
+
+  <!-- Title -->
+  <text x="290" y="18" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">Replication Models</text>
+
+  <!-- === PASSIVE (Master-Slave) === -->
+  <rect x="15" y="30" width="260" height="235" rx="8" fill="#f0fff4" stroke="#28a745" stroke-width="1.5"/>
+  <text x="145" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#155724">Passive (Master-Slave)</text>
+  <text x="145" y="64" text-anchor="middle" font-size="9" fill="#555">One active copy; others are backups</text>
+
+  <!-- Client -->
+  <rect x="95" y="72" width="100" height="26" rx="4" fill="#cce5ff" stroke="#4a90d9" stroke-width="1"/>
+  <text x="145" y="89" text-anchor="middle" font-weight="bold" fill="#1a4a80">Client</text>
+
+  <!-- Arrow client -> master -->
+  <line x1="145" y1="98" x2="145" y2="120" stroke="#4a90d9" stroke-width="1.5" marker-end="url(#arb)"/>
+
+  <!-- Master -->
+  <rect x="75" y="120" width="140" height="30" rx="4" fill="#d4edda" stroke="#28a745" stroke-width="2"/>
+  <text x="145" y="140" text-anchor="middle" font-weight="bold" fill="#155724">MASTER (active)</text>
+
+  <!-- Arrow master -> slave 1 -->
+  <line x1="115" y1="150" x2="65" y2="175" stroke="#28a745" stroke-width="1.2" stroke-dasharray="4,2" marker-end="url(#argg)"/>
+  <!-- Arrow master -> slave 2 -->
+  <line x1="175" y1="150" x2="225" y2="175" stroke="#28a745" stroke-width="1.2" stroke-dasharray="4,2" marker-end="url(#argg)"/>
+
+  <!-- Checkpoint label -->
+  <text x="145" y="167" text-anchor="middle" font-size="9" fill="#155724" font-style="italic">checkpoint</text>
+
+  <!-- Slave 1 -->
+  <rect x="20" y="175" width="100" height="26" rx="4" fill="#e9ecef" stroke="#6c757d" stroke-width="1"/>
+  <text x="70" y="192" text-anchor="middle" fill="#6c757d">Slave 1 (hot)</text>
+
+  <!-- Slave 2 -->
+  <rect x="150" y="175" width="100" height="26" rx="4" fill="#e9ecef" stroke="#6c757d" stroke-width="1"/>
+  <text x="200" y="192" text-anchor="middle" fill="#6c757d">Slave 2 (warm)</text>
+
+  <!-- Response arrow master -> client -->
+  <line x1="155" y1="120" x2="160" y2="98" stroke="#4a90d9" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#arb)"/>
+
+  <!-- Annotation -->
+  <rect x="20" y="215" width="240" height="42" rx="4" fill="#fff3cd" stroke="#f0ad4e" stroke-width="0.8"/>
+  <text x="140" y="230" text-anchor="middle" font-size="9" fill="#7d5a00">+ Simple, low overhead</text>
+  <text x="140" y="243" text-anchor="middle" font-size="9" fill="#7d5a00">- Recovery gap if master crashes</text>
+  <text x="140" y="256" text-anchor="middle" font-size="9" fill="#7d5a00">before checkpoint propagates</text>
+
+  <!-- === ACTIVE === -->
+  <rect x="305" y="30" width="260" height="235" rx="8" fill="#e8f4ff" stroke="#4a90d9" stroke-width="1.5"/>
+  <text x="435" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#1a4a80">Active (TMR / All-Execute)</text>
+  <text x="435" y="64" text-anchor="middle" font-size="9" fill="#555">All copies execute; majority vote</text>
+
+  <!-- Client -->
+  <rect x="385" y="72" width="100" height="26" rx="4" fill="#cce5ff" stroke="#4a90d9" stroke-width="1"/>
+  <text x="435" y="89" text-anchor="middle" font-weight="bold" fill="#1a4a80">Client</text>
+
+  <!-- Multicast arrow client -> all copies -->
+  <line x1="415" y1="98" x2="365" y2="130" stroke="#4a90d9" stroke-width="1.5" marker-end="url(#arb)"/>
+  <line x1="435" y1="98" x2="435" y2="130" stroke="#4a90d9" stroke-width="1.5" marker-end="url(#arb)"/>
+  <line x1="455" y1="98" x2="505" y2="130" stroke="#4a90d9" stroke-width="1.5" marker-end="url(#arb)"/>
+  <text x="435" y="115" text-anchor="middle" font-size="9" fill="#1a4a80" font-style="italic">atomic multicast</text>
+
+  <!-- Copy 1 -->
+  <rect x="315" y="130" width="90" height="28" rx="4" fill="#d4edda" stroke="#28a745" stroke-width="1.5"/>
+  <text x="360" y="148" text-anchor="middle" font-weight="bold" fill="#155724">Copy 1</text>
+
+  <!-- Copy 2 -->
+  <rect x="390" y="130" width="90" height="28" rx="4" fill="#d4edda" stroke="#28a745" stroke-width="1.5"/>
+  <text x="435" y="148" text-anchor="middle" font-weight="bold" fill="#155724">Copy 2</text>
+
+  <!-- Copy 3 -->
+  <rect x="465" y="130" width="90" height="28" rx="4" fill="#d4edda" stroke="#28a745" stroke-width="1.5"/>
+  <text x="510" y="148" text-anchor="middle" font-weight="bold" fill="#155724">Copy 3</text>
+
+  <!-- Vote box -->
+  <rect x="375" y="175" width="120" height="26" rx="4" fill="#ffe0cc" stroke="#e8721a" stroke-width="1.5"/>
+  <text x="435" y="192" text-anchor="middle" font-weight="bold" fill="#7d2e00">Majority Vote</text>
+
+  <!-- Arrows to vote -->
+  <line x1="360" y1="158" x2="405" y2="175" stroke="#28a745" stroke-width="1" marker-end="url(#argg)"/>
+  <line x1="435" y1="158" x2="435" y2="175" stroke="#28a745" stroke-width="1" marker-end="url(#argg)"/>
+  <line x1="510" y1="158" x2="465" y2="175" stroke="#28a745" stroke-width="1" marker-end="url(#argg)"/>
+
+  <!-- Arrow vote -> client -->
+  <line x1="435" y1="201" x2="435" y2="98" stroke="#4a90d9" stroke-width="1" stroke-dasharray="3,2"/>
+  <text x="450" y="213" font-size="9" fill="#4a90d9">response</text>
+
+  <!-- Annotation -->
+  <rect x="310" y="215" width="240" height="42" rx="4" fill="#fff3cd" stroke="#f0ad4e" stroke-width="0.8"/>
+  <text x="430" y="230" text-anchor="middle" font-size="9" fill="#7d5a00">+ Maximum consistency (TMR)</text>
+  <text x="430" y="243" text-anchor="middle" font-size="9" fill="#7d5a00">+ No recovery gap on single fault</text>
+  <text x="430" y="256" text-anchor="middle" font-size="9" fill="#7d5a00">- High overhead: coordination cost</text>
+
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arb" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L7,3 z" fill="#4a90d9"/>
+    </marker>
+    <marker id="argg" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L7,3 z" fill="#28a745"/>
+    </marker>
+  </defs>
+</svg>

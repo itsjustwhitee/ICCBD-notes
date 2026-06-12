@@ -4,7 +4,7 @@
 
 = REPLICATION FOR DEPENDABILITY
 #extra[
-  Package: Replication for Dependability — `7  - Replication for Dependability 26.pdf`
+  Package: Replication for Dependability - `7  - Replication for Dependability 26.pdf`
 ]
 
 Dependable systems must continue to operate correctly even in the presence of faults. This chapter introduces the core concepts of #kw[fault tolerance], the models behind system replication, and the architectural strategies used in practice to achieve high availability and reliability.
@@ -16,15 +16,15 @@ Dependable systems must continue to operate correctly even in the presence of fa
 #def("Dependability / Fault Tolerance (FT)")[
   The customer has a *full confidence in the system*, both in the sense of hardware, software, and in general any design aspect. Complete confidence in *any* design aspect.
 ]
-
+#v(-1em)
 #def("Availability (continuity of services)")[
-  The system must provide *correct answers in an agreed limited time* — the stress is on correct response, *not on timing*. Memory copies can provide fast response time.
+  The system must provide *correct answers in an agreed limited time*: the stress is on correct response, *not on timing*. Memory copies can provide fast response time.
 ]
-
+#v(-1em)
 #def("Reliability (correct answers)")[
   The system must provide *only correct results* (no time constraints). Disk copies can achieve it via stable memory.
 ]
-
+#v(-1em)
 #def("Recoverability (recovery via state persistency)")[
   *Safety is Correctness* and there are also other aspects of Reliability: Safety, Consistency, Security, Privacy, ... (ACID typically).
 ]
@@ -37,7 +37,7 @@ Dependable systems must continue to operate correctly even in the presence of fa
   - *Fault*: set of events in a system that can cause errors.
 ]
 
-An application can fail — and it can cause a wrong update on a database.
+An application can fail and it can cause a wrong update on a database.
 
 - *Fault* is the _concrete causing occurrence_ (several processes entering at the same time).
 - *Error* is the _sequence of events_ (mutual exclusion has not been enforced) that can generate the visible effect of *Failures* (to be prevented).
@@ -64,7 +64,7 @@ The main downtime causes by frequency: Human Error (60), Unexpected Updates (56)
 #def("Number of 9s")[
   The standard metric for measuring availability. It expresses not only the *frequency of crashes* and the *percentage of uptime*, but also the *capacity of fast recovery*, because the uptime depends not only from fatal failure occurrences but also from the capacity of recovering.
 ]
-
+#v(-1em)
 #note[
   The indicators are averaged over one year. *Availability* (A) = MTBF / (MTBF + MTTR).
 ]
@@ -116,7 +116,7 @@ Downtime costs vary greatly by industry due to the different impact on society o
 
 Client and Server play a reciprocal role in control and identification:
 - The *client waits* for the answer from the server synchronously.
-- The *server waits* for the answer delivery, verifying it — messages have timeout and are resent.
+- The *server waits* for the answer delivery, verifying it; messages have timeout and are resent.
 
 Fault identification and recovery strategies:
 - *Faults that can be tolerated without causing failure* (at any time, all together and during the recovery protocol).
@@ -127,7 +127,7 @@ Fault identification and recovery strategies:
 === Single Point of Failure (SPoF)
 
 #def("Single Point of Failure (SPoF)")[
-  Unique points that must be available at any time — a *single point of failure* in an architecture. Single fault assumption #arrow general, not so reliable.
+  Unique points that must be available at any time: a *single point of failure* in an architecture. Single fault assumption #arrow general, not so reliable.
 ]
 
 - With *2 copies* you can identify 1 failure but not correct it.
@@ -197,9 +197,9 @@ More advanced fault assumptions on communication:
 === Availability and Reliability
 
 #def("Availability")[
-  *A = MTBF / (MTBF + MTTR)* — defines the percentage of *correct services in time* (the number of 9s). It can also be different for read and write operations: if we consider more copies, the read can be answered also if only one copy is available, and other ones are not (action that does not modify).
+  *A = MTBF / (MTBF + MTTR)*: defines the percentage of *correct services in time* (the number of 9s). It can also be different for read and write operations: if we consider more copies, the read can be answered also if only one copy is available, and other ones are not (action that does not modify).
 ]
-
+#v(-1em)
 #def("Reliability")[
   Probability of an available service depending on time and based on a period of Δt:
   - R(Δt) = reliable over time Δt.
@@ -210,8 +210,8 @@ More advanced fault assumptions on communication:
 
 Formal properties of dependable systems:
 
-- *Correctness = Safety = RELIABILITY*: guarantees that there are *no problems* — all invariants are always met.
-- *Vitality = Liveness = AVAILABILITY*: achieving goals with *success* — the goal is completely reached.
+- *Correctness = Safety = RELIABILITY*: guarantees that there are *no problems*: all invariants are always met.
+- *Vitality = Liveness = AVAILABILITY*: achieving goals with *success*: the goal is completely reached.
 
 #note[
   A system *without* safety and liveness gives no guarantee for any specific fault (no tolerance). A system *with safety* without liveness operates always correctly and can give results, without guarantee of respecting timing constraints. A system *without safety* with liveness always provides a result in the required time, even if the results may be incorrect (e.g., an exception). In any case, to grant any of those solutions should *consider replication either in time or space*.
@@ -241,7 +241,7 @@ Any error is converted into an *omission* (a control code is associated to the b
 
 #note[High cost of implementation, especially in terms of timing (how to limit the recovery time?)]
 
-=== Stable Memory — Support Protocols
+=== Stable Memory: Support Protocols
 
 Any operation (either read or write) operates on both copies; if one is incorrect, a recovery protocol starts:
 - Any *action from a correct block*: proceeds starting from one copy and then to the other.
@@ -268,7 +268,7 @@ The goal: *fail-safe* system dependable with *single fault assumption*.
 
 Replicated copies can push to two strategies: make actions *twice*, in any component, or make actions *only once* and use the other copy as a back up.
 
-=== RAID — Redundant Array of Inexpensive Disks
+=== RAID: Redundant Array of Inexpensive Disks
 
 #def("RAID")[
   A *general-purpose organization of disks* with a replication goal but low-cost intention. A set of low-cost disks coordinated toward common actions with different goals in shared common actions to achieve different standard objectives. Commercial low cost off-the-shelf systems.
@@ -276,12 +276,12 @@ Replicated copies can push to two strategies: make actions *twice*, in any compo
 
 The initial goal of RAID was to offer *low response time* via *data striping*, so that a content is split among different disks to be read/written in parallel. Then some standards extended to consider *data replication*. Some classes consider different organizations for different standard goals.
 
-- *RAID 0 — simple striping*: parallel I/O but no redundancy; suitable for I/O intensive applications but *worse MTBF*.
-- *RAID 1 — mirroring*: maximum redundancy; for high availability even if higher cost; good performances in reading and less in writing.
-- *RAID 3 & 4 — striping with dedicated parity disk*: high speed to support operations on large contents (images); one I/O operation at a time, for the contention on the parity disk.
-- *RAID 5 & 6 — striping without dedicated parity disk*: the *distributed parity check* achieves good speed in case of many readings for small contents and good writing operations for large contents.
+- *RAID 0 - simple striping*: parallel I/O but no redundancy; suitable for I/O intensive applications but *worse MTBF*.
+- *RAID 1 - mirroring*: maximum redundancy; for high availability even if higher cost; good performances in reading and less in writing.
+- *RAID 3 & 4 - striping with dedicated parity disk*: high speed to support operations on large contents (images); one I/O operation at a time, for the contention on the parity disk.
+- *RAID 5 & 6 - striping without dedicated parity disk*: the *distributed parity check* achieves good speed in case of many readings for small contents and good writing operations for large contents.
 
-== Fault Tolerant Support — Costs and Principles
+== Fault Tolerant Support: Costs and Principles
 
 === Fault Tolerant Support Overview
 
@@ -289,7 +289,7 @@ The initial goal of RAID was to offer *low response time* via *data striping*, s
 - Complexity and length of the algorithms.
 - Implementation of the algorithm (and their correctness).
 
-There is no *unique strategy* for always accepted solutions — dependability is a non-functional property with many facets. In general terms, the recovery protocol must be more reliable than the application itself.
+There is no *unique strategy* for always accepted solutions: dependability is a non-functional property with many facets. In general terms, the recovery protocol must be more reliable than the application itself.
 
 - *Special-purpose systems* #arrow ad-hoc resources even with better QoS.
 - *General-purpose systems* #arrow fault tolerance support insists on user resources.
@@ -311,7 +311,7 @@ Dependability costs are generally high in two senses and dimensions:
 
 Often fault assumptions can make the system more or less complex and viable the cost of the solutions.
 
-Cost may depend on many different factors: memory and persistency costs, communication overhead, implementation complexity — what to replicate, how many copies, where to keep them, how to coordinate, etc.
+Cost may depend on many different factors: memory and persistency costs, communication overhead, implementation complexity, what to replicate, how many copies, where to keep them, how to coordinate, etc.
 
 #note[The general trend is in the sense of *optimizing protocols, supports, infrastructures*.]
 
@@ -324,7 +324,7 @@ In distributed systems, we can consider *replicated resources* with an obvious n
 - *Replicated resources*: multiple resource copies on different nodes with *several replication degrees*.
 - *Partitioned resources*: multiple resource copies on different nodes (without any replication degree) to work *independently*.
 
-Redundancy can suggest architectures to get a better QoS — *replication of processes and data*.
+Redundancy can suggest architectures to get a better QoS: *replication of processes and data*.
 
 === Abstract Unique Resource Model
 
@@ -352,6 +352,11 @@ Structure: MASTER #arrow CHECKPOINTING #arrow CONTROL (slaves observe).
 
 In *TMR* (Triple Modular Redundancy) *three copies* are used: we can tolerate on faults and can identify up to two faults. In software FT, different copies can use *different algorithms* toward the goal.
 
+#figure(
+  image("../assets/replication-models.svg", width: 95%),
+  caption: "Passive (master-slave) vs. active (TMR) replication: trade-off between simplicity and fault masking strength."
+)
+
 === Passive Replication Model
 
 The two extreme FT models are:
@@ -369,9 +374,9 @@ This mode can produce a possible conflict between the state of the master and th
 
 *Master and Slaves are an internal architecture.*
 
-*Fault Recovery* — who identifies the fault and when:
+*Fault Recovery*: who identifies the fault and when:
 
-Secondary copies (slaves) must identify the fault of the master *by observing its activity* — by using application messages coming from the master and by keeping the timing into account. Even ad-hoc management messages can be used and exchanged.
+Secondary copies (slaves) must identify the fault of the master *by observing its activity*: by using application messages coming from the master and by keeping the timing into account. Even ad-hoc management messages can be used and exchanged.
 
 The organization can use:
 - *One slave* for the control protocol (_if single fault_).
@@ -414,7 +419,7 @@ An activity executes the operation for any private data copy. Client external re
 - If the *client has an explicit vision* of FT #arrow *no abstraction*. This organization lacks abstraction because all clients have too much visibility of internal FT details of servers.
 - If the *client has an implicit FT* #arrow *FT transparency*. Need of a support capable of getting the request and distributing copies to server copies and vice versa for results.
 
-=== Active Copies Replication — Manager Strategy
+=== Active Copies Replication: Manager Strategy
 
 Usually, the FT is an *implicit private strategy* of resources:
 - *Either* there exists *one manager only* (static organization): centralized farm that receives the request and commands the operations, collects the answer and gives it back to the client.
@@ -422,7 +427,7 @@ Usually, the FT is an *implicit private strategy* of resources:
 
 Policy for choosing the manager:
 - *Static*.
-- *Dynamic* — by *locality* or by *rotation*.
+- *Dynamic*: by *locality* or by *rotation*.
 
 #note[If several operations are alive at the same time, we need to avoid any interference among the different concurrent managers.]
 
@@ -450,7 +455,7 @@ There are also actions with very specific intrinsic semantics. For instance, the
 
 Any action that requires to update the state of any copy:
 
-The *update action* must occur *before delivering the answer* to grant a complete consistency but that impacts on response time (more delay in case of failures) — (*eager policies vs. lazy*).
+The *update action* must occur *before delivering the answer* to grant a complete consistency but that impacts on response time (more delay in case of failures) (*eager policies vs. lazy*).
 
 If the component employs *different managers for any operation*, it is a manager duty to command the internal actions. If the component defines *parallel operations*, all managers must negotiate and conciliate their decisions, causing some conflict to be solved and some actions in incorrect order to be *undone or redone*.
 
@@ -572,7 +577,7 @@ A different approach for eager update implies coordination but tends to save the
 
 An *atomic multicast can ensure* that any message is correctly sent to all copies in the same order, so that there is no need for a final check (*no undo*).
 
-Flow: Phase 1 (Client) #arrow Phase 2 (Atomic Broadcast in Server Coordination) #arrow Phase 3 (Execution + Update all copies — skipping Phase 4) #arrow Phase 5 (Client Response).
+Flow: Phase 1 (Client) #arrow Phase 2 (Atomic Broadcast in Server Coordination) #arrow Phase 3 (Execution + Update all copies, skipping Phase 4) #arrow Phase 5 (Client Response).
 
 == Replication Forms and Widespread Models
 
@@ -587,7 +592,7 @@ Flow: Phase 1 (Client) #arrow Phase 2 (Atomic Broadcast in Server Coordination) 
   stroke: 0.5pt,
   inset: 0.8em,
   table.header([*Category*], [*Model*], [*Variants*]),
-  [*Hardware Replication*], [—], [Disks, Processors, Batteries, Energy, ...],
+  [*Hardware Replication*], [-], [Disks, Processors, Batteries, Energy, ...],
   [*Software Replication*], [Passive Model], [Hot Copies, Warm Copies, Cold Copies],
   [*Software Replication*], [Active Model], [Coordination required],
 )
@@ -602,9 +607,9 @@ Which is the FT replication model more common and widespread?
 - The *Master-Slave* model is simpler and with only one execution point.
 - The *Active Copies* is more complex and implies more coordination.
 
-In any model, the cost is influenced by the *group replication degree* — the number of copies, either working or not. A search on the most common applications and more widespread ones, the *replication degree is typically very limited* (no more than a few copies).
+In any model, the cost is influenced by the *group replication degree*: the number of copies, either working or not. A search on the most common applications and more widespread ones, the *replication degree is typically very limited* (no more than a few copies).
 
-There are also *intermediate replication models*, non-FT oriented, with a set of resources able to work independently on the same kind of operations — they operate on *different services at the same time*, and they can share the *responsibility of being a back-up of each other* (throughput driven and load balancing).
+There are also *intermediate replication models*, non-FT oriented, with a set of resources able to work independently on the same kind of operations: they operate on *different services at the same time*, and they can share the *responsibility of being a back-up of each other* (throughput driven and load balancing).
 
 == Industrial Operations and Evolution
 
@@ -612,10 +617,10 @@ There are also *intermediate replication models*, non-FT oriented, with a set of
 
 After many years, such assumptions have dictated safety rules. *Once you detect the problem it is also correcting*:
 
-- *2016 — Fail Safe* (High Failure): Detection.
-- *2018 — Fail Silent* (Flexible Failure): Reaction.
-- *2020 — Fail Operational* (Intelligent Failure): Reconfiguration.
-- *2030 — High Dependability* (Advanced Failure): Prediction.
+- *2016 - Fail Safe* (High Failure): Detection.
+- *2018 - Fail Silent* (Flexible Failure): Reaction.
+- *2020 - Fail Operational* (Intelligent Failure): Reconfiguration.
+- *2030 - High Dependability* (Advanced Failure): Prediction.
 
 #note[Modern industrial operations move from detection to prediction, with increasing levels of safety and security.]
 
@@ -662,11 +667,11 @@ The cluster support must provide:
 
 === Cluster: Failover and Heartbeat
 
-In case of failover, the data must be available to the new node of the cluster via a *shared component* over the cluster. The detection of problem is via a *lightweight heartbeat protocol* — messages exchanged over both IP and non-IP networks for redundancy.
+In case of failover, the data must be available to the new node of the cluster via a *shared component* over the cluster. The detection of problem is via a *lightweight heartbeat protocol*: messages exchanged over both IP and non-IP networks for redundancy.
 
 === Storage Area Network (SAN)
 
-#def("SAN — Storage Area Network")[
+#def("SAN: Storage Area Network")[
   A *set of interconnected resources with several QoS* to grant the storage service with the best suitability for different users. Users can employ SAN to get the storage resource they need without any interference and ideally without any capacity limit and with minimal delay.
 ]
 
@@ -674,7 +679,7 @@ In case of failover, the data must be available to the new node of the cluster v
 
 === Red Hat Cluster
 
-*Red Hat Cluster suite (open source)* — a replication degree of two comprising also some shared disks to share data:
+*Red Hat Cluster suite (open source)*: a replication degree of two comprising also some shared disks to share data:
 
 - *Cluster Infrastructure*: CMAN/DLM, Fencing, CCS.
 - *HA Service Management*: rgmanager.
@@ -688,7 +693,7 @@ Red Hat Cluster suite evolved a lot and is off-the-shelf. Red Hat Cluster can co
 
 === Optimistic Lazy Policies
 
-We use *lazy update* when one copy can answer with a little (no) coordination with other copies in an *optimistic policy that can deliver the answer very fast* — as in the case of *Amazon S3* (Amazon Simple Storage Service).
+We use *lazy update* when one copy can answer with a little (no) coordination with other copies in an *optimistic policy that can deliver the answer very fast*: as in the case of *Amazon S3* (Amazon Simple Storage Service).
 
 Amazon memory and persistence support *renounces to any strict consistency* and provides both *consistent* and *eventually consistent* operations.
 
@@ -706,18 +711,18 @@ So concurrent operations over other copies can see different values. On a long t
 #v(-1em)
 #note[(We are happy if it is *as limited as possible*.)]
 
-=== Amazon S3 — Optimistic Lazy Policies
+=== Amazon S3: Optimistic Lazy Policies
 
 In the case of *Amazon S3* you can also control both the allocation for your copies and the timing of checkpointing (*SLA control*):
 
-- You can define your data *replicated in different buckets*: in *one local bucket* and in *others* (better than on the same machine), so you can have either a copy *Same-Region Replication* (SRR — close to you) or in a distant bucket *Cross-Region Replication* (CRR).
+- You can define your data *replicated in different buckets*: in *one local bucket* and in *others* (better than on the same machine), so you can have either a copy *Same-Region Replication* (SRR, close to you) or in a distant bucket *Cross-Region Replication* (CRR).
 - The user can control the location of the copies, *either close in distance or very far regions*.
 - The *distant copy CRR* can in some cases overcome big crashes of an entire region, but it takes time to propagate.
 - The *neighbor bucket SRR* can be fast but may be subjected to common crashes.
 
 *S3 Replication Time Control (RTC)*: Amazon S3 lets you also control not only the location but also the timing of the operations via *S3 Replication time Control*. S3 RTC replicates most objects that you upload to Amazon S3 in seconds, and *99.99 percent of those objects within 15 minutes*.
 
-#note[S3 RTC by default includes S3 replication metrics and S3 event notifications, so to monitor the total number of S3 API operations that are pending replication, the total size of objects pending replication, and the maximum replication time — also events that notify the bucket owner if object replication exceeds or replicates after the 15-minute threshold.]
+#note[S3 RTC by default includes S3 replication metrics and S3 event notifications, so to monitor the total number of S3 API operations that are pending replication, the total size of objects pending replication, and the maximum replication time, and also events that notify the bucket owner if object replication exceeds or replicates after the 15-minute threshold.]
 
 == Docker Swarm and Modern Replication
 
@@ -775,4 +780,4 @@ The servers are capable of granting access to fresh data to the group of authori
 
 Election is also possible in case of Data Centers *partitioning* so to *work disconnected independently*.
 
-#extra[ZooKeeper is widely used as coordination service in distributed systems — e.g., Apache Kafka uses it for broker metadata and leader election (prior to KRaft mode).]
+#extra[ZooKeeper is widely used as coordination service in distributed systems, e.g., Apache Kafka uses it for broker metadata and leader election (prior to KRaft mode).]

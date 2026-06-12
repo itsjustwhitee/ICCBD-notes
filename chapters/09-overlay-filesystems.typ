@@ -4,43 +4,43 @@
 
 = OVERLAY NETWORKS AND FILE SYSTEMS
 #extra[
-  Package: Overlay Networks and File Systems — `10 - ON   File systems 26 (2).pdf`
+  Package: Overlay Networks and File Systems - `10 - ON   File systems 26 (2).pdf`
 ]
 
-Many situations require a #hl[*logical connection among different, geographically distributed entities*] spread over different locations and networks. The solution is an #kw[Overlay Network (ON)] — a network built *at the application level* that connects all those entities and makes them behave as a group.
+Many situations require a #hl[*logical connection among different, geographically distributed entities*] spread over different locations and networks. The solution is an #kw[Overlay Network (ON)]: a network built *at the application level* that connects all those entities and makes them behave as a group.
 
 Overlay networks may have *very different goals* but share core requirements:
-- *Efficiency* — minimize overhead
-- *Dynamicity* — handle nodes joining and leaving at any time
-- *Scalability* — work at large scale
-- *QoS* — grant agreed service levels
+- *Efficiency*: minimize overhead
+- *Dynamicity*: handle nodes joining and leaving at any time
+- *Scalability*: work at large scale
+- *QoS*: grant agreed service levels
 
 #def("Overlay Network (ON)")[
-  An #kw[Overlay Network] is a *logical network built at the application level* on top of an existing physical/IP network. It groups a set of distributed entities so that they can *freely communicate as if they had a real network connection*, using an *application neighborhood* defined by overlay edges — not physical links.
+  An #kw[Overlay Network] is a *logical network built at the application level* on top of an existing physical/IP network. It groups a set of distributed entities so that they can *freely communicate as if they had a real network connection*, using an *application neighborhood* defined by overlay edges, not physical links.
 ]
-
+#v(-1em)
 #analogy("VPN as Overlay")[
-  A Virtual Private Network (VPN) is the classic ON example: geographically dispersed branch offices, traveling employees, and home users all appear to be on the same corporate LAN, even though the underlying connections go through the public internet. The *overlay edge* is the IPSec/SSL tunnel — invisible to the IP layer.
+  A Virtual Private Network (VPN) is the classic ON example: geographically dispersed branch offices, traveling employees, and home users all appear to be on the same corporate LAN, even though the underlying connections go through the public internet. The *overlay edge* is the IPSec/SSL tunnel, invisible to the IP layer.
 ]
 
 == Classification of Overlay Networks
 
 There are two fundamentally different kinds of overlay networks, distinguished by how new nodes are admitted:
 
-- #kw[Unstructured overlays] — new nodes choose the neighbor to use *randomly*. The network topology is arbitrary and grows freely. Worst cases and bottlenecks can appear. Examples: Napster, Gnutella, Kazaa, BitTorrent.
-- #kw[Structured overlays] — there is a *precise strategy* to let nodes join, to *organize the architecture*, and to react to failures and discontinuities. Examples: Chord, Pastry, CAN.
+- #kw[Unstructured overlays]: new nodes choose the neighbor to use *randomly*. The network topology is arbitrary and grows freely. Worst cases and bottlenecks can appear. Examples: Napster, Gnutella, Kazaa, BitTorrent.
+- #kw[Structured overlays]: there is a *precise strategy* to let nodes join, to *organize the architecture*, and to react to failures and discontinuities. Examples: Chord, Pastry, CAN.
 
-#note[ONs are used not only for P2P applications but also for Message Oriented Middlewares (MOMs), social networks, and cloud infrastructure coordination — wherever scalable, self-organizing discovery of distributed resources is needed.]
+#note[ONs are used not only for P2P applications but also for Message Oriented Middlewares (MOMs), social networks, and cloud infrastructure coordination, wherever scalable, self-organizing discovery of distributed resources is needed.]
 
 === Overlay Network Usage and Node Lifecycle
 
-A good overlay network makes *operations among the group of current participants efficient* while answering specific requirements. All participants share a *common goal of exchanging information* — files in P2P, messages in social nets, etc.
+A good overlay network makes *operations among the group of current participants efficient* while answering specific requirements. All participants share a *common goal of exchanging information*: files in P2P, messages in social nets, etc.
 
 Every node in an ON follows a lifecycle:
-+ *Get in* — join the network
-+ *Make its actions* — participate, serve queries
-+ *Help actions of others* — route, replicate, forward
-+ *Get out* — leave (gracefully or by failure)
++ *Get in*: join the network
++ *Make its actions*: participate, serve queries
++ *Help actions of others*: route, replicate, forward
++ *Get out*: leave (gracefully or by failure)
 
 === Key Management Requirements
 
@@ -57,8 +57,8 @@ Running an ON involves dealing with the following challenges:
 - *Creating a robust connection* independently of omissions and crashes
 
 #prop("Two Fundamental ON Properties")[
-  - *Dynamicity* of supporting nodes — nodes can get in and out at any time, even by crashes
-  - *Replication* of resources — data must be available independently of any event pattern on the ON
+  - *Dynamicity* of supporting nodes: nodes can get in and out at any time, even by crashes
+  - *Replication* of resources: data must be available independently of any event pattern on the ON
 ]
 
 == Unstructured Overlays
@@ -69,7 +69,7 @@ Running an ON involves dealing with the following challenges:
 
 - Any node connects to a Napster server and uploads its file list
 - Search is handled by the centralized server (lookup in the central index)
-- File exchange is done *peer-to-peer* — only lookup is centralized
+- File exchange is done *peer-to-peer*, only lookup is centralized
 - The "best" correct answers are selected and announced via ping messages
 
 #important("Napster Bottleneck")[
@@ -78,7 +78,7 @@ Running an ON involves dealing with the following challenges:
 
 === Gnutella (2000): Flooding-Based Unstructured ON
 
-#kw[Gnutella] is the main representative of *unstructured ONs* — providing a *fully distributed* approach with no central coordinator.
+#kw[Gnutella] is the main representative of *unstructured ONs*: providing a *fully distributed* approach with no central coordinator.
 
 - Any node entering Gnutella tries to connect to some others locally available
 - *Fully decentralized* organization and lookup
@@ -87,20 +87,20 @@ Running an ON involves dealing with the following challenges:
 
 ==== Gnutella Join and Search Protocol
 
-*Step 0 — Join the network:* contact any known node.
+*Step 0: Join the network:* contact any known node.
 
-*Step 1 — Determine who is on the network:*
+*Step 1: Determine who is on the network:*
 - A "Ping" packet announces your presence
 - Other peers respond with a "Pong" packet containing: IP address, port number, amount of data shared
 - Pong packets return via the same route as Ping
 
-*Step 2 — Search:*
+*Step 2: Search:*
 - Gnutella "Query" asks other peers (N = 7 typically) for desired files
 - A Query packet asks: _"Do you have any matching content with the string 'Volare'?"_
 - Peers check for matches and respond (send "QueryHit" if matched), forwarding to connected peers if not (N = 7 typically)
 - The TTL (Time-To-Live) field limits the number of hops a packet can traverse (typically 10)
 
-*Step 3 — Downloading:*
+*Step 3: Downloading:*
 - Peers respond with a "QueryHit" containing contact information
 - File transfer uses direct HTTP GET connection
 
@@ -116,7 +116,7 @@ Running an ON involves dealing with the following challenges:
 The Gnutella network exhibits a *scale-free* topology following a *power law* (or exponential law) degree distribution: a *few nodes are highly connected* and many nodes have low degree. This is very different from a random network.
 
 #def("Scale-Free Network")[
-  A #kw[scale-free graph] is a graph whose degree distribution follows a *power law* $P(k) \sim k^(-tau)$ with $tau approx 2.07$ in real Gnutella deployments. A few *hub nodes* have a very large neighborhood of low-degree ones. Hub nodes can store an index for a large portion of the network.
+  A #kw[scale-free graph] is a graph whose degree distribution follows a *power law* $P(k) tilde k^(-tau)$ with $tau approx 2.07$ in real Gnutella deployments. A few *hub nodes* have a very large neighborhood of low-degree ones. Hub nodes can store an index for a large portion of the network.
 ]
 
 *Degree-biased random walk:*
@@ -132,23 +132,23 @@ To improve search hit rates, objects are replicated:
 - *Path replication*: produce replicas over the path with replication as square root to $q_i$
 - *Random replication*: same as path replication to $q_i$, only using random nodes instead of the path
 
-#note[Replication helps popular objects be found easier. *Rare objects remain difficult to find* in unstructured overlays regardless of replication strategy — this is the fundamental limitation of Gnutella-like systems.]
+#note[Replication helps popular objects be found easier. *Rare objects remain difficult to find* in unstructured overlays regardless of replication strategy: this is the fundamental limitation of Gnutella-like systems.]
 
 == Structured Overlays: Distributed Hash Tables
 
-Unstructured P2P networks allow resources to be placed at any node spontaneously but suffer from bottlenecks and unpredictable behavior. *Structured P2P networks* simplify resource location and load balancing by defining a *topology* and *rules for resource placement* — enabling efficient search even for rare objects.
+Unstructured P2P networks allow resources to be placed at any node spontaneously but suffer from bottlenecks and unpredictable behavior. *Structured P2P networks* simplify resource location and load balancing by defining a *topology* and *rules for resource placement*, enabling efficient search even for rare objects.
 
 The key technology: #kw[Distributed Hash Table (DHT)].
 
 #def("Distributed Hash Table (DHT)")[
   A #kw[DHT] uses hash principles to enable *efficient retrieval of data content and values in a distributed setting*. The hash function maps keys to nodes in the overlay:
-  - `put(key, value)` — store a key-value pair
-  - `value = get(key)` — retrieve by key
+  - `put(key, value)`: store a key-value pair
+  - `value = get(key)`: retrieve by key
   The key insight: *partitioning the whole key space* over available nodes in a ring-like structure, where each node is responsible for a contiguous range of keys.
 ]
-
+#v(-1em)
 #analogy("DHT as a Distributed Dictionary")[
-  A regular hash table assigns array slots via `h(key)`. A DHT does the same but the "array" is *spread across thousands of machines*. Instead of an array slot, `h(key)` tells you *which node* is responsible for storing that key-value pair. Nodes can join and leave, so the mapping is dynamic — that's the hard part.
+  A regular hash table assigns array slots via `h(key)`. A DHT does the same but the "array" is *spread across thousands of machines*. Instead of an array slot, `h(key)` tells you *which node* is responsible for storing that key-value pair. Nodes can join and leave, so the mapping is dynamic: that's the hard part.
 ]
 
 === Key DHT Principles
@@ -159,7 +159,7 @@ The key technology: #kw[Distributed Hash Table (DHT)].
 - *Self-organization*: nodes cooperate to maintain the structure without any central coordinator
 
 DHT properties in a dynamic environment:
-- *Load balancing* — maybe even change the key-hash when nodes change (*dynamicity of nodes*), necessitating node mapping on the fly
+- *Load balancing*: maybe even change the key-hash when nodes change (*dynamicity of nodes*), necessitating node mapping on the fly
 - *Replicate entries on more nodes* to increase availability using neighbor close nodes
 
 === Chord
@@ -168,20 +168,25 @@ DHT properties in a dynamic environment:
   #kw[Chord] (2001) is a DHT based on a *consistent hashing ring-based structure*. Both *keys and nodes are hashed to 160-bit IDs* using SHA-1 (from 0 to $2^160 - 1$). Keys are assigned to nodes by using *consistent hashing*: the key is stored in the *successor node* available in the ID space (the first node with ID $>=$ key, going clockwise).
 ]
 
-*N nodes — K keys:*
+*N nodes - K keys:*
 - Both keys and nodes hashed to 160-bit IDs
 - Key is stored at the *successor* in the ring (clockwise first live node with ID >= key ID)
+
+#figure(
+  image("../assets/chord-dht.svg", width: 80%),
+  caption: "Chord DHT ring: nodes placed on a 160-bit ID circle; each key is stored at its clockwise successor. Finger table shortcuts give O(log N) lookup."
+)
 
 ==== Chord Primitive Lookup
 
 The simplest lookup just *forwards the query around the ring in one direction*:
 - Lookup query arrives from any node, forwarded to successor in one direction
 - In the worst case, *O(N)* forwarding is required (full traversal of ring)
-- By using both directions: O(N/2) — still linear
+- By using both directions: O(N/2), still linear
 
 ==== Chord Efficient Lookup: Finger Tables
 
-To achieve scalable lookup, each node maintains a *finger table* — a set of shortcuts to nodes at exponentially increasing distances in the ring.
+To achieve scalable lookup, each node maintains a *finger table*: a set of shortcuts to nodes at exponentially increasing distances in the ring.
 
 #def("Finger Table")[
   The $i$-th entry of a node's *finger table* points to the successor of $("nodeID" + 2^i)$ in the ID space. A finger table has *O(log N)* entries, and lookup is *bounded to O(log N)* message complexity.
@@ -193,7 +198,7 @@ To achieve scalable lookup, each node maintains a *finger table* — a set of sh
 ==== Chord Consistent Hashing Properties
 
 - *Randomized*: all nodes receive roughly an equal share of load
-- *Local*: adding or removing a node involves an *O(1/N) fraction* of keys getting new locations — minimal disruption
+- *Local*: adding or removing a node involves an *O(1/N) fraction* of keys getting new locations, minimal disruption
 - Cost of lookup via finger tables: Chord needs to know only O(log N) nodes in addition to successor and predecessor to achieve *O(log N) message complexity* for lookup
 
 ==== Chord Node Join and Stabilization
@@ -213,7 +218,7 @@ To achieve scalable lookup, each node maintains a *finger table* — a set of sh
 === Pastry
 
 #def("Pastry")[
-  #kw[Pastry] (2001) is a DHT overlay network, like Chord, but *differently organized for efficient access*. Based on a sorted ring in an ID space where nodes and objects are assigned *128-bit identifiers* (NodeIDs and objIds are uniform random). The node responsible for a key is the one *numerically closest* in hex — *not just the successor* as in Chord. Pastry exploits *nested groups* for neighborhood and replication.
+  #kw[Pastry] (2001) is a DHT overlay network, like Chord, but *differently organized for efficient access*. Based on a sorted ring in an ID space where nodes and objects are assigned *128-bit identifiers* (NodeIDs and objIds are uniform random). The node responsible for a key is the one *numerically closest* in hex, not just the successor as in Chord. Pastry exploits *nested groups* for neighborhood and replication.
 ]
 
 NodeID is interpreted as a *sequence of digits in base $2^b$* (not bits). With $b=4$, names are viewed as *successions of hex digits* (base 16).
@@ -228,11 +233,11 @@ Each Pastry node maintains two data structures:
 *Pastry properties:*
 - Lookup/insert in $< log_{16} N$ routing steps (expected)
 - *O(log N) per-node state*
-- Network proximity routing — routing table rows prefer topologically close nodes
+- Network proximity routing: routing table rows prefer topologically close nodes
 
 ==== Pastry Insert / Lookup
 
-A message with key X is routed to the live node with nodeId *numerically closest to X*. A complete routing table is not feasible, so Pastry uses its routing table to *progressively match more digits* of the target key at each hop — each hop brings you one digit closer in the hex ID space.
+A message with key X is routed to the live node with nodeId *numerically closest to X*. A complete routing table is not feasible, so Pastry uses its routing table to *progressively match more digits* of the target key at each hop: each hop brings you one digit closer in the hex ID space.
 
 #note[Routing in Pastry uses *two spaces simultaneously*: the *nodeId space* (for correctness) and the *proximity space* (for efficiency). Each routing step makes a *smaller and smaller numerical jump* but a *bigger and bigger topological jump* toward the target in the actual network.]
 
@@ -246,7 +251,7 @@ A message with key X is routed to the live node with nodeId *numerically closest
 *Failures:*
 - Leaf set members exchange *keep-alive messages*
 - *Leaf set repair (eager)*: contact a leaf node on the side of the failed node and add an appropriate new neighbor
-- *Routing table repair (lazy)*: contact a live entry with same prefix as the failed entry; if none found, try longer prefix entries — get table from peers in the same row, then higher rows
+- *Routing table repair (lazy)*: contact a live entry with same prefix as the failed entry; if none found, try longer prefix entries; get table from peers in the same row, then higher rows
 
 === DHT Applications in Practice
 
@@ -254,7 +259,7 @@ A message with key X is routed to the live node with nodeId *numerically closest
   DHTs are used widely:
   - *P2P file sharing*: Napster, Gnutella, Kazaa, BitTorrent
   - *Social networks*: MSN, Skype, Social Networking Support (fast user discovery)
-  - *Cloud infrastructure*: for internal and federated discovery — *Cassandra* and *ZooKeeper* are Chord-based (Cassandra) or DHT-inspired (ZooKeeper uses ZAB, inspired by Paxos but with ring-based partitioning)
+  - *Cloud infrastructure*: for internal and federated discovery - *Cassandra* and *ZooKeeper* are Chord-based (Cassandra) or DHT-inspired (ZooKeeper uses ZAB, inspired by Paxos but with ring-based partitioning)
   - MOMs and middleware: any system needing scalable, self-organizing discovery
 ]
 
@@ -263,24 +268,24 @@ A message with key X is routed to the live node with nodeId *numerically closest
 === NFS: Network File System
 
 #def("Network File System (NFS)")[
-  #kw[NFS] is the pioneer *client/server file system* and the most widespread network file system. It is based on the idea of *client machines that interact with server machines where files reside*. After mounting, the implementation is *transparent* — any client can access server files as if they were local.
+  #kw[NFS] is the pioneer *client/server file system* and the most widespread network file system. It is based on the idea of *client machines that interact with server machines where files reside*. After mounting, the implementation is *transparent*: any client can access server files as if they were local.
+]
+#v(-1em)
+#important("NFS Design Trade-off")[
+  NFS was designed for *efficiency and cost reduction* at the expense of consistency and global view. The client is *stateful*: it must keep track of operations on files. If the server goes down, nothing is notified and the client cannot manage single file state and operations. *No replication, no QoS, no global shared view.*
 ]
 
 NFS architecture:
 - *Stateless and efficient*: there is *no heavy weight on server machines*; the load is on the client
 - Uses *UDP* connections (and many TCP variations)
-- Based on *RPC* for the entire communication support — efficient, low overhead
+- Based on *RPC* for the entire communication support: efficient, low overhead
 
 *NFS limitations:*
-- A client can mount from *several servers on its directories*, so the client file system can share different contents with several servers — but this gives a *peculiar global vision with different views per client*
+- A client can mount from *several servers on its directories*, so the client file system can share different contents with several servers, but this gives a *peculiar global vision with different views per client*
 - *No global shared view* among all nodes
 - *No replication nor QoS* are granted
 
-#important("NFS Design Trade-off")[
-  NFS was designed for *efficiency and cost reduction* at the expense of consistency and global view. The client is *stateful* — it must keep track of operations on files. If the server goes down, nothing is notified and the client cannot manage single file state and operations. *No replication, no QoS, no global shared view.*
-]
-
-=== AFS: Andrew File System — Quality File Systems
+=== AFS: Andrew File System - Quality File Systems
 
 Other file systems introduced *global quality* in the sense of *replication* and *uniformity in view* of the file system.
 
@@ -288,9 +293,9 @@ Other file systems introduced *global quality* in the sense of *replication* and
   #kw[AFS] provides:
   - *Same view* of the file system independently of where the user is accessing from
   - *Files are replicated*, so even if some nodes are not available, the contents are always available
-  - Replication is *dynamically managed*: the file is *cached at the client site* and more copies can be added if case several clients are asking for the same contents (and deleted)
+  - Replication is *dynamically managed*: the file is *cached at the client site* and more copies can be added if several clients are asking for the same contents (and deleted)
   - The client uses a *call-back* to signal to the server any possible change actions (typically one per writing)
-  - Clients can access from any possible OS support — many *additional services* are provided
+  - Clients can access from any possible OS support, with many *additional services* provided
   - Designed for *expected more reads than writes*
 ]
 
@@ -301,8 +306,8 @@ Modern *global systems* need new tools for data storage with *global scalability
 Starting from traditional C/S file systems (similar to NFS), modern systems move to *dynamic management of data* in all their parts.
 
 Major global distributed file systems:
-- *Google File System (GFS)* — for Google data
-- *Hadoop Distributed File System (HDFS)* — open source, analogue of GFS
+- *Google File System (GFS)*: for Google data
+- *Hadoop Distributed File System (HDFS)*: open source, analogue of GFS
 
 == Google File System (GFS)
 
@@ -313,16 +318,16 @@ GFS exploits *Google hardware, data, and application properties* to improve perf
 - *Large scale*: thousands of machines, thousands of disks; files are *huge* (multi-GB)
 - File access model is *read/append (almost no write)*:
   - Most reads are sequential
-  - Random writes practically non-existent — new knowledge is appended to a file, not overwritten
+  - Random writes practically non-existent; new knowledge is appended to a file, not overwritten
 - *Component failures are normal* events:
   - Hundreds of thousands of machines/disks
-  - *MTBF of 3 years/disk* → 100 disk failures/day
+  - *MTBF of 3 years/disk* #swarrow 100 disk failures/day
   - Additionally: network, memory, power failures
   - #hl[The system must *detect, tolerate, and recover* from failures automatically]
 
 === GFS Design Criteria
 
-- Deal with a "limited" number of *large files*: just a few millions, one file is 100MB–multi-GB, few small files
+- Deal with a "limited" number of *large files*: just a few millions, one file is 100MB-multi-GB, few small files
 - *Read-mostly* workload: large streaming reads (multi-MB), large sequential append operations
 - Provide *atomic consistency* to parallel writes with low overhead (every write writes on a block completely, so one block = one write report in parallel on append)
 - *Highly-sustained throughput* much more important than *low latency*
@@ -330,7 +335,7 @@ GFS exploits *Google hardware, data, and application properties* to improve perf
 === GFS Design Novel Strategies
 
 #def("GFS Architecture")[
-  - *One master server* (backups replicate its state) and *many chunk servers* (100s–1000s) over Linux
+  - *One master server* (backups replicate its state) and *many chunk servers* (100s-1000s) over Linux
   - *Chunk*: 64 MB portion of a file, identified by a 64-bit globally unique ID. Chunks spread across racks for better throughput and fault tolerance (~5 copies max)
   - *Single master* coordinates access and keeps *metadata* (file/chunk namespaces, file-to-chunk mappings, location of replicas)
   - *Files stored as chunks kept with their descriptions* (metadata) and stored as local files on Linux file system
@@ -353,15 +358,15 @@ Metadata has three types:
 All *in memory* (< 64 bytes per chunk) with GFS capacity limitation.
 
 Large chunks have many advantages:
-- Fewer *client–master interactions* and reduced size of metadata
+- Fewer *client-master interactions* and reduced size of metadata
 - Enable persistent *TCP connections* between clients and chunk servers
 
 ==== GFS Operations
 
-- *Normal operations*: stream reads — go on in parallel and can read any copy
-- *Rare operations*: writes — stream append write (can go in parallel if different space)
-- *Even rarer*: random overwriting writes — done with some cautions
-- *Control operations*: metadata changes — must be done *sequentially* (write operations called *mutations*)
+- *Normal operations*: stream reads, going on in parallel and reading any copy
+- *Rare operations*: writes, stream append write (can go in parallel if different space)
+- *Even rarer*: random overwriting writes, done with some cautions
+- *Control operations*: metadata changes, must be done *sequentially* (write operations called *mutations*)
 
 ==== GFS Step-by-Step Write (Mutation) Protocol
 
@@ -373,10 +378,10 @@ The write protocol carefully separates *control flow* from *data flow*:
 + Client sends *mutation request to primary*, which assigns it a *serial number*
 + Primary *forwards mutation request to all secondaries*, which apply it according to the serial number
 + Secondaries *Ack* completion
-+ *Reply* to client — an error in any replica results in an error code and a client retry
++ *Reply* to client: an error in any replica results in an error code and a client retry
 
 #analogy("GFS Write as a Chain of Responsibility")[
-  Think of the write protocol as a *relay race*: the client hands the data to the closest replica, which passes it to the next closest (in network topology), which passes it onward. Meanwhile, the *primary acts as the sergeant* — it assigns a serial number to ensure all replicas apply mutations *in the same order*. Control and data travel different paths for efficiency.
+  Think of the write protocol as a *relay race*: the client hands the data to the closest replica, which passes it to the next closest (in network topology), which passes it onward. Meanwhile, the *primary acts as the sergeant*: it assigns a serial number to ensure all replicas apply mutations *in the same order*. Control and data travel different paths for efficiency.
 ]
 
 ==== Data Flow for Pipe Write
@@ -401,8 +406,8 @@ The write protocol carefully separates *control flow* from *data flow*:
 #def("GFS Consistency States")[
   - *Consistent*: all clients see the same data regardless of which replica they read
   - *Defined*: consistent AND client sees the mutation in its entirety
-  - *Consistent but undefined*: example — initial record = AAAA, concurrent writes \_B and CC\_C; result = CBAC (none of the clients sees the expected result)
-  - *Inconsistent*: due to a failed mutation — clients see different data from different replicas
+  - *Consistent but undefined*: example: initial record = AAAA, concurrent writes \_B and CC\_C; result = CBAC (none of the clients sees the expected result)
+  - *Inconsistent*: due to a failed mutation, clients see different data from different replicas
 ]
 
 File namespace mutations (create/delete) are *atomic*. For file regions: the state depends on success/failure of mutations and existence of concurrent mutations.
@@ -411,20 +416,20 @@ File namespace mutations (create/delete) are *atomic*. For file regions: the sta
 
 ==== Record Append Semantics and Undefined State Avoidance
 
-*Traditional random writes* would require expensive synchronization (e.g., lock manager) — serializing writes does not help because of undefined interleaving.
+*Traditional random writes* would require expensive synchronization (e.g., lock manager): serializing writes does not help because of undefined interleaving.
 
 *Atomic record append*: allows multiple clients to append data to the same file concurrently:
 - Serializing append operations *at the primary* solves the problem
 - The result of successful operations is well defined: *data is written at the same offset by all replicas with "at least once" semantics*
-- If one operation fails at any replica, the client retries — replicas may contain duplicates or fragments
-- If not enough space in chunk, add padding and return error — client retries
+- If one operation fails at any replica, the client retries: replicas may contain duplicates or fragments
+- If not enough space in chunk, add padding and return error: client retries
 
-Applications using record append should include *checksums* in writing records. The reader can identify padding/record fragments using checksums. If the application cannot tolerate duplicated records, it should include a *unique ID* in records — readers use unique IDs to filter duplicates.
+Applications using record append should include *checksums* in writing records. The reader can identify padding/record fragments using checksums. If the application cannot tolerate duplicated records, it should include a *unique ID* in records; readers use unique IDs to filter duplicates.
 
 == HDFS: Hadoop Distributed File System
 
 #def("HDFS")[
-  #kw[HDFS] (Hadoop Distributed File System) is *inspired by GFS* but *open source*. It follows the same master/slave architecture and is based on *low cost hardware* with *high fault tolerance and high availability*. Applications access with a *write-once-and-read-many* model — the consistency model is similar to GFS, and *computation is moved close to the related data*.
+  #kw[HDFS] (Hadoop Distributed File System) is *inspired by GFS* but *open source*. It follows the same master/slave architecture and is based on *low cost hardware* with *high fault tolerance and high availability*. Applications access with a *write-once-and-read-many* model, the consistency model is similar to GFS, and *computation is moved close to the related data*.
 ]
 
 === HDFS Architecture
@@ -444,9 +449,9 @@ Applications using record append should include *checksums* in writing records. 
 - *NameNode receives heartbeats and block reports* from DataNodes:
   - *Heartbeats*: grant the operation state of DataNodes
   - *Block reports*: give the current block situations of DataNodes
-- The NameNode stores: `(Filename, numReplicas, block-ids, ...)` — e.g., `/users/sameerp/data/part-0, r:2, {1,3},...`
+- The NameNode stores: `(Filename, numReplicas, block-ids, ...)` - e.g., `/users/sameerp/data/part-0, r:2, {1,3},...`
 
-#note[HDFS uses a rack-aware replication strategy: one replica on the local rack, one on a different rack — balancing fault tolerance (rack failure) against write bandwidth (fewer cross-rack writes).]
+#note[HDFS uses a rack-aware replication strategy: one replica on the local rack, one on a different rack, balancing fault tolerance (rack failure) against write bandwidth (fewer cross-rack writes).]
 
 == Summary: Properties Behind These Building Blocks
 

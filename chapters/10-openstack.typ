@@ -4,7 +4,7 @@
 
 = OPENSTACK
 #extra[
-  Package: OpenStack — `c - Openstack 26.pdf`
+  Package: OpenStack - `c - Openstack 26.pdf`
 ]
 
 OpenStack is an open-source *cloud operating system* that pools physical hardware
@@ -41,9 +41,9 @@ geographical locations to satisfy both goals.
 - *Measured service*: usage is metered and billed.
 
 *Service models*:
-- *SaaS* — Software as a Service (application layer).
-- *PaaS* — Platform as a Service (runtime/middleware layer).
-- *IaaS* — Infrastructure as a Service (virtual machines, storage, networking).
+- *SaaS*: Software as a Service (application layer).
+- *PaaS*: Platform as a Service (runtime/middleware layer).
+- *IaaS*: Infrastructure as a Service (virtual machines, storage, networking).
 
 *Deployment models*: Public cloud, Private cloud, Hybrid cloud.
 
@@ -51,16 +51,16 @@ geographical locations to satisfy both goals.
 
 Building a cloud requires virtualizing resources in two successive steps:
 
-*Step 1 — Server virtualization*: hypervisors (VMware ESX, KVM, Xen) partition
+*Step 1 - Server virtualization*: hypervisors (VMware ESX, KVM, Xen) partition
 a physical host into multiple #kw[virtual machines] (VMs/instances), providing a
 hardware-abstraction layer and dramatically improving resource utilization.
 
-*Step 2 — Network and storage virtualization*: once servers are virtualized, the
+*Step 2 - Network and storage virtualization*: once servers are virtualized, the
 network and storage are also pooled:
 
-- *Compute pool* — virtualized servers.
-- *Network pool* — virtualized networks.
-- *Storage pool* — virtualized storage.
+- *Compute pool*: virtualized servers.
+- *Network pool*: virtualized networks.
+- *Storage pool*: virtualized storage.
 
 The result is a unified resource pool that offers flexibility and efficiency for
 many simultaneous applications.
@@ -94,10 +94,10 @@ Key positioning facts:
 OpenStack is a *cloud operating system* that sits between applications and
 physical hardware:
 
-- *Upward* — it exposes RESTful APIs consumed by applications, admins, and users.
-- *Downward* — it creates resource pools from physical servers and automates the
+- *Upward*: it exposes RESTful APIs consumed by applications, admins, and users.
+- *Downward*: it creates resource pools from physical servers and automates the
   network.
-- *Internally* — it acts as a control plane: scheduling, orchestration, image
+- *Internally*: it acts as a control plane: scheduling, orchestration, image
   management, identity, and metering.
 
 === Logical Layers
@@ -121,10 +121,10 @@ All OpenStack services share a common architectural philosophy:
 #prop("OpenStack Design Principles")[
   - *Horizontal scalability*: scale out by adding nodes, not scaling up.
   - *Minimal dependencies*: services are designed to be loosely coupled; each replicates its core components to avoid single points of failure.
-  - *Shared-nothing*: each service stores all needed information internally — no global shared state between services.
+  - *Shared-nothing*: each service stores all needed information internally; no global shared state between services.
   - *Asynchronous, pub/sub communication*: services communicate through a message queue (AMQP/RabbitMQ) rather than synchronous RPC, making the system resilient and decoupled.
 ]
-
+#v(-1em)
 #why("Why asynchronous messaging?")[
   In a cloud, a single user request may trigger actions across many services (compute,
   networking, storage, image). If each call were synchronous, one slow service would
@@ -146,13 +146,13 @@ Every OpenStack service is built from the same four internal building blocks:
 
 #def("OpenStack Main Services")[
   The seven canonical OpenStack services are:
-  - *Horizon* — Dashboard (web UI)
-  - *Keystone* — Identity and authentication
-  - *Nova* — Compute (VM lifecycle)
-  - *Neutron* (formerly Quantum) — Networking
-  - *Glance* — Image service
-  - *Swift* — Object storage
-  - *Cinder* — Block storage
+  - *Horizon*: Dashboard (web UI)
+  - *Keystone*: Identity and authentication
+  - *Nova*: Compute (VM lifecycle)
+  - *Neutron* (formerly Quantum): Networking
+  - *Glance*: Image service
+  - *Swift*: Object storage
+  - *Cinder*: Block storage
 
   Additional services: *Ceilometer* (telemetry/metering), *Heat* (orchestration).
 ]
@@ -161,7 +161,12 @@ All services communicate through Keystone for authentication and through the
 message queue for internal coordination. The Dashboard (Horizon) provides a
 unified graphical interface across all services.
 
-== Nova — Compute Service
+#figure(
+  image("../assets/openstack-architecture.svg", width: 95%),
+  caption: "OpenStack core services: Horizon on top, Keystone and RabbitMQ as cross-cutting infrastructure, and the five resource services above the physical hardware layer."
+)
+
+== Nova - Compute Service
 
 === What Nova Does
 
@@ -182,7 +187,7 @@ Nova is itself a distributed system, with dedicated daemons for each function:
 
 - *nova-api*: RESTful API gateway (supports OpenStack, EC2, and admin APIs). All client commands arrive here.
 - *nova-compute*: runs on every hypervisor node; communicates with the underlying hypervisor (libvirt, XenAPI, etc.) to start/stop/manage VM instances.
-- *nova-scheduler*: coordinates all services and determines *placement* of new VM requests — i.e., which physical host gets the new VM.
+- *nova-scheduler*: coordinates all services and determines *placement* of new VM requests: which physical host gets the new VM.
 - *nova-conductor*: mediates database access from nova-compute to avoid direct DB connections from untrusted compute nodes.
 - *nova database*: stores build-time and run-time state of the cloud infrastructure (typically MySQL).
 - *Queue (RabbitMQ)*: the message bus that connects all Nova services. Requests are enqueued, enabling async processing and decoupling.
@@ -226,7 +231,7 @@ Launching a VM involves coordinating Nova, Keystone, Glance, and Swift:
 This end-to-end flow illustrates how every service relies on Keystone for auth
 and how image delivery flows through Glance/Swift.
 
-== Swift — Object Storage
+== Swift - Object Storage
 
 === What Swift Does
 
@@ -235,19 +240,19 @@ and how image delivery flows through Glance/Swift.
   retrieves unstructured data objects (files, images, backups, archives) via
   HTTP/REST, without requiring a traditional filesystem hierarchy.
 ]
-
-- Provides *scalability, redundancy, and durability* through replication.
-- No central point of control — inherently distributed.
-- Stores static data: VM images, photo storage, email storage, backups.
-- Accessed via APIs or integrated directly inside applications.
-
+#v(-1em)
 #important("Swift is not a filesystem")[
   Swift is not a POSIX filesystem or a block device. It stores *objects* (arbitrary
   byte sequences + metadata) identified by a hierarchical name
   (account / container / object). Mutations create new objects rather than
-  modifying existing ones — this is what enables concurrent reads and efficient
+  modifying existing ones; this is what enables concurrent reads and efficient
   replication (only changed chunks need to be transferred).
 ]
+
+- Provides *scalability, redundancy, and durability* through replication.
+- No central point of control, inherently distributed.
+- Stores static data: VM images, photo storage, email storage, backups.
+- Accessed via APIs or integrated directly inside applications.
 
 === Object Storage Data Model
 
@@ -258,7 +263,7 @@ Objects in Swift are organized in a three-level hierarchy:
 - *Object*: the actual data blob + metadata (name, size, content-type, custom headers).
 
 When an object changes, its metadata is updated and only the changed chunks need
-to be replicated — making replication efficient.
+to be replicated, making replication efficient.
 
 === Swift Components
 
@@ -270,7 +275,7 @@ to be replicated — making replication efficient.
 The proxy is the only publicly exposed component; the storage servers form
 an internal ring accessed only through the proxy.
 
-== Cinder — Block Storage
+== Cinder - Block Storage
 
 === What Cinder Does
 
@@ -279,17 +284,17 @@ an internal ring accessed only through the proxy.
   storage volumes that can be attached to VM instances, analogous to a cloud
   version of a SAN or network-attached disk.
 ]
-
-- Creates, attaches, and detaches *volumes* to/from VM instances.
-- Supports protocols: iSCSI, NFS, FC, RBD (Ceph), GlusterFS.
-- Supports backends: Ceph, NetApp, Nexenta, SolidFire, Zadara, and more.
-- Allows creating *snapshots* of volumes for backup or cloning.
-
+#v(-1em)
 #analogy("Cinder as a USB drive")[
   A Cinder volume is like a USB drive in the cloud: it can be formatted and
   mounted into a running VM, and later detached and re-attached to a different VM.
   The data persists independently of the VM lifecycle.
 ]
+
+- Creates, attaches, and detaches *volumes* to/from VM instances.
+- Supports protocols: iSCSI, NFS, FC, RBD (Ceph), GlusterFS.
+- Supports backends: Ceph, NetApp, Nexenta, SolidFire, Zadara, and more.
+- Allows creating *snapshots* of volumes for backup or cloning.
 
 === Cinder Components
 
@@ -298,7 +303,7 @@ an internal ring accessed only through the proxy.
 - *cinder-scheduler*: selects the best storage backend/node to create a new volume.
 - *cinder database*: maintains the state of all volumes (available, in-use, error, etc.).
 
-== Glance — Image Service
+== Glance - Image Service
 
 === What Glance Does
 
@@ -319,11 +324,11 @@ an internal ring accessed only through the proxy.
 - *glance database*: the metadata store.
 
 #note[
-  Glance itself does not store image bits — it delegates that to an external
+  Glance itself does not store image bits; it delegates that to an external
   repository (Swift, S3, filesystem). It is a metadata registry + delivery proxy.
 ]
 
-== Horizon — Dashboard
+== Horizon - Dashboard
 
 #def("Horizon")[
   #kw[Horizon] is OpenStack's *web-based dashboard*. It provides a modular,
@@ -338,11 +343,11 @@ Actions available through Horizon:
 - Define security groups and access policies.
 - Manage volumes, networks, and object storage.
 
-Horizon is purely a *presentation layer* — it calls the same REST APIs that any
+Horizon is purely a *presentation layer*: it calls the same REST APIs that any
 other client would use. It adds no new functionality but greatly lowers the
 barrier to using OpenStack.
 
-== Keystone — Identity Service
+== Keystone - Identity Service
 
 === What Keystone Does
 
@@ -360,7 +365,7 @@ barrier to using OpenStack.
 
 - *Identity*: user information and authentication.
 - *Token*: after login, replaces the password with a time-limited token for subsequent API calls.
-- *Catalog*: endpoint registry — maps service type (compute, image, etc.) to URLs.
+- *Catalog*: endpoint registry: maps service type (compute, image, etc.) to URLs.
 - *Policy*: rule-based authorization engine.
 
 === Keystone Request Flow
@@ -377,7 +382,7 @@ barrier to using OpenStack.
   is unavailable, no authenticated operation in the cloud can proceed.
 ]
 
-== Neutron — Networking Service
+== Neutron - Networking Service
 
 === What Neutron Does
 
@@ -403,12 +408,12 @@ Key properties:
 *Logical concepts*:
 - *Network*: an isolated virtual Layer-2 domain (logical switch).
 - *Subnet*: an IPv4 or IPv6 address block assignable to VMs or routers.
-- *Port*: a logical switch port — defines the MAC and IP addresses of a virtual interface (VIF).
+- *Port*: a logical switch port; defines the MAC and IP addresses of a virtual interface (VIF).
 
 === Neutron Components
 
 - *neutron-server*: accepts API requests and forwards them to the appropriate plugin.
-- *Plugins and Agents*: perform real actions — connecting/disconnecting ports, creating networks and subnets, managing routing rules (iptables, Open vSwitch, etc.).
+- *Plugins and Agents*: perform real actions: connecting/disconnecting ports, creating networks and subnets, managing routing rules (iptables, Open vSwitch, etc.).
 - *Message queue*: decouples neutron-server from the agents running on hypervisor nodes.
 - *neutron database*: persists network state for plugins that require it.
 
@@ -446,7 +451,7 @@ reach external networks (including the Internet).
 
 == Ceilometer and Heat
 
-=== Ceilometer — Telemetry
+=== Ceilometer - Telemetry
 
 #def("Ceilometer")[
   #kw[Ceilometer] is OpenStack's *telemetry service*. It collects usage statistics
@@ -457,11 +462,11 @@ Ceilometer integrates with every core service (compute, network, storage, image)
 through the message bus, collecting counters without modifying those services.
 The data drives both operational monitoring and customer billing.
 
-=== Heat — Orchestration
+=== Heat - Orchestration
 
 #def("Heat")[
   #kw[Heat] is OpenStack's *orchestration service*. It allows defining an entire
-  cloud application stack — compute, networking, storage, and their inter-dependencies —
+  cloud application stack: compute, networking, storage, and their inter-dependencies,
   in a single declarative template.
 ]
 
@@ -473,14 +478,14 @@ services and provides a CloudFormation-compatible API, easing migration from AWS
 
 The full OpenStack architecture has multiple layers of interaction:
 
-- *Command-line interfaces* (nova, swift, neutron, …) and *GUI tools* (Dashboard, Cyberbook, iPhone client) speak to the same REST APIs.
+- *Command-line interfaces* (nova, swift, neutron, ...) and *GUI tools* (Dashboard, Cyberbook, iPhone client) speak to the same REST APIs.
 - *Cloud management tools* (Rightscale, Enstratius) sit above the APIs.
-- Each service cluster (Identity, Compute, Image, Block Storage, Networking, Object Storage) is internally composed of API frontends, schedulers, workers, databases, and message queues — all following the same shared-nothing, async-messaging pattern.
+- Each service cluster (Identity, Compute, Image, Block Storage, Networking, Object Storage) is internally composed of API frontends, schedulers, workers, databases, and message queues, all following the same shared-nothing, async-messaging pattern.
 - *Keystone* (Identity API) is the backbone: every inter-service call traverses it for authorization.
 
 #important("OpenStack as a Cloud OS")[
   OpenStack is best understood as an *operating system for the data centre*:
   just as an OS abstracts hardware resources from applications, OpenStack abstracts
-  physical servers, switches, and disks from cloud tenants — scheduling, isolating,
+  physical servers, switches, and disks from cloud tenants: scheduling, isolating,
   and metering their usage through a unified set of open APIs.
 ]

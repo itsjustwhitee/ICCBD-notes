@@ -1,0 +1,111 @@
+<svg viewBox="0 0 640 320" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="10">
+
+  <!-- Title -->
+  <text x="320" y="16" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">Spark Streaming vs Apache Flink</text>
+
+  <!-- ===== LEFT: SPARK STREAMING ===== -->
+  <rect x="10" y="28" width="300" height="278" rx="8" fill="#f0fff4" stroke="#28a745" stroke-width="1.5"/>
+  <text x="160" y="46" text-anchor="middle" font-size="12" font-weight="bold" fill="#155724">Spark Streaming (Micro-batching)</text>
+
+  <!-- Timeline bar -->
+  <rect x="25" y="60" width="270" height="14" rx="3" fill="#dee2e6" stroke="#adb5bd" stroke-width="0.5"/>
+  <text x="160" y="71" text-anchor="middle" font-size="8" fill="#555">Continuous input stream</text>
+
+  <!-- Micro-batches -->
+  <rect x="25"  y="82" width="52" height="30" rx="3" fill="#d4edda" stroke="#28a745" stroke-width="1"/>
+  <text x="51"  y="101" text-anchor="middle" font-size="8" font-weight="bold" fill="#155724">Batch t₁</text>
+  <rect x="83"  y="82" width="52" height="30" rx="3" fill="#d4edda" stroke="#28a745" stroke-width="1"/>
+  <text x="109" y="101" text-anchor="middle" font-size="8" font-weight="bold" fill="#155724">Batch t₂</text>
+  <rect x="141" y="82" width="52" height="30" rx="3" fill="#d4edda" stroke="#28a745" stroke-width="1"/>
+  <text x="167" y="101" text-anchor="middle" font-size="8" font-weight="bold" fill="#155724">Batch t₃</text>
+  <rect x="199" y="82" width="52" height="30" rx="3" fill="#d4edda" stroke="#28a745" stroke-width="1"/>
+  <text x="225" y="101" text-anchor="middle" font-size="8" font-weight="bold" fill="#155724">Batch t₄</text>
+  <rect x="257" y="82" width="38" height="30" rx="3" fill="#c3e6cb" stroke="#28a745" stroke-width="0.8" stroke-dasharray="3,2"/>
+  <text x="276" y="101" text-anchor="middle" font-size="7" fill="#888">...</text>
+
+  <!-- Bracket + label -->
+  <line x1="25" y1="118" x2="245" y2="118" stroke="#28a745" stroke-width="1"/>
+  <line x1="25" y1="114" x2="25" y2="122" stroke="#28a745" stroke-width="1"/>
+  <line x1="245" y1="114" x2="245" y2="122" stroke="#28a745" stroke-width="1"/>
+  <text x="135" y="131" text-anchor="middle" font-size="8" fill="#155724">Δt ≈ ½–1 second per batch</text>
+
+  <!-- Arrow down -->
+  <line x1="160" y1="134" x2="160" y2="152" stroke="#28a745" stroke-width="1.5" marker-end="url(#ag)"/>
+
+  <!-- Spark RDD box -->
+  <rect x="60" y="152" width="200" height="28" rx="4" fill="#cce5ff" stroke="#4a90d9" stroke-width="1.5"/>
+  <text x="160" y="170" text-anchor="middle" font-size="10" font-weight="bold" fill="#1a4a80">Spark Batch Engine (RDD)</text>
+
+  <!-- Arrow down -->
+  <line x1="160" y1="180" x2="160" y2="200" stroke="#28a745" stroke-width="1.5" marker-end="url(#ag)"/>
+
+  <!-- Output -->
+  <rect x="60" y="200" width="200" height="28" rx="4" fill="#e9ecef" stroke="#adb5bd" stroke-width="1"/>
+  <text x="160" y="218" text-anchor="middle" font-size="10" fill="#555">Results (HDFS / DB / dashboard)</text>
+
+  <!-- Properties -->
+  <rect x="18" y="240" width="280" height="56" rx="4" fill="#fff3cd" stroke="#f0ad4e" stroke-width="0.8"/>
+  <text x="158" y="256" text-anchor="middle" font-size="9" font-weight="bold" fill="#7d5a00">Properties</text>
+  <text x="158" y="270" text-anchor="middle" font-size="9" fill="#7d5a00">Latency: ~1 second</text>
+  <text x="158" y="283" text-anchor="middle" font-size="9" fill="#7d5a00">Fault tolerance: RDD lineage + replication</text>
+  <text x="158" y="296" text-anchor="middle" font-size="9" fill="#7d5a00">Exactly-once via batch atomicity</text>
+
+  <!-- ===== RIGHT: FLINK ===== -->
+  <rect x="330" y="28" width="300" height="278" rx="8" fill="#e8f4ff" stroke="#4a90d9" stroke-width="1.5"/>
+  <text x="480" y="46" text-anchor="middle" font-size="12" font-weight="bold" fill="#1a4a80">Apache Flink (True Streaming)</text>
+
+  <!-- Continuous stream -->
+  <rect x="345" y="60" width="270" height="14" rx="3" fill="#dee2e6" stroke="#adb5bd" stroke-width="0.5"/>
+  <text x="480" y="71" text-anchor="middle" font-size="8" fill="#555">Continuous input stream</text>
+
+  <!-- Events flowing one by one -->
+  <circle cx="358" cy="96" r="7" fill="#ffc107" stroke="#e65c00" stroke-width="1"/>
+  <text x="358" y="100" text-anchor="middle" font-size="7" fill="#7d3200">e1</text>
+  <circle cx="376" cy="96" r="7" fill="#ffc107" stroke="#e65c00" stroke-width="1"/>
+  <text x="376" y="100" text-anchor="middle" font-size="7" fill="#7d3200">e2</text>
+  <circle cx="394" cy="96" r="7" fill="#ffc107" stroke="#e65c00" stroke-width="1"/>
+  <text x="394" y="100" text-anchor="middle" font-size="7" fill="#7d3200">e3</text>
+  <!-- barrier -->
+  <line x1="408" y1="84" x2="408" y2="108" stroke="#e65c00" stroke-width="2"/>
+  <text x="408" y="78" text-anchor="middle" font-size="7" fill="#e65c00" font-weight="bold">||barrier</text>
+  <circle cx="422" cy="96" r="7" fill="#ffc107" stroke="#e65c00" stroke-width="1"/>
+  <text x="422" y="100" text-anchor="middle" font-size="7" fill="#7d3200">e4</text>
+  <circle cx="440" cy="96" r="7" fill="#ffc107" stroke="#e65c00" stroke-width="1"/>
+  <text x="440" y="100" text-anchor="middle" font-size="7" fill="#7d3200">e5</text>
+  <text x="465" y="100" text-anchor="start" font-size="8" fill="#888">→ continuous</text>
+
+  <!-- Arrow -->
+  <line x1="480" y1="112" x2="480" y2="130" stroke="#4a90d9" stroke-width="1.5" marker-end="url(#ab)"/>
+
+  <!-- TaskManager / Operator chain -->
+  <rect x="345" y="130" width="270" height="40" rx="4" fill="#d4edda" stroke="#28a745" stroke-width="1.5"/>
+  <text x="480" y="148" text-anchor="middle" font-size="9" font-weight="bold" fill="#155724">TaskManager: chained operators</text>
+  <text x="480" y="161" text-anchor="middle" font-size="8" fill="#155724">Source → Filter → Map → Agg (pipelined, in-thread)</text>
+
+  <!-- Arrow -->
+  <line x1="480" y1="170" x2="480" y2="190" stroke="#4a90d9" stroke-width="1.5" marker-end="url(#ab)"/>
+
+  <!-- Snapshot / checkpoint -->
+  <rect x="370" y="190" width="220" height="28" rx="4" fill="#ffe0cc" stroke="#e8721a" stroke-width="1.5"/>
+  <text x="480" y="208" text-anchor="middle" font-size="9" font-weight="bold" fill="#7d2e00">Checkpoint (barrier-triggered snapshot)</text>
+
+  <!-- Arrow -->
+  <line x1="480" y1="218" x2="480" y2="238" stroke="#4a90d9" stroke-width="1.5" marker-end="url(#ab)"/>
+
+  <!-- Output -->
+  <rect x="380" y="238" width="200" height="28" rx="4" fill="#e9ecef" stroke="#adb5bd" stroke-width="1"/>
+  <text x="480" y="256" text-anchor="middle" font-size="10" fill="#555">Results (low-latency, continuous)</text>
+
+  <!-- Properties -->
+  <rect x="338" y="278" width="280" height="22" rx="4" fill="#fff3cd" stroke="#f0ad4e" stroke-width="0.8"/>
+  <text x="478" y="292" text-anchor="middle" font-size="9" fill="#7d5a00">Latency: sub-second | Exactly-once via distributed snapshots</text>
+
+  <defs>
+    <marker id="ag" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L7,3 z" fill="#28a745"/>
+    </marker>
+    <marker id="ab" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L7,3 z" fill="#4a90d9"/>
+    </marker>
+  </defs>
+</svg>

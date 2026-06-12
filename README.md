@@ -28,6 +28,8 @@ It provides structured callout/side-notes boxes (`#def`, `#prop`, `#important`, 
 
 The notes are split into **6 parts** and **18 chapters**.
 
+> These notes adapt the official course slide decks (indicated at the start of each chapter) but rearrange the content to avoid redundancies. As a result, certain topics may be moved from their original slide order to more logical locations. In these cases, a #note block is explicitly provided to reference the specific chapter or section where the concept is thoroughly deepened.
+
 ---
 
 ### Part 1 | Foundations

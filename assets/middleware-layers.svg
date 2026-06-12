@@ -1,0 +1,25 @@
+<svg viewBox="0 0 480 260" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">
+  <!-- Application -->
+  <rect x="20" y="10" width="440" height="38" rx="6" fill="#d0e8ff" stroke="#4a90d9" stroke-width="1.5"/>
+  <text x="240" y="34" text-anchor="middle" font-size="14" font-weight="bold" fill="#1a4a80">Application</text>
+
+  <!-- Layer 4: Domain-specific -->
+  <rect x="20" y="58" width="440" height="42" rx="6" fill="#cce5cc" stroke="#4caf50" stroke-width="1.5"/>
+  <text x="240" y="76" text-anchor="middle" font-size="12" font-weight="bold" fill="#1b5e20">4 · Domain-Specific Middleware Services</text>
+  <text x="240" y="92" text-anchor="middle" font-size="10" fill="#2e7d32">OMG TFs, Boeing Bold Stroke, Siemens Medical</text>
+
+  <!-- Layer 3: Common Services -->
+  <rect x="20" y="110" width="440" height="42" rx="6" fill="#fff3cd" stroke="#f0ad4e" stroke-width="1.5"/>
+  <text x="240" y="128" text-anchor="middle" font-size="12" font-weight="bold" fill="#7d4e00">3 · Common Middleware Services</text>
+  <text x="240" y="144" text-anchor="middle" font-size="10" fill="#7d5a00">Events, Logging, Security, Fault-Tolerance — CORBA Services, J2EE</text>
+
+  <!-- Layer 2: Distribution -->
+  <rect x="20" y="162" width="440" height="42" rx="6" fill="#ffe0cc" stroke="#e8721a" stroke-width="1.5"/>
+  <text x="240" y="180" text-anchor="middle" font-size="12" font-weight="bold" fill="#7d2e00">2 · Distribution Middleware</text>
+  <text x="240" y="196" text-anchor="middle" font-size="10" fill="#7d3800">RPC, RMI, CORBA, DCOM — naming, discovery, parallel processing</text>
+
+  <!-- Layer 1: Host Infrastructure -->
+  <rect x="20" y="214" width="440" height="38" rx="6" fill="#f0d0ff" stroke="#9c27b0" stroke-width="1.5"/>
+  <text x="240" y="232" text-anchor="middle" font-size="12" font-weight="bold" fill="#4a0072">1 · Host Infrastructure Middleware</text>
+  <text x="240" y="247" text-anchor="middle" font-size="10" fill="#6a0080">JVM, .NET runtime — portability, local OS abstraction</text>
+</svg>

@@ -1,0 +1,109 @@
+<svg viewBox="0 0 620 340" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="10">
+
+  <!-- Title -->
+  <text x="310" y="18" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">QoS Models: IntServ vs DiffServ</text>
+
+  <!-- ===== INTSERV (left panel) ===== -->
+  <rect x="10" y="28" width="290" height="295" rx="8" fill="#f0fff4" stroke="#28a745" stroke-width="1.5"/>
+  <text x="155" y="48" text-anchor="middle" font-size="12" font-weight="bold" fill="#155724">IntServ (per-flow)</text>
+  <text x="155" y="62" text-anchor="middle" font-size="9" fill="#555">RFC 2210 — Hop-by-hop reservation</text>
+
+  <!-- Sender -->
+  <rect x="100" y="70" width="110" height="24" rx="4" fill="#cce5ff" stroke="#4a90d9" stroke-width="1"/>
+  <text x="155" y="86" text-anchor="middle" font-weight="bold" fill="#1a4a80">Sender (emitter)</text>
+
+  <!-- RSVP Path arrow down -->
+  <line x1="155" y1="94" x2="155" y2="120" stroke="#28a745" stroke-width="1.5" marker-end="url(#ag)"/>
+  <text x="170" y="113" font-size="8" fill="#155724">RSVP Path</text>
+
+  <!-- Router 1 -->
+  <rect x="80" y="120" width="150" height="24" rx="4" fill="#d4edda" stroke="#28a745" stroke-width="1.2"/>
+  <text x="155" y="136" text-anchor="middle" font-size="10" fill="#155724">Router 1 (reserves resources)</text>
+
+  <!-- Arrow -->
+  <line x1="155" y1="144" x2="155" y2="168" stroke="#28a745" stroke-width="1.5" marker-end="url(#ag)"/>
+
+  <!-- Router 2 -->
+  <rect x="80" y="168" width="150" height="24" rx="4" fill="#d4edda" stroke="#28a745" stroke-width="1.2"/>
+  <text x="155" y="184" text-anchor="middle" font-size="10" fill="#155724">Router 2 (reserves resources)</text>
+
+  <!-- Arrow -->
+  <line x1="155" y1="192" x2="155" y2="216" stroke="#28a745" stroke-width="1.5" marker-end="url(#ag)"/>
+
+  <!-- Receiver -->
+  <rect x="100" y="216" width="110" height="24" rx="4" fill="#cce5ff" stroke="#4a90d9" stroke-width="1"/>
+  <text x="155" y="232" text-anchor="middle" font-weight="bold" fill="#1a4a80">Receiver</text>
+
+  <!-- Resv back arrow -->
+  <line x1="130" y1="216" x2="130" y2="94" stroke="#4a90d9" stroke-width="1" stroke-dasharray="4,2" marker-end="url(#ab)"/>
+  <text x="80" y="165" font-size="8" fill="#4a90d9">RSVP Resv</text>
+  <text x="80" y="175" font-size="8" fill="#4a90d9">(soft-state)</text>
+
+  <!-- Protocols box -->
+  <rect x="18" y="250" width="272" height="62" rx="4" fill="#fff3cd" stroke="#f0ad4e" stroke-width="0.8"/>
+  <text x="154" y="265" text-anchor="middle" font-size="9" font-weight="bold" fill="#7d5a00">Suite: RSVP + RTP + RTCP</text>
+  <text x="154" y="278" text-anchor="middle" font-size="9" fill="#7d5a00">+ Fine-grained per-flow SLA</text>
+  <text x="154" y="291" text-anchor="middle" font-size="9" fill="#7d5a00">- Scales poorly (state per flow per router)</text>
+  <text x="154" y="304" text-anchor="middle" font-size="9" fill="#7d5a00">Best for: small controlled networks</text>
+
+  <!-- ===== DIFFSERV (right panel) ===== -->
+  <rect x="320" y="28" width="290" height="295" rx="8" fill="#e8f4ff" stroke="#4a90d9" stroke-width="1.5"/>
+  <text x="465" y="48" text-anchor="middle" font-size="12" font-weight="bold" fill="#1a4a80">DiffServ (per-class)</text>
+  <text x="465" y="62" text-anchor="middle" font-size="9" fill="#555">RFC 2474/2475 — Aggregate classes</text>
+
+  <!-- Ingress router / classifier -->
+  <rect x="355" y="70" width="220" height="24" rx="4" fill="#cce5ff" stroke="#4a90d9" stroke-width="1"/>
+  <text x="465" y="86" text-anchor="middle" font-weight="bold" fill="#1a4a80">Ingress Router (Classifier + Marker)</text>
+
+  <!-- Three queues -->
+  <line x1="400" y1="94" x2="370" y2="118" stroke="#4a90d9" stroke-width="1.5" marker-end="url(#ab)"/>
+  <line x1="465" y1="94" x2="465" y2="118" stroke="#4a90d9" stroke-width="1.5" marker-end="url(#ab)"/>
+  <line x1="530" y1="94" x2="560" y2="118" stroke="#4a90d9" stroke-width="1.5" marker-end="url(#ab)"/>
+
+  <!-- Gold queue -->
+  <rect x="330" y="118" width="80" height="24" rx="4" fill="#ffd700" stroke="#b8860b" stroke-width="1"/>
+  <text x="370" y="134" text-anchor="middle" font-size="9" font-weight="bold" fill="#5a4000">Gold (70%)</text>
+
+  <!-- Silver queue -->
+  <rect x="425" y="118" width="80" height="24" rx="4" fill="#c0c0c0" stroke="#708090" stroke-width="1"/>
+  <text x="465" y="134" text-anchor="middle" font-size="9" font-weight="bold" fill="#333">Silver (20%)</text>
+
+  <!-- Bronze queue -->
+  <rect x="520" y="118" width="80" height="24" rx="4" fill="#cd7f32" stroke="#8b5a00" stroke-width="1"/>
+  <text x="560" y="134" text-anchor="middle" font-size="9" font-weight="bold" fill="#fff">Bronze (10%)</text>
+
+  <!-- PHB annotation -->
+  <text x="465" y="158" text-anchor="middle" font-size="9" fill="#333" font-style="italic">Per-Hop Behavior (PHB) at each router</text>
+
+  <!-- Core routers -->
+  <line x1="370" y1="142" x2="430" y2="165" stroke="#555" stroke-width="1" marker-end="url(#ag)"/>
+  <line x1="465" y1="142" x2="465" y2="165" stroke="#555" stroke-width="1" marker-end="url(#ag)"/>
+  <line x1="560" y1="142" x2="500" y2="165" stroke="#555" stroke-width="1" marker-end="url(#ag)"/>
+
+  <rect x="370" y="165" width="190" height="24" rx="4" fill="#d4edda" stroke="#28a745" stroke-width="1.2"/>
+  <text x="465" y="181" text-anchor="middle" font-size="10" fill="#155724">Core Routers (classify by DS byte)</text>
+
+  <!-- Arrow to egress -->
+  <line x1="465" y1="189" x2="465" y2="213" stroke="#28a745" stroke-width="1.5" marker-end="url(#ag)"/>
+
+  <!-- Egress -->
+  <rect x="380" y="213" width="170" height="24" rx="4" fill="#cce5ff" stroke="#4a90d9" stroke-width="1"/>
+  <text x="465" y="229" text-anchor="middle" font-weight="bold" fill="#1a4a80">Egress Router / Receiver</text>
+
+  <!-- Notes box -->
+  <rect x="328" y="250" width="272" height="62" rx="4" fill="#fff3cd" stroke="#f0ad4e" stroke-width="0.8"/>
+  <text x="464" y="265" text-anchor="middle" font-size="9" font-weight="bold" fill="#7d5a00">EF (Expedited): low loss/delay/jitter</text>
+  <text x="464" y="278" text-anchor="middle" font-size="9" fill="#7d5a00">AF (Assured): 4 classes × 3 drop levels</text>
+  <text x="464" y="291" text-anchor="middle" font-size="9" fill="#7d5a00">+ Scalable, works with legacy apps</text>
+  <text x="464" y="304" text-anchor="middle" font-size="9" fill="#7d5a00">Best for: wide-area / ISP networks</text>
+
+  <!-- Markers -->
+  <defs>
+    <marker id="ag" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L7,3 z" fill="#28a745"/>
+    </marker>
+    <marker id="ab" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L7,3 z" fill="#4a90d9"/>
+    </marker>
+  </defs>
+</svg>

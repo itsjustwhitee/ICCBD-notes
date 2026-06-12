@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 465 223" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;">
+    <g transform="matrix(1,0,0,1,53,9)">
+        <text x="-36.3px" y="0px" style="font-family:'JetBrainsMono-Bold', 'JetBrains Mono', monospace;font-weight:700;font-size:11px;fill:rgb(85,85,85);">On-Premises</text>
+    </g>
+    <g transform="matrix(1,0,0,1,173,9)">
+        <text x="-13.2px" y="0px" style="font-family:'JetBrainsMono-Bold', 'JetBrains Mono', monospace;font-weight:700;font-size:11px;fill:rgb(85,85,85);">IaaS</text>
+    </g>
+    <g transform="matrix(1,0,0,1,293,9)">
+        <text x="-13.2px" y="0px" style="font-family:'JetBrainsMono-Bold', 'JetBrains Mono', monospace;font-weight:700;font-size:11px;fill:rgb(85,85,85);">PaaS</text>
+    </g>
+    <g transform="matrix(1,0,0,1,413,9)">
+        <text x="-13.2px" y="0px" style="font-family:'JetBrainsMono-Bold', 'JetBrains Mono', monospace;font-weight:700;font-size:11px;fill:rgb(85,85,85);">SaaS</text>
+    </g>
+    <g transform="matrix(1,0,0,1,-57,-39)">
+        <path d="M160,58L160,78C160,79.656 158.656,81 157,81L63,81C61.344,81 60,79.656 60,78L60,58C60,56.344 61.344,55 63,55L157,55C158.656,55 160,56.344 160,58Z" style="fill:rgb(179,217,255);stroke:rgb(74,144,217);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,-57,-39)">
+        <path d="M280,58L280,78C280,79.656 278.656,81 277,81L183,81C181.344,81 180,79.656 180,78L180,58C180,56.344 181.344,55 183,55L277,55C278.656,55 280,56.344 280,58Z" style="fill:rgb(179,217,255);stroke:rgb(74,144,217);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,-57,-39)">
+        <path d="M400,58L400,78C400,79.656 398.656,81 397,81L303,81C301.344,81 300,79.656 300,78L300,58C300,56.344 301.344,55 303,55L397,55C398.656,55 400,56.344 400,58Z" style="fill:rgb(179,217,255);stroke:rgb(74,144,217);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,-57,-39)">
+        <path d="M520,58L520,78C520,79.656 518.656,81 517,81L423,81C421.344,81 420,79.656 420,78L420,58C420,56.344 421.344,55 423,55L517,55C518.656,55 520,56.344 520,58Z" style="fill:rgb(232,232,232);stroke:rgb(153,153,153);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,53,32)">
+        <text x="-30.03px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:9.1px;fill:rgb(26,74,128);">Application</text>
+    </g>
+    <g transform="matrix(1,0,0,1,173,32)">
+        <text x="-30.03px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:9.1px;fill:rgb(26,74,128);">Application</text>
+    </g>
+    <g transform="matrix(1,0,0,1,293,32)">
+        <text x="-30.03px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:9.1px;fill:rgb(26,74,128);">Application</text>
+    </g>
+    <g transform="matrix(1,0,0,1,413,32)">
+        <text x="-30.03px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:9.1px;fill:rgb(136,136,136);">Application</text>
+    </g>
+    <g transform="matrix(1,0,0,1,-57,-39)">
+        <path d="M160,88L160,108C160,109.656 158.656,111 157,111L63,111C61.344,111 60,109.656 60,108L60,88C60,86.344 61.344,85 63,85L157,85C158.656,85 160,86.344 160,88Z" style="fill:rgb(179,217,255);stroke:rgb(74,144,217);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,-57,-39)">
+        <path d="M280,88L280,108C280,109.656 278.656,111 277,111L183,111C181.344,111 180,109.656 180,108L180,88C180,86.344 181.344,85 183,85L277,85C278.656,85 280,86.344 280,88Z" style="fill:rgb(179,217,255);stroke:rgb(74,144,217);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,-57,-39)">
+        <path d="M400,88L400,108C400,109.656 398.656,111 397,111L303,111C301.344,111 300,109.656 300,108L300,88C300,86.344 301.344,85 303,85L397,85C398.656,85 400,86.344 400,88Z" style="fill:rgb(179,217,255);stroke:rgb(74,144,217);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,-57,-39)">
+        <path d="M520,88L520,108C520,109.656 518.656,111 517,111L423,111C421.344,111 420,109.656 420,108L420,88C420,86.344 421.344,85 423,85L517,85C518.656,85 520,86.344 520,88Z" style="fill:rgb(232,232,232);stroke:rgb(153,153,153);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,53,62)">
+        <text x="-10.92px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:9.1px;fill:rgb(26,74,128);">Data</text>
+    </g>
+    <g transform="matrix(1,0,0,1,173,62)">
+        <text x="-10.92px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:9.1px;fill:rgb(26,74,128);">Data</text>
+    </g>
+    <g transform="matrix(1,0,0,1,293,62)">
+        <text x="-10.92px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:9.1px;fill:rgb(26,74,128);">Data</text>
+    </g>
+    <g transform="matrix(1,0,0,1,413,62)">
+        <text x="-10.92px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:9.1px;fill:rgb(136,136,136);">Data</text>
+    </g>
+    <g transform="matrix(1,0,0,1,-57,-39)">
+        <path d="M160,118L160,138C160,139.656 158.656,141 157,141L63,141C61.344,141 60,139.656 60,138L60,118C60,116.344 61.344,115 63,115L157,115C158.656,115 160,116.344 160,118Z" style="fill:rgb(179,217,255);stroke:rgb(74,144,217);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,-57,-39)">
+        <path d="M280,118L280,138C280,139.656 278.656,141 277,141L183,141C181.344,141 180,139.656 180,138L180,118C180,116.344 181.344,115 183,115L277,115C278.656,115 280,116.344 280,118Z" style="fill:rgb(179,217,255);stroke:rgb(74,144,217);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,-57,-39)">
+        <path d="M400,118L400,138C400,139.656 398.656,141 397,141L303,141C301.344,141 300,139.656 300,138L300,118C300,116.344 301.344,115 303,115L397,115C398.656,115 400,116.344 400,118Z" style="fill:rgb(232,232,232);stroke:rgb(153,153,153);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,-57,-39)">
+        <path d="M520,118L520,138C520,139.656 518.656,141 517,141L423,141C421.344,141 420,139.656 420,138L420,118C420,116.344 421.344,115 423,115L517,115C518.656,115 520,116.344 520,118Z" style="fill:rgb(232,232,232);stroke:rgb(153,153,153);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,53,92)">
+        <text x="-19.11px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:9.1px;fill:rgb(26,74,128);">Runtime</text>
+    </g>
+    <g transform="matrix(1,0,0,1,173,92)">
+        <text x="-19.11px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:9.1px;fill:rgb(26,74,128);">Runtime</text>
+    </g>
+    <g transform="matrix(1,0,0,1,293,92)">
+        <text x="-19.11px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:9.1px;fill:rgb(136,136,136);">Runtime</text>
+    </g>
+    <g transform="matrix(1,0,0,1,413,92)">
+        <text x="-19.11px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:9.1px;fill:rgb(136,136,136);">Runtime</text>
+    </g>
+    <g transform="matrix(1,0,0,1,-57,-39)">
+        <path d="M160,148L160,168C160,169.656 158.656,171 157,171L63,171C61.344,171 60,169.656 60,168L60,148C60,146.344 61.344,145 63,145L157,145C158.656,145 160,146.344 160,148Z" style="fill:rgb(179,217,255);stroke:rgb(74,144,217);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,-57,-39)">
+        <path d="M280,148L280,168C280,169.656 278.656,171 277,171L183,171C181.344,171 180,169.656 180,168L180,148C180,146.344 181.344,145 183,145L277,145C278.656,145 280,146.344 280,148Z" style="fill:rgb(179,217,255);stroke:rgb(74,144,217);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,-57,-39)">
+        <path d="M400,148L400,168C400,169.656 398.656,171 397,171L303,171C301.344,171 300,169.656 300,168L300,148C300,146.344 301.344,145 303,145L397,145C398.656,145 400,146.344 400,148Z" style="fill:rgb(232,232,232);stroke:rgb(153,153,153);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,-57,-39)">
+        <path d="M520,148L520,168C520,169.656 518.656,171 517,171L423,171C421.344,171 420,169.656 420,168L420,148C420,146.344 421.344,145 423,145L517,145C518.656,145 520,146.344 520,148Z" style="fill:rgb(232,232,232);stroke:rgb(153,153,153);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,53,122)">
+        <text x="-5.46px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:9.1px;fill:rgb(26,74,128);">OS</text>
+    </g>
+    <g transform="matrix(1,0,0,1,173,122)">
+        <text x="-5.46px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:9.1px;fill:rgb(26,74,128);">OS</text>
+    </g>
+    <g transform="matrix(1,0,0,1,293,122)">
+        <text x="-5.46px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:9.1px;fill:rgb(136,136,136);">OS</text>
+    </g>
+    <g transform="matrix(1,0,0,1,413,122)">
+        <text x="-5.46px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:9.1px;fill:rgb(136,136,136);">OS</text>
+    </g>
+    <g transform="matrix(1,0,0,1,-57,-39)">
+        <path d="M160,178L160,198C160,199.656 158.656,201 157,201L63,201C61.344,201 60,199.656 60,198L60,178C60,176.344 61.344,175 63,175L157,175C158.656,175 160,176.344 160,178Z" style="fill:rgb(179,217,255);stroke:rgb(74,144,217);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,-57,-39)">
+        <path d="M280,178L280,198C280,199.656 278.656,201 277,201L183,201C181.344,201 180,199.656 180,198L180,178C180,176.344 181.344,175 183,175L277,175C278.656,175 280,176.344 280,178Z" style="fill:rgb(232,232,232);stroke:rgb(153,153,153);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,-57,-39)">
+        <path d="M400,178L400,198C400,199.656 398.656,201 397,201L303,201C301.344,201 300,199.656 300,198L300,178C300,176.344 301.344,175 303,175L397,175C398.656,175 400,176.344 400,178Z" style="fill:rgb(232,232,232);stroke:rgb(153,153,153);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,-57,-39)">
+        <path d="M520,178L520,198C520,199.656 518.656,201 517,201L423,201C421.344,201 420,199.656 420,198L420,178C420,176.344 421.344,175 423,175L517,175C518.656,175 520,176.344 520,178Z" style="fill:rgb(232,232,232);stroke:rgb(153,153,153);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,53,152)">
+        <text x="-38.22px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:9.1px;fill:rgb(26,74,128);">Virtualization</text>
+    </g>
+    <g transform="matrix(1,0,0,1,173,152)">
+        <text x="-38.22px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:9.1px;fill:rgb(136,136,136);">Virtualization</text>
+    </g>
+    <g transform="matrix(1,0,0,1,293,152)">
+        <text x="-38.22px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:9.1px;fill:rgb(136,136,136);">Virtualization</text>
+    </g>
+    <g transform="matrix(1,0,0,1,413,152)">
+        <text x="-38.22px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:9.1px;fill:rgb(136,136,136);">Virtualization</text>
+    </g>
+    <g transform="matrix(1,0,0,1,-57,-39)">
+        <path d="M160,208L160,228C160,229.656 158.656,231 157,231L63,231C61.344,231 60,229.656 60,228L60,208C60,206.344 61.344,205 63,205L157,205C158.656,205 160,206.344 160,208Z" style="fill:rgb(179,217,255);stroke:rgb(74,144,217);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,-57,-39)">
+        <path d="M280,208L280,228C280,229.656 278.656,231 277,231L183,231C181.344,231 180,229.656 180,228L180,208C180,206.344 181.344,205 183,205L277,205C278.656,205 280,206.344 280,208Z" style="fill:rgb(232,232,232);stroke:rgb(153,153,153);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,-57,-39)">
+        <path d="M400,208L400,228C400,229.656 398.656,231 397,231L303,231C301.344,231 300,229.656 300,228L300,208C300,206.344 301.344,205 303,205L397,205C398.656,205 400,206.344 400,208Z" style="fill:rgb(232,232,232);stroke:rgb(153,153,153);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,-57,-39)">
+        <path d="M520,208L520,228C520,229.656 518.656,231 517,231L423,231C421.344,231 420,229.656 420,228L420,208C420,206.344 421.344,205 423,205L517,205C518.656,205 520,206.344 520,208Z" style="fill:rgb(232,232,232);stroke:rgb(153,153,153);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,53,182)">
+        <text x="-40.95px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:9.1px;fill:rgb(26,74,128);">Servers/Storage</text>
+    </g>
+    <g transform="matrix(1,0,0,1,173,182)">
+        <text x="-40.95px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:9.1px;fill:rgb(136,136,136);">Servers/Storage</text>
+    </g>
+    <g transform="matrix(1,0,0,1,293,182)">
+        <text x="-40.95px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:9.1px;fill:rgb(136,136,136);">Servers/Storage</text>
+    </g>
+    <g transform="matrix(1,0,0,1,413,182)">
+        <text x="-40.95px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:9.1px;fill:rgb(136,136,136);">Servers/Storage</text>
+    </g>
+    <g transform="matrix(1,0,0,1,-29,-50)">
+        <path d="M154,260L154,270C154,271.104 153.104,272 152,272L142,272C140.896,272 140,271.104 140,270L140,260C140,258.896 140.896,258 142,258L152,258C153.104,258 154,258.896 154,260Z" style="fill:rgb(179,217,255);stroke:rgb(74,144,217);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,129,219)">
+        <text x="0px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:9.1px;fill:rgb(51,51,51);">Customer manages</text>
+    </g>
+    <g transform="matrix(1,0,0,1,-29,-50)">
+        <path d="M294,260L294,270C294,271.104 293.104,272 292,272L282,272C280.896,272 280,271.104 280,270L280,260C280,258.896 280.896,258 282,258L292,258C293.104,258 294,258.896 294,260Z" style="fill:rgb(232,232,232);stroke:rgb(153,153,153);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,269,219)">
+        <text x="0px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:9.1px;fill:rgb(51,51,51);">Provider manages</text>
+    </g>
+</svg>

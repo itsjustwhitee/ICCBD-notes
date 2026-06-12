@@ -4,16 +4,16 @@
 
 = GROUP ISSUES AND POLICIES
 #extra[
-  Package: Group Issues and Policies — `8 - Group issues and policies 26.pdf`
+  Package: Group Issues and Policies - `8 - Group issues and policies 26.pdf`
 ]
 
-In distributed systems, a fundamental challenge is managing *partitioned* and *replicated entities*. All systems must insist on both partitioning (for scalability) and replication (for availability) — and these two aspects are *strictly coupled*, with both static and dynamic dimensions.
+In distributed systems, a fundamental challenge is managing *partitioned* and *replicated entities*. All systems must insist on both partitioning (for scalability) and replication (for availability); these two aspects are *strictly coupled*, with both static and dynamic dimensions.
 
 == Partitioning and Groups
 
 #def("Partitioning and Replication")[
-  - *Partitioning* — several entities must be in charge of the whole function to grant *scalability* of services and support.
-  - *Replication* — several entities must be in charge of the whole function to grant *availability* of services and support.
+  - *Partitioning*: several entities must be in charge of the whole function to grant *scalability* of services and support.
+  - *Replication*: several entities must be in charge of the whole function to grant *availability* of services and support.
 
   The two aspects are strictly coupled and have both static and dynamic dimensions.
 ]
@@ -26,8 +26,8 @@ When entities form a group, a key design question arises: which semantics should
 
 #important("Communication Semantics")[
   *Semantics deeply depends on choices made about:*
-  - *Global solicitation* vs. *Selective solicitation* — whether the message is sent to all group members or a chosen subset.
-  - *Positive confirmation* vs. *Negative confirmation* — whether the system acknowledges successful delivery or only signals loss.
+  - *Global solicitation* vs. *Selective solicitation*: whether the message is sent to all group members or a chosen subset.
+  - *Positive confirmation* vs. *Negative confirmation*: whether the system acknowledges successful delivery or only signals loss.
 ]
 
 How many times to retransmit? When? To how many receivers? These are all design choices whose answers shape the entire group communication protocol.
@@ -47,14 +47,14 @@ The #kw[multicast] action could make the multiple group sending operations *atom
 
 The two aspects of multicast semantics are intertwined but *can be untangled*:
 
-- *Reliability* — concerns whether individual group members receive a message:
+- *Reliability*: concerns whether individual group members receive a message:
   - *Reliable* #arrow guaranteed delivery
   - *Unreliable* #arrow only 1 attempt (Chorus model)
 
-- *Atomicity* — concerns whether *all* group members receive the message, possibly with consistent ordering across multiple actions.
+- *Atomicity*: concerns whether *all* group members receive the message, possibly with consistent ordering across multiple actions.
 
 #note[
-  We must think not only to the semantics of any single action, but also to *message ordering in a multiple action occurrence* — and consider their synchronization.
+  We must think not only to the semantics of any single action, but also to *message ordering in a multiple action occurrence*, and consider their synchronization.
 ]
 
 == Reliable Multicast
@@ -69,22 +69,22 @@ Recovery requires:
 - *Removal of failed components*
 - *Protocol to re-enter in the group*
 
-The additional costs for identification and recovery must be considered — #hl[they apply in case of failures].
+The additional costs for identification and recovery must be considered: #hl[they apply in case of failures].
 
 === Implementation Decisions
 
 Key implementation choices for reliable multicast:
 
-- *Dispatch all messages* to group members support and *delay* before passing them to the application — introducing *timeout* and *retransmission* (who checks the protocol?).
+- *Dispatch all messages* to group members support and *delay* before passing them to the application, introducing *timeout* and *retransmission* (who checks the protocol?).
 - *How long* to wait? Problems with efficiency.
-- *If controller fails?* — "Quis custodiet ipsos custodes?" (Juvenal/Giovenale)
+- *If controller fails?* #swarrow "Quis custodiet ipsos custodes?" (Juvenal/Giovenale)
 
 #def("Hold-Back")[
-  The support holds a message until it is sure that all previous others reached the destination in order. In *dense numbering*, a message is delayed until all previous ones appeared — message 3 must appear after message 2.
+  The support holds a message until it is sure that all previous others reached the destination in order. In *dense numbering*, a message is delayed until all previous ones appeared: message 3 must appear after message 2.
 ]
-
+#v(-1em)
 #def("Negative Acknowledgment (NAK)")[
-  The support sends a *negative ack only in case of losses*, to identify those events in a selective way — avoiding unnecessary positive acks for every message.
+  The support sends a *negative ack only in case of losses*, to identify those events in a selective way, avoiding unnecessary positive acks for every message.
 ]
 
 == Multicast Ordering
@@ -94,7 +94,7 @@ Ordering policies for group multicast form a spectrum from cheapest (no ordering
 === No Ordering
 
 #prop("No Ordering")[
-  Multicast messages coming from any sending process to all receivers can present a different ordering in any copy. *No ordering policy is very easy to support* and you do not have to synchronize copies in any way — they are free to operate on their own.
+  Multicast messages coming from any sending process to all receivers can present a different ordering in any copy. *No ordering policy is very easy to support* and you do not have to synchronize copies in any way: they are free to operate on their own.
 ]
 
 === FIFO Ordering
@@ -109,7 +109,7 @@ Ordering policies for group multicast form a spectrum from cheapest (no ordering
 
 === FIFO Ordering Limitations
 
-Compliance with FIFO guarantees that every message to the group from the same sender (and its requests) are received in the same order in which they are sent from the group — *only related with same sender multicasts*.
+Compliance with FIFO guarantees that every message to the group from the same sender (and its requests) are received in the same order in which they are sent from the group: *only related with same sender multicasts*.
 
 #note[
   If we consider more than one sender: A sends news Na; B receives the news and sends a response Nb; C receives first Nb then Na (Nb before Na); D receives first Na then Nb. We need to consider *cause/effect relationships* between different senders.
@@ -118,13 +118,13 @@ Compliance with FIFO guarantees that every message to the group from the same se
 === Causal Ordering
 
 #def("Causal Ordering")[
-  #kw[CAUSAL ordering] — events that are correlated with a cause-effect relationship outside the group must be acknowledged by the group and must achieve consistency about them (to be delivered to everyone). *First the cause, then the effect* (Cause before Effect).
+  #kw[CAUSAL ordering]: events that are correlated with a cause-effect relationship outside the group must be acknowledged by the group and must achieve consistency about them (to be delivered to everyone). *First the cause, then the effect* (Cause before Effect).
 ]
 
 In case of causal ordering, two multicast messages in the *causal relationship* must be considered in the right order from everyone: (m1 and m2 from S1), (m3 and m4 from S2, m1 causes m3). They must reach copies respecting both FIFO and CAUSAL ordering. Many sequences are compatible: (m1 m2 m3 m4), (m1 m3 m2 m4), but *NOT* (m3 m1 m4 m2).
 
 #note[
-  *Causal ordering limitations:* Compliance with causal ordering does not catch real-world Internet (USENET) situations that we implicitly take for granted in case of more than one operation. Example: A requests an action to Na; B requests an action to Nb; these actions are not related. C receives first Nb then Na; D receives first Na then Nb — so copies have different internal decisions of scheduling.
+  *Causal ordering limitations:* Compliance with causal ordering does not catch real-world Internet (USENET) situations that we implicitly take for granted in case of more than one operation. Example: A requests an action to Na; B requests an action to Nb; these actions are not related. C receives first Nb then Na; D receives first Na then Nb: so copies have different internal decisions of scheduling.
 ]
 
 === Atomic Ordering
@@ -133,7 +133,7 @@ In case of causal ordering, two multicast messages in the *causal relationship* 
   No external relations impose a scheduling, but *the group should act in a coordinated and reasonable way*, where all group members operate in the same order. Atomic ordering guarantees that *all messages are received in the same order by all group members* (so related actions can occur in the same order in all copies).
 ]
 
-Often *no predetermined order* is likely, so no need of previous agreement, but it is necessary to *dynamically agree on one* — and that order should be the same for all.
+Often *no predetermined order* is likely, so no need of previous agreement, but it is necessary to *dynamically agree on one*: and that order should be the same for all.
 
 #note[
   If a copy C decides to receive first Nb then Na, then *all copies must follow that decision*. Example: Nb may ask to compute on a bank account; Na intends to make a withdrawal. Obviously many different atomic orderings exist that we can consider with group operations.
@@ -150,17 +150,17 @@ Often *no predetermined order* is likely, so no need of previous agreement, but 
   stroke: 0.5pt,
   inset: 1em,
   table.header([*Ordering*], [*Description*], [*Cost*]),
-  [*No Ordering*], [Each member works freely; no synchronization needed.], [Minimum — free],
-  [*FIFO*], [Messages from same sender arrive in send order. Easy via message numbering.], [Low — partial],
-  [*Causal*], [Cause-effect relationships from different senders respected.], [Medium — partial],
-  [*Atomic*], [All messages received in the same order by all group members. Total/global ordering.], [High — total],
+  [*No Ordering*], [Each member works freely; no synchronization needed.], [Minimum (free)],
+  [*FIFO*], [Messages from same sender arrive in send order. Easy via message numbering.], [Low (partial)],
+  [*Causal*], [Cause-effect relationships from different senders respected.], [Medium (partial)],
+  [*Atomic*], [All messages received in the same order by all group members. Total/global ordering.], [High (total)],
 )
 
 #note[
   In a distributed environment, *enforcing orderings is expensive* (coordination between group entities or numbering support) and we tend to enforce it only when necessary.
   - *No ordering* #arrow each group member works in a free and independent way.
-  - *FIFO and CAUSAL ordering* are constraints we tend to enforce for some specific events — *partial orderings*.
-  - *ATOMIC ordering* is one we tend to enforce on every event within the group — *total or global ordering*.
+  - *FIFO and CAUSAL ordering* are constraints we tend to enforce for some specific events: *partial orderings*.
+  - *ATOMIC ordering* is one we tend to enforce on every event within the group: *total or global ordering*.
 ]
 
 Among many atomic orderings, some can follow CAUSAL and FIFO ordering, some only FIFO, some only CAUSAL, and some of other none of them. *Costs for atomic orderings can be very different*.
@@ -168,7 +168,7 @@ Among many atomic orderings, some can follow CAUSAL and FIFO ordering, some only
 == Synchronization
 
 #def("Synchronization")[
-  *Synchronization* means to impose *orderings on events* — typically constraints on temporal ordering of some events inside a distributed system. It is necessary to provide a *consistent view* of the system to the entire set of communicating processes.
+  *Synchronization* means to impose *orderings on events*: typically constraints on temporal ordering of some events inside a distributed system. It is necessary to provide a *consistent view* of the system to the entire set of communicating processes.
 ]
 
 Communication and synchronization are often correlated:
@@ -181,25 +181,25 @@ So, *ordering on important events must be enforced*.
 
 === Clock Synchronization
 
-The classical approach uses *physical time* and *physical clock* — typical on one local environment only. Unique time can be determined if either a unique clock is available on every node, or one clock for any node all in perfect sync. *This is perfectly admissible in concentrated or limited systems, but absolutely not feasible and difficult to be granted in distributed and global environments.*
+The classical approach uses *physical time* and *physical clock*: typical on one local environment only. Unique time can be determined if either a unique clock is available on every node, or one clock for any node all in perfect sync. *This is perfectly admissible in concentrated or limited systems, but absolutely not feasible and difficult to be granted in distributed and global environments.*
 
-#def("UTC — Universal Coordinated Time")[
-  #kw[UTC] is based on the transmission of the value and on local correction. Some systems are based on a *coordination clock* — a node verifies the time of all group members, computes the average, and distributes it to all as the group time (*Berkeley time*).
+#def("UTC: Universal Coordinated Time")[
+  #kw[UTC] is based on the transmission of the value and on local correction. Some systems are based on a *coordination clock*: a node verifies the time of all group members, computes the average, and distributes it to all as the group time (*Berkeley time*).
 ]
-
-#def("NTP — Network Time Protocol")[
+#v(-1em)
+#def("NTP: Network Time Protocol")[
   #kw[NTP] introduces a protocol based on UTC and on synchronization to achieve an *agreement on clocks*. NTP tries to overcome possible transmission delay of the common time through *statistical filtering policies* based on historic behavior of servers.
   - Starts with a higher *server hierarchy*, where every node transmit time to *lower-level neighbors* (its subtree).
   - The *primary* nodes are more accurate and going farther from the root, accuracy decreases.
 ]
 
 #note[
-  The problem that can occur, by using clocks not perfectly in sync: an event that happened afterwards may be labeled and considered before an event that precedes it in time — this may produce a *wrong time synchronization*.
+  The problem that can occur, by using clocks not perfectly in sync: an event that happened afterwards may be labeled and considered before an event that precedes it in time: this may produce a *wrong time synchronization*.
 ]
 
 === Synchronization in Large Systems
 
-Synchronization via physical time clashes with the difficulties of guaranteeing syncing of clocks — high accuracy implies a high overhead and is also prone to errors.
+Synchronization via physical time clashes with the difficulties of guaranteeing syncing of clocks: high accuracy implies a high overhead and is also prone to errors.
 
 #note[
   *Precision required* to coordinate continuously the clocks, and it is *impossible to avoid conflicts and clock drifting* with limited overhead.
@@ -214,9 +214,9 @@ Typically, distributed synchronization is *not based on complex algorithms of ph
 
 Several Distributed Synchronization Methods:
 
-- *Ordering of logical time of Lamport* — use timestamps (time indicator) to label relevant events and to order them #arrow logical clocks and "happened before" relationship.
-- *Token passing LeLann ring strategies* — use authorizations and the token can pass in a logical ring to order events.
-- *Events based on priority* — use process priority to order correlated events. Used in real-time systems and unfair (*special-purpose systems*).
+- *Ordering of logical time of Lamport*: use timestamps (time indicator) to label relevant events and to order them #arrow logical clocks and "happened before" relationship.
+- *Token passing LeLann ring strategies*: use authorizations and the token can pass in a logical ring to order events.
+- *Events based on priority*: use process priority to order correlated events. Used in real-time systems and unfair (*special-purpose systems*).
 
 == Lamport Relationship
 
@@ -260,8 +260,8 @@ We assume to work in an *asynchronous environment*, that makes possible any tran
 
   If a #so b in the system, then the logical timestamp of events must respect the law: *TS(a) < TS(b)*.
 ]
-
-#def("Clock Condition (Logical Clock — LC)")[
+#v(-1em)
+#def("Clock Condition (Logical Clock LC)")[
   Given a and b, if a #so b, then *LC(a) < LC(b)*.
 
   *NOTE: it is not true that, if LC(a) < LC(b), then a #so b.*
@@ -282,12 +282,12 @@ Implementation rules:
 ]
 
 #note[
-  "Who doesn't receive, doesn't update" — the #so relationship allows to order events according with a logical cause-effect relationship, but *the sender has initiative* and forces the update the logical clock of the receiver, not its own. It is the receiver that has to update clock to sender, with a transmission eventually.
+  "Who doesn't receive, doesn't update": the #so relationship allows to order events according with a logical cause-effect relationship, but *the sender has initiative* and forces the update the logical clock of the receiver, not its own. It is the receiver that has to update clock to sender, with a transmission eventually.
 ]
 
 === Happened-Before is Partial
 
-The #so relationship allows to catch cause-effect ordering of events. But it also makes you assume an ordering of events even not in the #so relationship — *concurrent events in real world* (such as c1 and b1) are considered one after the other … so in sequence.
+The #so relationship allows to catch cause-effect ordering of events. But it also makes you assume an ordering of events even not in the #so relationship: *concurrent events in real world* (such as c1 and b1) are considered one after the other … so in sequence.
 
 #note[
   *Ordering and Reality:* The Lamport relationship is a *logical* one and it is *loosely connected with the real world*; it cannot be considered a physical world relationship. Those *who receive messages update their time*; those who do not receive messages may maintain a very low timestamps and are not forced to sync logical clocks (so their timestamps can be very favorable). *Causality problem in clocks*: Two events considered by Lamport in a causal relationship may not be related at all. *Hidden channel problem*: If a process can use an external and non mapped channel to communicate (*hidden channel*), that can lead to a situation that does not respect cause/effect relationship. The effect in real world can have a timestamp lower than the one of the cause.
@@ -306,19 +306,19 @@ Sometimes it is necessary to introduce some *conventional total order relationsh
 ]
 
 #note[
-  The #so relationship *orders any pair of events*. It makes possible to consider two events one after the other while they are instead concurrent in real world. Example: c2 and b2 are managed as in sequence, by considering first process Pb, then Pc. However, *Happened-before #so is only one way and not bidirectional* — given a and b, if a #so b, then LC(a) < LC(b), but it is not true that if LC(a) < LC(b), then a #so b. So you cannot infer that LC(a) < LC(b) means a #so b. Sometimes we need a closer relationship between Lamport model and reality, extending the clock models — toward a *two-way relationship* and *bidirectional ordering via some implementation*.
+  The #so relationship *orders any pair of events*. It makes possible to consider two events one after the other while they are instead concurrent in real world. Example: c2 and b2 are managed as in sequence, by considering first process Pb, then Pc. However, *Happened-before #so is only one way and not bidirectional*: given a and b, if a #so b, then LC(a) < LC(b), but it is not true that if LC(a) < LC(b), then a #so b. So you cannot infer that LC(a) < LC(b) means a #so b. Sometimes we need a closer relationship between Lamport model and reality, extending the clock models: toward a *two-way relationship* and *bidirectional ordering via some implementation*.
 ]
 
 === Vector Clock Ordering
 
-There are other strategies — it is possible to consider *vector logical clocks* or *Vector Clocks* to order events in a process set.
+There are other strategies: it is possible to consider *vector logical clocks* or *Vector Clocks* to order events in a process set.
 
 #def("Vector Clock")[
   *Processes must maintain a vector of all known clocks of processes and use that in communication*. Every process keeps its timestamp and a vector V_i[k] of integers of a dimension of the number of processes. A vector clock element V_i[k] contains information on *what a process knows about the clocks* of other processes.
 
   The process P_i keeps:
-  1. V_i[i] — its own timestamp (index i)
-  2. V_i[k] — the timestamp of any other process P_k at its knowledge
+  1. V_i[i]: its own timestamp (index i)
+  2. V_i[k]: the timestamp of any other process P_k at its knowledge
 ]
 
 === Vector Clock Protocol
@@ -354,7 +354,7 @@ The simplest synchronization case is a set of processes that have to access a *r
 === Centralized Coordinator
 
 An approach based on a single central *coordinator process*:
-- An *approach completely centralized* considers a unique coordinator process known to all other processes (all participants must not know each others — C/S model, but they know the coordinator)
+- An *approach completely centralized* considers a unique coordinator process known to all other processes (all participants must not know each others, C/S model, but they know the coordinator)
 - Every process that intends to access the resource sends the request to the *coordinator* and after usage, *notifies it*
 - The coordinator process decides the scheduling of resource accesses by using its policy to grant mutual exclusion (FIFO management or others)
 - We assume that the coordinator receives all requests sent and queued in a reliable way (but with any delay)
@@ -406,9 +406,9 @@ That solution grants that every process that executes the protocol can receive t
 - *Every request sent message requires a response from all others*
 - While waiting for messages from one process, requests may come from other processes that may precede the concurrent one. Once they arrive, they are queued and sorted by timestamp
 - Every process queue is ordered, and so a process can pass only when 'previous' requests have been served already
-- At least (N-1) messages sent and the same number received before entering — *(N-1)* to exit
+- At least (N-1) messages sent and the same number received before entering: *(N-1)* to exit
 
-*Synchronization worst case:* when all processes want to access the resource at the 'same' time — in case two processes make a request, they separately agree on the fact that first to enter is the one with the lower timestamp so there cannot be conflicts. The algorithm occurs *without centralization*, but in a *completely distributed way*.
+*Synchronization worst case:* when all processes want to access the resource at the 'same' time: in case two processes make a request, they separately agree on the fact that first to enter is the one with the lower timestamp so there cannot be conflicts. The algorithm occurs *without centralization*, but in a *completely distributed way*.
 
 For every action on the critical section, the number of exchanged messages is (considering a possible broadcast as N-1 messages, unless you can obtain lower cost): *Number of messages 3 \* (N-1) or N-1 and 2 broadcasts*. We have a *high cost* due to decentralization. Heavy assumptions on the *static group and no faults*.
 
@@ -444,7 +444,7 @@ Distributed implementation of *atomic multicast* can be less centralized than th
 
 *Realization* is not so scalable and *implementations* of different efficiency (?) or *at least efficient only in specific cases*. Availability of a *broadcast at a low level* can solve many implementation problems and *enhance efficiency* (we also need a support that grant the assumption of not losing messages, connecting all processes, etc.).
 
-=== ISIS — Atomic Multicast
+=== ISIS: Atomic Multicast
 
 #extra[
   *ISIS* appeared in the 90s for CATOCS in UNIX. ISIS is system based on groups with *active replication* and with necessity of a vision with *different degrees of coordination* of group components. The system obtains coordination *with many different forms of group multicast (called broadcast) for the same group*.
@@ -471,7 +471,7 @@ The coordinator receives the message:
 - *Labels it as final* with the received highest timestamp (is that choice and policy necessary?)
 - *Resends the message with the final timestamp* to all others to communicate the final decision
 
-Any in the group has all finalized messages in the same order in its queue so it can drive in the same order the execution. *Problems: delay and overhead — cost in messages of 3 \* (N-1)*.
+Any in the group has all finalized messages in the same order in its queue so it can drive in the same order the execution. *Problems: delay and overhead, cost in messages of 3 \* (N-1)*.
 
 ISIS ABCast achieves the *total ordering of messages* for a group toward a *coherent group vision*:
 - The group must reach an *internal agreement* that can also be *not compliant with the external timestamping* (not respected)
@@ -500,15 +500,15 @@ The group is achieving consistency in operation ordering and, so, *atomicity and
   - To every member *before* group changing
   - To every member *after* a group changing
 
-  For a consistent ordering of any BCast, *either before or after* we need to define a new operation for tracking the dynamic behavior of the group. GBCast makes possible to order all BCasts: any *GBCast message must be either received after every previous BCasts* in the processes (or before — in a consistent way).
+  For a consistent ordering of any BCast, *either before or after* we need to define a new operation for tracking the dynamic behavior of the group. GBCast makes possible to order all BCasts: any *GBCast message must be either received after every previous BCasts* in the processes (or before, in a consistent way).
 
   The GBCast was introduced to design a correct *dynamic grouping*, with no need to stop and reconfigure and work no stop with no problems. GBCast requires an *automatic monitoring support* for *group variation events* (any insertion and extraction trigger one GBCast). When anyone detects a failure of a copy (or a new copy to be inserted), the *GBCast is issued to all copies* to make them aware of the reconfiguration. The *group support* is in charge of invoking it. Every group member uses a *table* for other members: that table is updated by any GBCast (so all other BCasts can be aware of it and consistently ordered).
 ]
 
-=== JGROUPS — Reliable Multicast in Java
+=== JGROUPS: Reliable Multicast in Java
 
 #extra[
-  *JGROUPS* — Java Support for reliable multicast and for group concept (Designed in Java and with user defined proprieties). JGROUPS starts with a *transport level*, either not connected or connected, and it is also possible to work with JMS (Java Message Service) for message specifications. The goal of JGROUPS is *group and message delivery ordering*: it proposes a *reliable* implementation, intended as delivery with *message retransmission*, with most common different ordering: *Atomic, FIFO, Causal*, etc. For the group property, groups are dynamic and managed in membership: *every group element benefits from group messages*, both from outside that from inside the group. Possibility of security, like encryption and other secure support protocols.
+  *JGROUPS*: Java Support for reliable multicast and for group concept (Designed in Java and with user defined proprieties). JGROUPS starts with a *transport level*, either not connected or connected, and it is also possible to work with JMS (Java Message Service) for message specifications. The goal of JGROUPS is *group and message delivery ordering*: it proposes a *reliable* implementation, intended as delivery with *message retransmission*, with most common different ordering: *Atomic, FIFO, Causal*, etc. For the group property, groups are dynamic and managed in membership: *every group element benefits from group messages*, both from outside that from inside the group. Possibility of security, like encryption and other secure support protocols.
 ]
 
 == Apache ZooKeeper
@@ -612,7 +612,7 @@ The main point is to *locally coordinate the event of single component parts* to
   - Let us assume an *asynchronous model* with processes on different nodes that reciprocally can send messages (*channels are only one-way communication between processes*). Processes can execute *locally* and *exchange messages* via channels that must grant that any node must reach any other one, via hops (*no partitioning*).
 ]
 
-Nodes have both *In queues* and *Out queues*. The interconnection must make possible the *reachability of any node from any other one* (no split) — *NO PARTITIONs*.
+Nodes have both *In queues* and *Out queues*. The interconnection must make possible the *reachability of any node from any other one* (no split): *NO PARTITIONs*.
 
 === Global States Composition
 
@@ -623,7 +623,7 @@ The *global state* stems from the *private states of participant processes*, but
 === Global States Consistency
 
 #def("Consistent Cuts")[
-  *Consistent cuts* in a distributed system — not all states are admissible and safe for snapping the shot.
+  *Consistent cuts* in a distributed system: not all states are admissible and safe for snapping the shot.
   - *Consistent cuts (a)* represent a safe global state
   - *Inconsistent cuts (b)* produce an unreasonable global state and should be avoided
 
@@ -631,9 +631,9 @@ The *global state* stems from the *private states of participant processes*, but
 ]
 
 #example("Consistent vs Inconsistent Cut")[
-  *Consistent Cut — Message m3 from P1 to P2*: In case of the m3 message, where we included the sending state in the snapping of P1, we must *record the arrival within the state* of the receiving node P3 — input messages must be saved.
+  *Consistent Cut - Message m3 from P1 to P2*: In case of the m3 message, where we included the sending state in the snapping of P1, we must *record the arrival within the state* of the receiving node P3: input messages must be saved.
 
-  *Inconsistent Cut — Message m2 from P2 to P3*: In case of messages where we record the arrival in the state of the receiver node, but the sending in the sender node was not recorded yet. This type of recording or cut is *inconsistent*, because it embeds the message in the receiver state, but the message has not been recorded in the sender state. In case of replay, the sender will forcedly resend the message that causes the effect of a *double reception* in the receiver and an *unsafe behavior* (this event must be avoided).
+  *Inconsistent Cut - Message m2 from P2 to P3*: In case of messages where we record the arrival in the state of the receiver node, but the sending in the sender node was not recorded yet. This type of recording or cut is *inconsistent*, because it embeds the message in the receiver state, but the message has not been recorded in the sender state. In case of replay, the sender will forcedly resend the message that causes the effect of a *double reception* in the receiver and an *unsafe behavior* (this event must be avoided).
 ]
 
 === Global State via Snapshot
@@ -647,8 +647,8 @@ The *global state* stems from the *private states of participant processes*, but
 Every process is characterized by:
 - *IN and OUT channels* in FIFO mode and enough connections (every bidirectional channel #arrow is separated into two channels)
 - A *state and a color*: no snapshot, snapshot on (or over)
-  - *white* — initial state (before snapshot)
-  - *red* — successive state (doing snapshot or completed)
+  - *white*: initial state (before snapshot)
+  - *red*: successive state (doing snapshot or completed)
 
 *A marker management algorithm*: markers are messages to produce the snapshot propagation. Every process receiving a marker or deciding a snapshot makes a *local state save* and sends *one marker message* via any OUT channels. The process that receives the marker becomes *red*. *The markers pass through channels in FIFO message ordering*.
 
@@ -656,7 +656,7 @@ Every process is characterized by:
 
 Any node has (more) input and (more) output channels. One node starts the snapshot and all nodes makes the same decentralized algorithm while normally going on executing.
 
-Every process is characterized by IN and OUT channels in FIFO mode and enough connections. A state and a color: no snapshot, snapshot on (or over) — white = initial state (before snapshot); red = successive state (doing snapshot or completed).
+Every process is characterized by IN and OUT channels in FIFO mode and enough connections. A state and a color: no snapshot, snapshot on (or over) - white = initial state (before snapshot); red = successive state (doing snapshot or completed).
 
 *Every process receiving a marker or deciding a snapshot* makes a local state save and sends one marker message via any OUT channels. The process that receives the marker becomes red. The markers pass through channels in FIFO message ordering.
 

@@ -1,0 +1,96 @@
+<svg viewBox="0 0 580 360" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="10">
+
+  <!-- Title -->
+  <text x="290" y="18" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">OpenStack Core Services</text>
+
+  <!-- Dashboard layer -->
+  <rect x="20" y="30" width="540" height="34" rx="6" fill="#e8f4ff" stroke="#4a90d9" stroke-width="1.5"/>
+  <text x="290" y="52" text-anchor="middle" font-weight="bold" fill="#1a4a80">Horizon (Dashboard)</text>
+
+  <!-- Keystone bar -->
+  <rect x="20" y="72" width="540" height="28" rx="6" fill="#ffe0cc" stroke="#e8721a" stroke-width="1.5"/>
+  <text x="290" y="91" text-anchor="middle" font-weight="bold" fill="#7d2e00">Keystone (Identity &amp; Auth) — all services authenticate through here</text>
+
+  <!-- Message queue bar -->
+  <rect x="20" y="108" width="540" height="24" rx="6" fill="#fff3cd" stroke="#f0ad4e" stroke-width="1.5"/>
+  <text x="290" y="125" text-anchor="middle" font-weight="bold" fill="#7d5a00">RabbitMQ / AMQP Message Queue — asynchronous service bus</text>
+
+  <!-- Core service boxes -->
+  <!-- Nova -->
+  <rect x="20" y="144" width="100" height="100" rx="6" fill="#d4edda" stroke="#28a745" stroke-width="1.5"/>
+  <text x="70" y="164" text-anchor="middle" font-weight="bold" fill="#155724">Nova</text>
+  <text x="70" y="178" text-anchor="middle" fill="#155724">Compute</text>
+  <text x="70" y="194" text-anchor="middle" font-size="9" fill="#155724">VM lifecycle</text>
+  <text x="70" y="207" text-anchor="middle" font-size="9" fill="#155724">scheduling</text>
+  <text x="70" y="220" text-anchor="middle" font-size="9" fill="#155724">hypervisors</text>
+  <text x="70" y="234" text-anchor="middle" font-size="9" fill="#155724">KVM/Xen/HV</text>
+
+  <!-- Neutron -->
+  <rect x="132" y="144" width="100" height="100" rx="6" fill="#cce5ff" stroke="#4a90d9" stroke-width="1.5"/>
+  <text x="182" y="164" text-anchor="middle" font-weight="bold" fill="#1a4a80">Neutron</text>
+  <text x="182" y="178" text-anchor="middle" fill="#1a4a80">Networking</text>
+  <text x="182" y="194" text-anchor="middle" font-size="9" fill="#1a4a80">virtual networks</text>
+  <text x="182" y="207" text-anchor="middle" font-size="9" fill="#1a4a80">subnets, ports</text>
+  <text x="182" y="220" text-anchor="middle" font-size="9" fill="#1a4a80">VLAN/VXLAN</text>
+  <text x="182" y="234" text-anchor="middle" font-size="9" fill="#1a4a80">OpenVSwitch</text>
+
+  <!-- Glance -->
+  <rect x="244" y="144" width="100" height="100" rx="6" fill="#f0d0ff" stroke="#9c27b0" stroke-width="1.5"/>
+  <text x="294" y="164" text-anchor="middle" font-weight="bold" fill="#4a0072">Glance</text>
+  <text x="294" y="178" text-anchor="middle" fill="#4a0072">Images</text>
+  <text x="294" y="194" text-anchor="middle" font-size="9" fill="#4a0072">disk images</text>
+  <text x="294" y="207" text-anchor="middle" font-size="9" fill="#4a0072">snapshots</text>
+  <text x="294" y="220" text-anchor="middle" font-size="9" fill="#4a0072">metadata reg.</text>
+  <text x="294" y="234" text-anchor="middle" font-size="9" fill="#4a0072">→ stored in Swift</text>
+
+  <!-- Swift -->
+  <rect x="356" y="144" width="100" height="100" rx="6" fill="#fde8b0" stroke="#d4a017" stroke-width="1.5"/>
+  <text x="406" y="164" text-anchor="middle" font-weight="bold" fill="#7d5a00">Swift</text>
+  <text x="406" y="178" text-anchor="middle" fill="#7d5a00">Object Storage</text>
+  <text x="406" y="194" text-anchor="middle" font-size="9" fill="#7d5a00">REST blobs</text>
+  <text x="406" y="207" text-anchor="middle" font-size="9" fill="#7d5a00">account/container</text>
+  <text x="406" y="220" text-anchor="middle" font-size="9" fill="#7d5a00">/object</text>
+  <text x="406" y="234" text-anchor="middle" font-size="9" fill="#7d5a00">images, backups</text>
+
+  <!-- Cinder -->
+  <rect x="468" y="144" width="92" height="100" rx="6" fill="#ffe0b2" stroke="#e8721a" stroke-width="1.5"/>
+  <text x="514" y="164" text-anchor="middle" font-weight="bold" fill="#7d2e00">Cinder</text>
+  <text x="514" y="178" text-anchor="middle" fill="#7d2e00">Block Storage</text>
+  <text x="514" y="194" text-anchor="middle" font-size="9" fill="#7d2e00">persistent vols</text>
+  <text x="514" y="207" text-anchor="middle" font-size="9" fill="#7d2e00">attach/detach</text>
+  <text x="514" y="220" text-anchor="middle" font-size="9" fill="#7d2e00">snapshots</text>
+  <text x="514" y="234" text-anchor="middle" font-size="9" fill="#7d2e00">iSCSI/Ceph</text>
+
+  <!-- Horizontal line separating services from infra -->
+  <line x1="20" y1="258" x2="560" y2="258" stroke="#ccc" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <!-- Ceilometer and Heat -->
+  <rect x="20" y="268" width="250" height="36" rx="5" fill="#f8d7da" stroke="#dc3545" stroke-width="1"/>
+  <text x="145" y="283" text-anchor="middle" font-weight="bold" fill="#721c24">Ceilometer</text>
+  <text x="145" y="297" text-anchor="middle" font-size="9" fill="#721c24">Telemetry / Metering / Billing</text>
+
+  <rect x="310" y="268" width="250" height="36" rx="5" fill="#d6d8d9" stroke="#6c757d" stroke-width="1"/>
+  <text x="435" y="283" text-anchor="middle" font-weight="bold" fill="#343a40">Heat</text>
+  <text x="435" y="297" text-anchor="middle" font-size="9" fill="#343a40">Orchestration / Stack Templates</text>
+
+  <!-- Physical layer -->
+  <rect x="20" y="316" width="540" height="30" rx="6" fill="#e9ecef" stroke="#adb5bd" stroke-width="1.5"/>
+  <text x="290" y="336" text-anchor="middle" font-weight="bold" fill="#495057">Physical Hardware: Servers + Switches + Disks (commodity Linux nodes)</text>
+
+  <!-- Arrows from services to physical -->
+  <line x1="70" y1="244" x2="70" y2="314" stroke="#28a745" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#arrg)"/>
+  <line x1="406" y1="244" x2="406" y2="314" stroke="#d4a017" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#arro)"/>
+  <line x1="514" y1="244" x2="514" y2="314" stroke="#e8721a" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#arror)"/>
+
+  <defs>
+    <marker id="arrg" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L7,3 z" fill="#28a745"/>
+    </marker>
+    <marker id="arro" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L7,3 z" fill="#d4a017"/>
+    </marker>
+    <marker id="arror" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L7,3 z" fill="#e8721a"/>
+    </marker>
+  </defs>
+</svg>

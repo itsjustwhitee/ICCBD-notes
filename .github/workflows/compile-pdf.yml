@@ -1,0 +1,50 @@
+name: Compile Typst PDF
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "**.typ"
+      - "assets/**"
+
+permissions:
+  contents: write
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Typst
+        uses: typst-community/setup-typst@v4
+
+      - name: Install fonts
+        run: |
+          mkdir -p ~/.local/share/fonts/syne ~/.local/share/fonts/jbmono
+
+          # JetBrains Mono — static TTFs from official release
+          curl -fsSL "https://github.com/JetBrains/JetBrainsMono/releases/download/v2.304/JetBrainsMono-2.304.zip" \
+            -o /tmp/jbmono.zip
+          unzip -q /tmp/jbmono.zip "fonts/ttf/*.ttf" -d /tmp/jbmono
+          cp /tmp/jbmono/fonts/ttf/*.ttf ~/.local/share/fonts/jbmono/
+
+          # Syne — static TTFs from google/fonts repo
+          for weight in Regular Medium SemiBold Bold ExtraBold; do
+            curl -fsSL \
+              "https://github.com/google/fonts/raw/main/ofl/syne/static/Syne-${weight}.ttf" \
+              -o ~/.local/share/fonts/syne/Syne-${weight}.ttf
+          done
+
+          fc-cache -fv
+
+      - name: Compile
+        run: typst compile main.typ ICCBD-notes.pdf
+
+      - name: Commit PDF
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "ci: update compiled PDF [skip ci]"
+          file_pattern: ICCBD-notes.pdf

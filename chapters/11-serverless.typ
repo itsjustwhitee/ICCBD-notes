@@ -14,36 +14,10 @@ scheduling, scaling, isolation, and billing.
 
 == Cloud Computing Service Models
 
-=== The Service-Model Spectrum
-
-The cloud-computing stack can be described along a single axis: how much is *managed by
-the provider* versus *managed by the customer*.
-
-- *On-premises*: customer owns and manages everything: hardware, virtualization, runtime, application.
-- *MaaS (Metal as a Service)*: provider manages hardware; customer handles everything above.
-- *IaaS*: provider manages hardware and virtualization; customer handles runtime and application.
-- *PaaS*: provider manages up through the runtime; customer handles the application.
-- *FaaS*: provider manages up through the runtime; customer manages only the application *logic and interconnection lifecycle*.
-- *SaaS*: provider manages everything; customer only uses the application.
-
-#note[
-  The #kw[XaaS] ("Anything as a Service") umbrella is large: MaaS, IaaS, PaaS, SaaS,
-  DBaaS, NaaS, CaaS, StaaS, BaaS, IAaaS, ObjaaS, SecaaS... The trend is clear:
-  every infrastructure concern is becoming an outsourced service.
-]
-
-#analogy("Pizza as a Service 2.0")[
-  On-premises is making pizza at home. MaaS is a commercial kitchen.
-  IaaS is takeaway: the kitchen and oven are provided. PaaS is a restaurant where
-  you choose from the menu. FaaS is food delivery: you specify the recipe (function),
-  the platform prepares and delivers it, and you pay per meal.
-  SaaS is eating at a buffet: you just consume.
-]
-
 === Serverless: Definitions
 
 #def("Serverless Computing")[
-  «Serverless computing is a method of providing backend services on an as-used basis.
+  «#kw[Serverless computing] is a method of providing backend services on an as-used basis.
   A company that gets backend services from a serverless vendor is charged based on
   usage, not a fixed amount of bandwidth or number of servers.»
   --- Cloudflare
@@ -57,22 +31,18 @@ the provider* versus *managed by the customer*.
   «A Serverless solution is one that costs you nothing to run if nobody is using it.»
   --- Paul Johnston, AWS
 ]
-
+#v(-1em)
 #prop("Serverless Key Concepts")[
-  - *Absence of control* on scheduling and scaling logic: the platform decides.
-  - *No control on resource deployments*: provisioning is invisible to the developer.
-  - *Zero-scaling*: cost is based on number of activations; idle functions cost nothing.
-  - *Developer focuses only on business logic*: infrastructure is fully abstracted away.
+  - *Absence of control* on scheduling and scaling logic #swarrow the platform decides.
+  - *No control on resource deployments* #swarrow #hl[provisioning is invisible] to the developer.
+  - #hl[*Zero-scaling*] #swarrow cost is based on number of activations; idle functions cost nothing.
+  - *Developer focuses only on business logic* #swarrow infrastructure is fully abstracted away.
 ]
 
 === Serverless as BaaS + FaaS
 
 In the serverless model (sometimes called *BaaS+FaaS*), everything below the application
-layer is managed by the provider:
-
-- In *IaaS*, the customer manages Application, Data, Runtime, Middleware, OS; the provider handles Virtualization, Servers, Storage, Networking.
-- In *PaaS*, the customer manages Application and Data; the provider manages the rest.
-- In *BaaS+FaaS*, only the *Application logic* (the function code) is customer-managed; the entire stack beneath: Data, Runtime, Middleware, OS, Virtualization, Servers, Storage, Networking, is provider-managed.
+layer is managed by the provider. In #hl[*BaaS+FaaS*, only the *Application logic* (the function code) is customer-]#hl[managed], while the entire stack beneath: Data, Runtime, Middleware, OS, Virtualization, Servers, Storage, Networking, is provider-managed.
 
 == Backend as a Service (BaaS)
 
@@ -91,11 +61,13 @@ BaaS components:
 - *Cognitive as a Service* (AI/ML APIs)
 - Authentication, Alerting, Push Notifications, ...
 
-#why("Why BaaS matters for serverless")[
-  Functions are stateless and ephemeral: they cannot hold long-lived connections or
-  manage persistent state. BaaS services (managed databases, object storage, queues)
-  fill this gap, giving functions a reliable backend without forcing the developer to
-  manage servers.
+#extra[
+  #why([*BaaS for serverless*])[
+    Functions are stateless and ephemeral: they cannot hold long-lived connections or
+    manage persistent state. BaaS services (managed databases, object storage, queues)
+    fill this gap, giving functions a reliable backend without forcing the developer to
+    manage servers.
+  ]
 ]
 
 == Function as a Service (FaaS)
@@ -104,19 +76,25 @@ BaaS components:
 
 #def("FaaS: Function as a Service")[
   #kw[FaaS] is an *event-centric* computing model where user-defined business logic
-  (functions) is triggered and dynamically instantiated by incoming events.
-  Each function is a small, stateless, independently deployable unit of logic.
+  (*functions*) is triggered and dynamically instantiated by incoming events.\
+  Each function is a small, *stateless*, independently deployable unit of logic.
 ]
 #v(-1em)
 #prop("FaaS Core Properties")[
-  - *Stateless*: functions carry no state between invocations; all persistent state lives in external BaaS services.
-  - *Event-driven*: execution is always triggered by an event (HTTP request, queue message, timer, file upload, ...).
-  - *Ephemeral execution environments*: the execution container is created on demand and destroyed after the invocation.
-  - *Fine-grained autoscaling with zero-scaling*: the platform scales from zero to thousands of concurrent instances automatically, and scales back to zero when idle.
+  - #hl[*Stateless*: functions carry no state between invocations], all persistent state lives in external BaaS services.
+  - #hl[*Event-driven*]: execution is always triggered by an *event* (HTTP request, queue message, timer, file upload, ...).
+  - *Ephemeral execution environments*: the #hl[execution container is created on demand and destroyed] after the invocation.
+  - #hl[*Fine-grained autoscaling with zero-scaling*]: the platform scales from zero to thousands of concurrent instances automatically, and scales back to zero when idle.
 ]
 #v(-1em)
-#def("Cold Start")[
-  When a FaaS platform has scaled a function to *zero instances* (no traffic), the next incoming request must trigger provisioning of a new container from scratch. This initialization phase (pulling the image, starting the runtime, loading the function code) is called a #kw[cold start] and introduces *additional latency* on the first request after a period of inactivity.
+#note[
+  FaaS needs:
+  - *Orchestration*.
+  - *Choreography*.
+]
+
+#important("Cold Start")[
+  When a FaaS platform has scaled a function to *zero instances* (no traffic), the next incoming request must trigger provisioning of a new container from scratch. This initialization phase (pulling the image, starting the runtime, loading the function code) is called a #hl[#kw[cold start]] #hl[and introduces *additional latency* on the first request after a period of inactivity].
 
   Once the container is running and serving requests, subsequent invocations are *warm starts*, with no overhead.
 ]
@@ -131,8 +109,8 @@ BaaS components:
 ]
 #v(-1em)
 #note[
-  Functions can be composed into *pipelines* and *workflows*. Reducing the scope of
-  each function enables easy parallelism and higher throughput. A pipeline of functions
+  #hl[Functions can be composed into *pipelines* and *workflows*]. Reducing the scope of
+  each function enables #hl[easy parallelism and higher throughput]. A pipeline of functions
   is also called a *workflow*.
 ]
 
@@ -143,8 +121,8 @@ FaaS pushes decomposition one level beyond microservices:
 - A *monolith* is decomposed into *microservices*.
 - Each *microservice* is itself a composition of *functions*.
 
-#so a microservice in FaaS is just a group of cooperating functions sharing a trigger
-and a lifecycle.
+#so #hl[a microservice in FaaS is just a group of cooperating functions sharing a trigger
+and a lifecycle].
 
 === FaaS Advantages
 
@@ -152,13 +130,12 @@ and a lifecycle.
   - *Ease of development process*: write only the business logic.
   - *Ready-to-use services*: connect to BaaS for storage, auth, messaging.
   - *Reduced management costs*: no servers to patch, monitor, or scale.
-  - *Fine-grained autoscaling* #arrow *pay only for what you use*.
+  - #hl[*Fine-grained autoscaling* #arrow *pay only for what you use*].
   - *Many provider-side optimization possibilities*: the provider can bin-pack, pre-warm, and cache containers transparently.
 ]
-
+#v(-1em)
 #note[
-  The slides mention *event sourcing* and a *state manager* as advanced patterns:
-  an event is treated as a state (more complex coordination), while an *orchestrator*
+  An event is treated as a state (more complex coordination), while an *orchestrator*
   executes programs. FaaS fits naturally into event-sourcing architectures.
 ]
 
@@ -168,29 +145,36 @@ In FaaS the customer manages:
 - *Application layer only*: the logic, the interconnection pattern, and the lifecycle configuration.
 
 Two coordination capabilities exist in functional services:
-- *Orchestration*: a central entity manages all function executions (e.g., AWS Step Functions).
-- *Choreography*: a function triggers a sequence of events, with no central manager.
+- #hl[*Orchestration*: a central entity manages all function executions] (e.g., AWS Step Functions).
+- #hl[*Choreography*: a function triggers a sequence of events, with no central manager].
 
 == FaaS Architecture
 
 === FaaS Workflow
 
 #def("FaaS Workflow")[
-  The association between a specific event and the execution of one (or more) specific
+  The association between a *specific event* and the *execution* of one (or more) specific
   functions is called a #kw[FaaS Workflow].
 ]
 
-A typical workflow: `HTTP request` #arrow `FaaS platform` #arrow `function executes` #arrow returns JSON response.
+#extra[A typical workflow: `HTTP request` #arrow `FaaS platform` #arrow `function executes` #arrow returns JSON response.]
+
+
 
 === Essential Components of a FaaS Platform
 
-Every FaaS platform must include at least three components:
+Every FaaS platform must include #underline[at least] three components:
 
 #prop("FaaS Essential Components")[
-  - *Trigger*: bridges external events with ones manageable by the FaaS infrastructure.
-  - *Controller*: orchestrates event delivery and function lifecycle.
-  - *Function Executor*: runs the function code in an isolated environment.
+  - *Trigger*: bridges external *events* with ones manageable by the FaaS infrastructure.
+  - *Controller*: #hl[orchestrates] event delivery and function lifecycle.
+  - *Function Executor*: runs the #hl[function code in an isolated environment].
 ]
+
+#figure(
+  image("../assets/faas-components.jpg",width: 60%),
+  caption: [FaaS components.]
+)
 
 === The Trigger
 
@@ -211,28 +195,34 @@ Every FaaS platform must include at least three components:
 ]
 #v(-1em)
 #prop("Controller Advanced Features")[
-  - *Scalability* of components.
-  - *Location transparency*: clients need not know where a function runs.
+  - *#hl[Scalability]* of components.
+  - #hl[*Location transparency*]: clients need not know where a function runs.
   - Delivery of events with different *QoS* levels.
-  - *Load balancing* across function instances.
-  - *Asynchronous delivery* via a Message-Oriented Middleware (MOM).
+  - #hl[*Load balancing* across function instances].
+  - #hl[*Asynchronous delivery* via a MOM].
 ]
 
 === The Function Executor
 
 #prop("Function Executor Structure")[
   The Function Executor contains:
-  - *Invoker* (or watchdog): receives events from the controller, runs the designated function by passing the event, and manages the result.
-  - *Execution environment*: provides isolation (Container, VM, or WASM), dependency management (OS libs), and reproducibility.
-  - *Logic*: the function code itself.
+  - #hl[*Invoker* (or watchdog): receives events from the controller, runs the designated function] by passing the event, and #hl[manages the result].
+  - #hl[*Execution environment*: provides isolation] (Container, VM, or WASM), dependency management (OS libs), and reproducibility.
+  - #hl[*Logic*]: the function code itself.
 ]
 #v(-1em)
-#important("Execution Environment Isolation")[
+#note[
   The execution environment must guarantee:
-  - *Isolation*: one function cannot interfere with another.
-  - *Dependencies*: the correct OS, libraries, and runtime are bundled.
-  - *Reproducibility*: the same image runs identically on every invocation.
+  - *Isolation* #swarrow one function cannot interfere with another.
+  - *Dependencies* #swarrow the correct OS, libraries, and runtime are bundled.
+  - *Reproducibility* #swarrow the same image runs identically on every invocation.
 ]
+
+#figure(
+  crop(image("../assets/function-executor.webp", width: 30%),
+  bottom:16%, top: 10%, left: 1%),
+  caption: [Function executor.]
+)
 
 === Platform Architecture (detailed)
 
@@ -253,23 +243,20 @@ of a *Dispatcher*:
   A #kw[FaaS workflow] is a series of FaaS functions orchestrated to complete a complex task.
 ]
 
-Common use cases:
-- Data pipelines.
-- API processing.
-- Event stream handling.
-
+#extra[
+  Common use cases:
+  - Data pipelines.
+  - API processing.
+  - Event stream handling.
+]
+#v(-0.7em)
 #prop("Benefits of FaaS Workflows")[
   - *Scalability*: automatically scales with workload.
   - *Cost-efficiency*: pay-per-use model reduces expenses.
-  - *Modularity*: functions can be developed, deployed, and updated independently.
+  - #hl[*Modularity*: functions can be developed, deployed, and updated independently].
 ]
 
 === Core Workflow Components
-
-#prop("Orchestration vs. Choreography")[
-  - *Orchestration*: a central entity (e.g., AWS Step Functions, Azure Durable Functions) manages all function executions.
-  - *Choreography*: functions trigger each other using events without a central manager.
-]
 
 *Workflow building blocks*:
 - *Event Sources*: events that trigger workflows (APIs, IoT events, file uploads).
@@ -279,32 +266,51 @@ Common use cases:
 
 === Composition Patterns
 
-Functions can be composed in three main patterns:
+#hl[Functions can be composed] in three main patterns:
 
 #prop("Function Merging Pattern")[
-  Two or more functions are *merged* into one, which also defines the composition logic.
-  Execution is very efficient because everything runs locally in a single container.
+  In the #kw[function merging pattern] #hl[two or more functions are *merged* into one], which also defines the composition logic.\
+  Execution is very *efficient* because everything runs locally in a single container.\
   The merged function acts as a monolithic coordinator.
 ]
-#v(-1em)
+#v(-0.7em)
+#figure(
+  image("../assets/function-merging-pattern.jpg", width: 45%),
+  caption: [Function merging pattern.]
+)
+
 #prop("Reflective Invocation Pattern")[
-  Two or more functions are invoked by an additional *coordinating function* provided
-  by the customer. The coordinating function can hold state. Coordinated functions are
-  independent and run in separate workflows (Workflow A, Workflow B), each with their
+  In the #kw[reflective invocation pattern] #hl[two or more functions are invoked by an additional *coordi-*] #hl[*nating function* provided] by the customer. The #hl[coordinating function can hold *state*]. \
+  Coordinated functions are *independent* and run in separate workflows (Workflow A, Workflow B), each with their
   own trigger. This is more expensive in resources because every trigger must pass
   through all network nodes.
 ]
 #v(-1em)
+#note[
+  Since functions run into separate workflows, if one (such as A) is slower than the other (B), it can be replicated more (more instances).
+]
+#v(-0.7em)
+#figure(
+  image("../assets/function-reflective-invocation-pattern.jpg", width: 60%),
+  caption: [Function reflective invocation pattern.]
+)
+
 #prop("Continuous Passing Pattern (Function Chaining)")[
-  The result of the execution of Function A is passed directly to Function B as its
-  trigger (instead of returning to the caller). The next function is hard-coded, making
-  the chain static: changing the successor requires a new function definition.
+  In the #kw[continuous passing pattern] (function chaining) the #hl[result of the execution of Function A] #hl[is passed directly to Function B as its trigger] (instead of returning to the caller). The next function is hard-coded, making the chain static: changing the successor requires a new function definition.
 ]
 
+#v(-0.7em)
+#figure(
+  image("../assets/function-continuous-passing-pattern.jpg", width: 75%),
+  caption: [Function continuous passing pattern.]
+)
+
+#extra[
 Other composition examples:
-- *Facade pattern*: a single function aggregates multiple downstream APIs.
-- *Conditional chaining*: branches based on function output.
-- *Map-reduce*: parallel map functions feed a reduce stage.
+  - *Facade pattern*: a single function aggregates multiple downstream APIs.
+  - *Conditional chaining*: branches based on function output.
+  - *Map-reduce*: parallel map functions feed a reduce stage.
+]
 
 === Example: E-Commerce Order Workflow
 
@@ -325,15 +331,17 @@ Other composition examples:
 
 FaaS platforms fall into two categories:
 
-- *Hosted platforms*: AWS Lambda, Azure Functions, Google Cloud Functions, Cloudflare Workers, Vercel, Netlify Functions, IBM Cloud Functions, Twilio Functions, Koyeb, ...
-- *Installable/open-source platforms*: Knative (CNCF Incubating), KEDA (CNCF Incubating), Apache OpenWhisk, OpenFaaS, Fission, Kubeless, Kyma, Nuclio, OpenFAAS, PipelineAI, Virtual Kubelet, riff, ...
+- *Hosted platforms*: #extra[AWS Lambda, Azure Functions, Google Cloud Functions, Cloudflare Workers, Vercel, Netlify Functions, IBM Cloud Functions, Twilio Functions, Koyeb, ...]
+- *Installable/open-source platforms*: #extra[*Knative* (CNCF Incubating), KEDA (CNCF Incubating), Apache OpenWhisk, *OpenFaaS*, Fission, Kubeless, Kyma, Nuclio, OpenFAAS, PipelineAI, Virtual Kubelet, riff, ...]
 
-#why("Why Open Source FaaS?")[
-  - Serverless advantages available on *on-premises* nodes, not just public clouds.
-  - *Total control* over components.
-  - *Transparency* of the architecture, no vendor black-box.
-  Open-source platforms (Fission, OpenFaaS, Apache OpenWhisk, Knative) bring
-  FaaS benefits to private and hybrid clouds.
+#extra[
+  #why("Open Source")[
+    - Serverless advantages available on *on-premises* nodes, not just public clouds.
+    - *Total control* over components.
+    - *Transparency* of the architecture, no vendor black-box.
+    Open-source platforms (Fission, OpenFaaS, Apache OpenWhisk, Knative) bring
+    FaaS benefits to private and hybrid clouds.
+  ]
 ]
 
 == OpenFaaS
@@ -359,13 +367,18 @@ The flow of an invocation:
 + Provider routes to the appropriate *function container* (`fn`), identified by name and image.
 + Functions are stored in a *Registry*.
 
+#figure(
+  image("../assets/openfaas-flow.jpg", width: 70%),
+  caption: [OpenFaaS internal flow.]
+)
+
 === OpenFaaS: Gateway
 
 The *OpenFaaS Gateway* is simultaneously the trigger and controller:
 
 #prop("Gateway Capabilities")[
   - *HTTP Trigger*: accepts incoming HTTP requests.
-  - *Controller*: distributes invocations over available functions; manages resources through Providers.
+  - *Controller*: distributes invocations over available functions and manages resources through Providers.
   - *Built-in UI Portal*.
   - *Function management API*.
   - *Monitoring, Tracing, Logging* exposure.
@@ -380,7 +393,7 @@ The *OpenFaaS Gateway* is simultaneously the trigger and controller:
 - Widely-spread cloud-oriented monitoring service.
 - Embeds a multi-dimensional data model with time-series.
 - Uses *PromQL* for querying.
-- Each server has its own storage #arrow single server nodes are autonomous.
+- Each server has its own storage #so single server nodes are autonomous.
 - Pull-model over HTTP: metrics are collected by Prometheus from targets.
 - Targets discovered via service discovery or static configuration.
 - Multiple graphing and dashboarding modes.
@@ -390,18 +403,23 @@ The *OpenFaaS Gateway* is simultaneously the trigger and controller:
 *NATS* is the message-oriented middleware used by OpenFaaS for asynchronous delivery:
 
 #prop("NATS Properties")[
-  - Native Pub/Sub and Request/Reply support.
+  - Native #hl[Pub/Sub and Request/Reply support].
   - Open source, lightweight, high-performance.
   - Cloud-native infrastructure.
   - Hybrid deployment support.
-  - Delivery guarantees: *at-least-once*, *at-most-once*, *exactly-once*.
+  - #hl[Delivery guarantees: *at-least-once*, *at-most-once*, *exactly-once*].
 ]
-#v(-1em)
+The flow is: Trigger #arrow Controller #arrow NATS #arrow Function(s).
+
 #example("OpenFaaS Asynchronous Invocation")[
   A "Request Statement" event triggers the Gateway. The Gateway enqueues via NATS
   Streaming. A `queue-worker` function dequeues, calls a `Generate Statement` function
   that queries Postgres and uploads a PDF to S3. Finally a callback invokes
   `Email Customer` with the result.
+  #figure(
+    image("../assets/openfaas-example.jpg", width: 60%),
+    caption: [Example of asynchronous invocation on OpenFaaS.]
+  )
 ]
 
 === OpenFaaS: Providers
@@ -417,14 +435,13 @@ environments (Kubernetes, containerd, AWS, ...). They provide:
 
 #note[
   Using containers (Kubernetes pods) for functions is *expensive* in terms of overhead.
-  Fine-grained scalability is *sacrificed* in order to gain stronger isolation and
-  compatibility with the Kubernetes ecosystem.
+  Fine-grained scalability is *sacrificed* in order to gain stronger isolation.
 ]
 
 === OpenFaaS: Watchdog (Invoker)
 
-Every function executes inside a container that exposes a proxy, the *Watchdog*, used
-to pass the function code to the forked process.
+Every function executes inside a container that exposes a proxy, the #hl[*Watchdog*, used
+to pass the] #hl[function code to the forked process].
 
 #prop("Watchdog Execution Steps")[
   + Receive an event from the controller.
@@ -437,10 +454,21 @@ to pass the function code to the forked process.
 
 Two watchdog modes exist:
 
-- *Forking mode*: for each request, a new Linux process (heavy) is forked. The function is executed on a dedicated process, and once it finishes it is destroyed. A child process is created to accomplish the function.
-- *HTTP mode*: a persistent child process exposes an HTTP server at `localhost:3000`; the parent watchdog proxies requests to it.
+- *Forking mode*: #hl[for each request, a new Linux process (*heavy*) is forked]. The function is executed on a dedicated process, and #hl[once it finishes it is destroyed]. A child process is created to accomplish the function.
+  #figure(
+    crop(image("../assets/openfaas-watchdog-modes.png", width: 50%),
+    top: 10%, bottom: 96%, left: 7%, right: 122%),
+    caption: [Watchdog forking.]
+  )
 
-#prop("Keeping the Child Alive (HTTP Mode Trade-offs)")[
+- *HTTP mode*: a #hl[*persistent* child process exposes an HTTP server] at `localhost:3000` and the parent watchdog proxies requests to it, passing also the code.
+  #figure(
+    crop(image("../assets/openfaas-watchdog-modes.png", width: 50%),
+    bottom: 10%, top: 166%, left: 7%, right: 126%),
+    caption: [Watchdog HTTP mode.]
+  )
+
+#note[
   Keeping the child process alive breaks the strict FaaS definition but offers:
   - *No-zero scaling* (the container is warm).
   - *Thread concurrency* in the child.
@@ -454,6 +482,11 @@ Two watchdog modes exist:
 OpenFaaS on *containerd* directly, controlled by *systemd*, without Kubernetes overhead.
 Suitable for edge, IoT, and single-node deployments.
 
+#figure(
+  image("../assets/faasd.jpg",width: 49%),
+  caption: [faasd scheme.]
+)
+
 == Apache OpenWhisk
 
 #def("Apache OpenWhisk")[
@@ -461,31 +494,36 @@ Suitable for edge, IoT, and single-node deployments.
   action-oriented model. It uses an event-driven architecture built on Kafka and
   CouchDB.
 ]
-
+#v(-1em)
 #prop("OpenWhisk Architecture")[
   - *NGINX*: single point of access (API Gateway).
-  - *Controller*: manages every function call, load balances across nodes, and serves as the authentication server. Can become a bottleneck (not replicated like ETCD).
-  - *Apache Kafka*: enables event-based and asynchronous communications.
-  - *Invoker*: executes functions (actions) in Docker containers.
+  - *Controller*: manages every function call, load balances across nodes, and serves as the authentication server. Can become a bottleneck (#underline[not replicated] like ETCD).
+  - #hl[*Apache Kafka*: enables event-based and asynchronous communications].
+  - #hl[*Invoker*: executes functions (actions) in Docker containers].
   - *Apache CouchDB*: stores functions, parameters, configurations, and results.
 ]
+#figure(
+  image("../assets/openwhisk.jpg", width: 40%),
+  caption: [OpenWhisk architecture.]
+)
 
 == Knative
 
 === Overview
 
 #def("Knative")[
-  #kw[Knative] is a *platform-agnostic* solution for running serverless applications
-  on Kubernetes. It simplifies deployment, scaling, and event-driven architectures.
-  *Knative is not a FaaS*: it abstracts Kubernetes resources, exposing them as
+  #kw[Knative] is a *platform-agnostic* solution for running *serverless* applications
+  on Kubernetes. It simplifies deployment, scaling, and event-driven architectures.\
+  *Knative is #underline[not a FaaS]*: it abstracts Kubernetes resources, exposing them as
   serverless workloads (microservices, not functions).
 ]
-
+#extra[
 Roles in the Knative ecosystem:
 - *Developers*: build and deploy apps via Knative API.
 - *Operators*: deploy and manage Knative instances using Kubernetes API.
 - *Users/IoT systems*: consume applications deployed by developers.
 - *Contributors*: develop and contribute to the OSS project via GitHub.
+]
 
 #prop("Knative Benefits")[
   - *Scalability*: automatically scales from zero to millions of requests.
@@ -500,19 +538,24 @@ Knative has two main subsystems: *Serving* and *Eventing*.
 
 #prop("Knative Serving: Key Components")[
   - *Ingress Gateway*: entry point for all external traffic.
-  - *Activator*: queues incoming requests when a service is scaled-to-zero; communicates with the Autoscaler to bring the service back up; can act as a request buffer for traffic bursts.
+  - *Activator*: queues incoming requests when a service is scaled-to-zero and communicates with the Autoscaler to bring the service back up. It can act as a request buffer for traffic bursts.
   - *Autoscaler*: scales Knative Services based on configurations, metrics, and incoming requests.
-  - *Queue-Proxy*: a sidecar container in the Knative Service Pod; collects metrics (useful for batching multiple events together), enforces the desired concurrency, and can act as a queue/buffer.
-  - *Controller*: manages the state of Knative resources within the cluster; implements the Operator Pattern (Observed State #arrow Desired State); can become a bottleneck. Watches several objects, manages lifecycle of dependent resources.
+  - *Queue-Proxy*: a sidecar container in the Knative Service Pod that collects metrics (useful for batching multiple events together), enforces the desired concurrency, and can act as a queue/buffer.
+  - *Controller*: manages the state of Knative resources within the cluster, implements the Operator Pattern (Observed State #arrow Desired State), #underline[can become a bottleneck]. Watches several objects, manages lifecycle of dependent resources.
   - *Webhooks*: validate and mutate Knative resources.
   - *DomainMapping*: maps custom domains to Knative Services.
 ]
 #v(-1em)
 #note[
-  All Knative Serving components (Activator, Autoscaler, Controller, etc.) are
-  *microservices*, not functions. Knative abstracts Kubernetes, providing a serverless
+  #hl[All Knative Serving components] (Activator, Autoscaler, Controller, etc.) #hl[are]
+  #hl[*microservices*], not functions. Knative abstracts Kubernetes, providing a serverless
   *developer experience* without the FaaS per-invocation billing model.
 ]
+
+#figure(
+  image("../assets/knative-serving-architecture.png", width: 60%),
+  caption: [Knative serving architecture.]
+)
 
 === Knative Serving: Resource Model
 
@@ -530,15 +573,17 @@ Knative Serving follows a *golden path standardization* using four Kubernetes CR
 Revisions are created indirectly when a Configuration is created or updated.
 
 #prop("Revision-Based Deployment Benefits")[
-  - *Automated Rollouts*: Route performs rollouts using a single, referenceable Revision.
-  - *History tracking*: Revisions offer a historical record of changes.
-  - *Rollback*: revert to a different Revision (previous known good Configuration).
+  - #hl[*Automated Rollouts*]: Route performs rollouts using a single, referenceable Revision.
+  - #hl[*History tracking*]: Revisions offer a historical record of changes.
+  - #hl[*Rollback*]: revert to a different Revision (previous known good Configuration).
 ]
 
-Update scenarios:
-- Push image, keep config #arrow update image, retain config.
-- Update config, keep image #arrow modify config (e.g., env vars), keep image.
-- *Controlled Rollout*: test revisions gradually by adjusting traffic specs.
+#extra[
+  Update scenarios:
+  - Push image, keep config #arrow update image, retain config.
+  - Update config, keep image #arrow modify config (e.g., env vars), keep image.
+  - *Controlled Rollout*: test revisions gradually by adjusting traffic specs.
+]
 
 === Knative Request Flow
 
@@ -557,9 +602,14 @@ The request flow through Knative Serving:
 === Knative Serving vs. Eventing
 
 #prop("Serving vs. Eventing")[
-  - *Serving* (C/S model, default): manages HTTP-triggered workloads. Handles revision history, traffic splitting, scale-to-zero. Very *DevOps-oriented*.
+  - *Serving* (C/S model, _default_): manages HTTP-triggered workloads. Handles revision history, traffic splitting, scale-to-zero. Very *DevOps-oriented*.
   - *Eventing* (event-based model): collection of APIs enabling event-driven architectures. Supports event sources (HTTP, CloudEvents), event brokers and channels for distribution, and event-driven function triggers.
 ]
+
+#figure(
+  image("../assets/knative-serving-vs-eventing.jpg", width: 70%),
+  caption: [Knative serving (left) vs. eventing (right) approach.]
+)
 
 == Knative Eventing
 
@@ -567,15 +617,15 @@ The request flow through Knative Serving:
 
 #prop("Knative Eventing Goals")[
   - *Loosely Coupled Services*: services can be developed and deployed independently on Kubernetes, VMs, SaaS, FaaS, enabling reusability across languages and tools.
-  - *Independent Event Production and Consumption*: producers generate events before consumers are ready; consumers express interest in events not yet being produced.
-  - *Flexible Service Connections*: no need to modify producer or consumer when connecting; select specific subsets of events from a producer.
+  - *Independent Event Production and Consumption*: producers generate events before consumers are ready, consumers express interest in events not yet being produced.
+  - *Flexible Service Connections*: no need to modify producer or consumer when connecting, select specific subsets of events from a producer.
 ]
 
 Key principles:
 - *CloudEvents Specification*: utilizes and extends CloudEvents for event data exchange.
-- *At-least-once delivery*: prioritizes reliable delivery using HTTP POST (push) transport.
+- #hl[*At-least-once delivery*]: prioritizes reliable delivery using HTTP POST (push) transport.
 
-Knative Eventing can drive *both* Client/Server and event-driven architectures simultaneously.
+#hl[Knative Eventing can drive *both* Client/Server and event-driven architectures simultaneously].
 
 === Eventing Components
 
@@ -586,14 +636,19 @@ Knative Eventing can drive *both* Client/Server and event-driven architectures s
   - *Subscriptions*: define how events are consumed by a service.
 ]
 
+#figure(
+  image("../assets/knative-eventing-components.jpg", width: 80%),
+  caption: [Knative eventing components.]
+)
+
 Two event-processing patterns:
 
 - *Topology-based Event Routing* (`messaging.knative.dev`): events routed based on connections (e.g., Channel to Subscription): resembles event plumbing where flow is like water through pipes; supports routing "reply" events back through the object topology.
-- *Content-based Event Routing* (`eventing.knative.dev`): events routed based on event *attributes* (not just connections), via Brokers and Triggers: "picking parts off a conveyor belt" where each event is processed separately; handles reply events by re-enqueueing them in the originating Broker.
+- *Content-based Event Routing* (`eventing.knative.dev`): events routed based on event *attributes* (not just connections), via Brokers and Triggers: "picking parts off a conveyor belt" where each event is processed separately. it handles reply events by re-enqueueing them in the originating Broker.
 
 #note[
   Knative Eventing does *not* specify models for multi-stage workflows, correlated
-  request-reply, or sequential event processing; but these can be built using its
+  request-reply, or sequential event processing, but these can be built using its
   primitives or by integrating with external systems.
 ]
 

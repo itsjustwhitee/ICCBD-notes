@@ -429,36 +429,7 @@ The key architectural trade-off in distributed data storage is between *ACID* (c
 
 == Big Data Infrastructure Properties
 
-Modern IT data infrastructures must address resources as *unifying concepts*: even the configuration of a DB is a resource, stored on disk (consistent).
-
-Issues for resources divide by timing:
-
-*Run-time issues*:
-- *Resource Sharing* (multicast)
-- *Resource Distribution* (events)
-- *Resource Synchronization*
-- *Resource Replication*
-- *Resource Control*
-
-*Static / Before Run-time issues*:
-- *Resource Configuration*
-- *Resource Timing*
-
-=== Technical and User Properties
-
-Required *technical properties*:
-- *Dynamicity and adaptability*
-- *Fault tolerance or Replication* (availability and reliability)
-- *Loose Consistency*
-- *Group communication*
-- *Data configuration and access*
-- *Resource life cycle support*
-
-Required *user-facing properties*:
-- *Transparency*
-- *Low intrusion*
-- *Time awareness*
-- *Simplicity* (the most important: a system that is hard to use will not be used correctly)
+The resource management taxonomy (runtime/static issues, technical and user-facing requirements) is shared across all Big Data infrastructure and is consolidated in the Data Batching chapter.
 
 #extra[
   TiKV (a distributed key-value store used in TiDB) represents an advanced evolution in this space:

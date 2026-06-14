@@ -321,7 +321,7 @@ MapReduce greatly simplified Big Data analysis, but as it became popular, users 
 - *More complex, multi-stage applications* (e.g., iterative graph algorithms and machine learning): MapReduce chains require writing intermediate results to disk between every job
 - *More interactive ad-hoc queries*
 
-Both multi-stage and interactive apps require faster *data sharing across parallel jobs*. MapReduce's answer was writing to HDFS: slow due to replication, serialization, and disk I/O.
+Both multi-stage and interactive apps require faster *data sharing across parallel jobs*.
 
 #important("MapReduce Data Sharing Problem")[
   In MapReduce: iterative jobs require HDFS read → process → HDFS write → HDFS read → process → ... for every iteration. Interactive queries each need a fresh HDFS read. Both are *slow due to replication, serialization, and disk I/O*. This is the fundamental bottleneck MapReduce cannot solve.

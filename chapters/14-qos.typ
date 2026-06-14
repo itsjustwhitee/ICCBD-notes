@@ -224,14 +224,7 @@ The IntServ suite has three protocols:
   - *Not a routing protocol*: works before provisioning, impacts less on execution.
   - One reservation can block another, producing a `ResvErr`.
   - Recommended only for *limited local networks*, not global environments (legacy application compatibility issues).
-]
-#v(-1em)
-#prop("RSVP Summary")[
-  - Single-hop protocol inside IntServ (from one node to one potential neighbor).
-  - Objective: signal information to reserve necessary resources.
-  - Defines a non-permanent (soft) state of the active path.
-  - Can work with any routing protocol (unicast or multicast).
-  - In case of router failure, QoS can downgrade to best-effort #so renegotiation is needed during provisioning.
+  - On router failure, QoS falls back to best-effort; RSVP must renegotiate the path reservation during provisioning.
 ]
 
 === RTP: Real-Time Transport Protocol (RFC 1889)

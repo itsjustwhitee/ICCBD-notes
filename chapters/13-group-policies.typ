@@ -593,10 +593,6 @@ Every participant P_i that detects necessity of an election (event local to a re
 - If it has already generated an ET token, it verifies the *static priority* and decides who has *highest priority* in the election
 - If the process receives its ET, it removes it and verifies the registration list. The process generates a new token, only if it is the node with *minimum index (top priority)* inside the registration list
 
-#note[
-  The election token becomes the new token. Election in a ring shows very simple recovery strategies in case of potential token loss.
-]
-
 == Global State
 
 In a distributed system it is sometimes necessary to coordinate and support a *global state associated with the current situation*. The state can be successively used to *replay the system from a previous point and restart execution in a safe situation*.
@@ -650,13 +646,7 @@ Every process is characterized by:
 
 === Distributed Global Snapshot Algorithm
 
-Any node has (more) input and (more) output channels. One node starts the snapshot and all nodes makes the same decentralized algorithm while normally going on executing.
-
-Every process is characterized by IN and OUT channels in FIFO mode and enough connections. A state and a color: no snapshot, snapshot on (or over) - white = initial state (before snapshot); red = successive state (doing snapshot or completed).
-
-*Every process receiving a marker or deciding a snapshot* makes a local state save and sends one marker message via any OUT channels. The process that receives the marker becomes red. The markers pass through channels in FIFO message ordering.
-
-The algorithm proceeds as follows:
+The algorithm proceeds as follows (setup and color semantics defined above):
 1. *A process Q decides to start a snapshot* (or receives the first marker): it records its local state and sends one marker on every output channel, then starts recording all messages arriving on its input channels (which are still open).
 2. *Q receives a marker on an input channel*: that channel is now closed for recording (the marker signals "everything before this point has been captured"). Messages on other input channels are still being recorded.
 3. *Q receives a marker on each remaining input channel*: it closes recording for each one, saving the in-transit messages that arrived before the marker.
@@ -674,10 +664,6 @@ When a process ends the snapshot on all input channels, it has *completed the no
   - For the *process state*, it is created when a process starts the snapshot or receives a marker
 
 Every process that receives the marker makes the *checkpoint* of its local state and sends a *marker message* in any output queue. For the *channel state*, every incoming message is recorded until that channel gets a marker that *signals the end of the information* to be recorded for that channel. The registration in that channel can then be closed (*checkpoint*).
-
-The *global state* is composed by:
-- *Local state* of every process
-- *State of connection channels* (messages in transit at snapshot time)
 
 Messages in a channel can be classified by the color of sender and receiver at snapshot time:
 - *bb* (white sender, white receiver): sent and received before snapshot - already captured in local states.

@@ -66,57 +66,63 @@ Common causes of downtime by business impact: hardware drive or server failures 
 ]
 #v(-1em)
 #note[
-  The indicators are averaged over one year. *Availability* (A) = MTBF / (MTBF + MTTR).
+  The indicators are averaged over one year.
 ]
-
-#table(
-  columns: (auto, auto, auto),
-  align: (center, center, center),
-  fill: (x, y) => if y == 0 { accent.lighten(45%) } else {
-    if calc.rem(y, 2) == 0 { gray.lighten(70%) } else { white }
-  },
-  stroke: 0.5pt,
-  inset: 0.8em,
-  table.header([*Uptime (%)*], [*Downtime (%)*], [*Downtime*]),
-  [98%], [2%], [7.3 days],
-  [99%], [1%], [3.65 days],
-  [99.8%], [0.2%], [17h, 30'],
-  [*99.9%*], [0.1%], [8h, 45'],
-  [99.99%], [0.01%], [52.5'],
-  [99.999%], [0.001%], [5.25'],
-  [99.9999%], [0.0001%], [31.5''],
-)
+#extra[
+  #align(
+    center,
+    table(
+      columns: (auto, auto, auto),
+      align: (center, center, center),
+      fill: (x, y) => if y == 0 { accent.lighten(45%) } else {
+        if calc.rem(y, 2) == 0 { gray.lighten(70%) } else { white }
+      },
+      stroke: 0.5pt,
+      inset: 0.8em,
+      table.header([*Uptime (%)*], [*Downtime (%)*], [*Downtime*]),
+      [98%], [2%], [7.3 days],
+      [99%], [1%], [3.65 days],
+      [99.8%], [0.2%], [17h, 30'],
+      [*99.9%*], [0.1%], [8h, 45'],
+      [99.99%], [0.01%], [52.5'],
+      [99.999%], [0.001%], [5.25'],
+      [99.9999%], [0.0001%], [31.5"],
+    )
+  )
+]
 
 === Failure Costs
 
-Downtime costs vary greatly by industry due to the different impact on society or on customers:
+#extra[
+  Downtime costs vary greatly by industry due to the different impact on society or on customers:
 
-#table(
-  columns: (1fr, auto),
-  align: (left, center),
-  fill: (x, y) => if y == 0 { accent.lighten(45%) } else {
-    if calc.rem(y, 2) == 0 { gray.lighten(70%) } else { white }
-  },
-  stroke: 0.5pt,
-  inset: 0.8em,
-  table.header([*Industrial Area*], [*Loss/h*]),
-  [Financial (broker)], [\$5.6M],
-  [Financial (credit)], [\$2.6M],
-  [Manufacturing], [\$0.8–1.5M],
-  [Retail], [\$0.4M],
-  [Avionic], [\$2M],
-  [Media], [\$~],
-)
-
-#note[A true and precise evaluation is very difficult. Business consequences of outages include: Transaction Loss, Idle Resources, Lost Opportunity, Penalties, Lost Customers, Lost Reputation, Litigation, and Loss of Life.]
+  #table(
+    columns: (1fr, auto),
+    align: (left, center),
+    fill: (x, y) => if y == 0 { accent.lighten(45%) } else {
+      if calc.rem(y, 2) == 0 { gray.lighten(70%) } else { white }
+    },
+    stroke: 0.5pt,
+    inset: 0.8em,
+    table.header([*Industrial Area*], [*Loss/h*]),
+    [Financial (broker)], [\$5.6M],
+    [Financial (credit)], [\$2.6M],
+    [Manufacturing], [\$0.8–1.5M],
+    [Retail], [\$0.4M],
+    [Avionic], [\$2M],
+    [Media], [\$~],
+  )
+  #v(-0.7em)
+  #note[A true and precise evaluation is very difficult. Business consequences of outages include: Transaction Loss, Idle Resources, Lost Opportunity, Penalties, Lost Customers, Lost Reputation, Litigation, and Loss of Life.]
+]
 
 == Fault Identification and Recovery
 
 === Fault Identification in Client/Server Systems
 
-In a client/server interaction, both sides monitor each other:
-- The *client* sends a request and waits with a timeout; if no reply arrives in time, it assumes the server has failed or is unreachable.
-- The *server* sends its reply and may wait for an acknowledgment; unacknowledged messages are resent up to a configured limit.
+In a #hl[client/server interaction, both sides monitor each other]:
+- The *client* sends a request and waits with a timeout. If no reply arrives in time, it assumes the server has failed or is unreachable.
+- The *server* sends its reply and may wait for an acknowledgment (unacknowledged messages are resent up to a configured limit).
 
 The difficulty is that neither side can directly distinguish a crashed server from a very slow one, or a lost message from a delayed one. This ambiguity is why *fault assumptions* matter: by agreeing in advance on what kinds of faults can occur and how many simultaneously, designers can keep detection and recovery protocols tractable.
 
@@ -127,17 +133,23 @@ The number of message retransmissions also determines how many faults can be mas
 === Single Point of Failure (SPoF)
 
 #def("Single Point of Failure (SPoF)")[
-  Unique points that must be available at any time: a *single point of failure* in an architecture. Single fault assumption #arrow general, not so reliable.
+  In an architecture, a #kw[single point of failure] is an unique points that must be available at any time.
 ]
 
 - With *2 copies* you can identify 1 failure but not correct it.
+  #extra[
+    #swarrow That's because you can understand there is an error/inconsistency/problem comparing the 2 copies, but you cannot tell which is the wrong one.
+  ]
 - With *3 copies* you can identify 1 failure and can correct it.
-- In general terms, with *3t copies* we can tolerate *t faults* for a replicated resource (without any fault assumption).
+  #extra[
+    #swarrow With 3 copies you can individuate which one is the problematic one comparing the 3 (hopefully). In this case 2 should be equal and one problematic/different.
+  ]
+In general terms, #hl[with *3t copies* we can tolerate *t faults* for a replicated resource] (without any fault assumption).
 
 === Single Fault Assumption
 
 #def("Single Fault Assumption")[
-  Fault assumptions simplify management and system design. *One fault at a time*:
+  Fault assumptions simplify management and system design. *One fault at a time*.
   - The identification and recovery must be less than *TTR* (Time To Repair) and *MTTR* (Mean TTR).
   - The interval between two faults (TBF Time Between Failure and *MTBF* Mean TBF).
   - During recovery we assume that *no fault occurs*, and the system is safe.
@@ -162,14 +174,14 @@ The number of message retransmissions also determines how many faults can be mas
   [*Byzantine Failures*], [One processor can fail, exhibiting any kind of behavior, with *passive and active malicious actions* (see Byzantine generals). _Limit feasible._],
 )
 
-#extra[Typically, Fail-Stop and Fail-SAFE are used; Byzantine is the hardest case.]
+#extra[Typically, Fail-Stop and Fail-SAFE (especially) are used, while Byzantine is the hardest case.]
 
 === Fault Assumptions and Number of Processors
 
 How to implement Fail-Stop and Fail-Safe, and how many processors are needed:
 
 - *Fail-Stop*: You need *3 processors* and *single fault assumption*. One processor fails by stopping and all others can verify its failure state.
-- *Fail-SAFE* (HALT): For HALT, you can adopt *single-fault assumption and two processors*. Both stop when any different result is observed.
+- *Fail-SAFE* (HALT): For HALT, you can adopt *single-fault assumption and 2 processors*. Both stop when any different result is observed.
 
 === Distributed Systems Fault Assumptions
 
@@ -189,66 +201,61 @@ More advanced fault assumptions on communication:
   [*Network Failure*], [The whole interconnection network does *not always grant correct behavior*.],
   [*Network Partition*], [The whole interconnection network does not work by *partitioning the systems in two parts* that cannot communicate with each other.],
 )
-
+#v(-1em)
 #note[Replication is a fundamental strategy to build dependable components in all these models.]
 
 == High-Level Goals and Formal Properties
 
 === Availability and Reliability
 
-#def("Availability")[
-  *A = MTBF / (MTBF + MTTR)*: defines the percentage of *correct services in time* (the number of 9s). It can also be different for read and write operations: if we consider more copies, the read can be answered also if only one copy is available, and other ones are not (action that does not modify).
-]
-#v(-1em)
-#def("Reliability")[
-  Probability of an available service depending on time and based on a period of Δt:
-  - R(Δt) = reliable over time Δt.
-  - R(0) = A, as a general limit.
-]
+
+Availability can differ between read and write operations: with multiple copies, reads can be served even when only one copy is available, since they do not modify state.
+
+Reliability is expressed as a time-dependent probability over an interval Δt:
+- R(Δt) = probability of reliable service over Δt.
+- R(0) = A (collapses to availability at t = 0).
 
 === Correctness and Vitality
 
-Formal properties of dependable systems:
-
 Two formal properties capture the essential quality requirements of a dependable system:
 
-- *Safety (Correctness)*: nothing bad ever happens. All system invariants are always satisfied: the system never returns a wrong answer, never enters a corrupt state. If uncertain, it does nothing rather than risking incorrect output.
-- *Liveness (Vitality / Availability)*: something good eventually happens. Every valid request eventually receives a response; the system makes progress and never stays blocked forever.
+- #hl[*Safety (Correctness)*: nothing bad ever happens]. All system invariants are always satisfied: the system never returns a wrong answer, never enters a corrupt state. If uncertain, it does nothing rather than risking incorrect output.
+- #hl[*Liveness (Vitality / Availability)*: something good eventually happens]. Every valid request eventually receives a response; the system makes progress and never stays blocked forever.
 
 #note[
   These two properties trade off against each other under failures:
   - A system with *only safety* (no liveness) will always give correct answers, but may simply stop responding when uncertain. It is correct but potentially frozen.
   - A system with *only liveness* (no safety) will always respond, but may return wrong or stale data. It is responsive but potentially incorrect.
-  - A fully dependable system requires both. To achieve both under faults, *space replication* (multiple simultaneous copies) or *time replication* (retries, checkpoints, replaying from log) is necessary.
+  - #hl[A fully dependable system requires both]. To achieve both under faults, *space replication* (multiple simultaneous copies) or *time replication* (retries, checkpoints, replaying from log) is necessary.
 ]
 
 == Fault-Tolerance Architectures
 
 === Replicated Components
 
-Fault-tolerant architectures use *replicated components*: multiple copies of the same logical resource placed on different machines, so that if one fails, the others can take over. Replication applies at every level: hardware disks (RAID), processors (TMR), services, and data stores.
+Fault-tolerant architectures use *replicated components*: multiple copies of the same logical resource placed on different machines, so that if one fails, the others can take over. Replication applies at every level (hardware disks with RAIDs, processors, services, and data stores).
 
-The key design question is *how active each replica is*:
+The key design question is _*how active each replica is*_:
 
-1. *Passive replication (master-slave)*: only one copy, the master, actually executes requests and produces results. The other copies are backups that receive periodic state updates but do no work. Simple to reason about, but the master is a bottleneck and its failure requires explicit failover.
-2. *Active replication*: all copies execute the same request independently and then coordinate to agree on a common answer. Faults are masked without failover delay, but the coordination overhead is higher.
-3. *Load-sharing clusters*: all copies are equal in role but execute *different* requests simultaneously, splitting the workload. This maximizes throughput without requiring coordination among requests, but provides no single-fault masking on a per-request basis.
+1. #hl[*Passive replication (master-slave)*: only one copy, the master, actually executes requests] and produces results. The #hl[other copies are backups] that receive periodic state updates but do no work. Simple to reason about, but the master is a bottleneck and its failure requires explicit failover.
+2. #hl[*Active replication*: all copies execute the same request independently and then coordinate] to agree on a common answer. Faults are masked without failover delay, but the coordination overhead is higher.
+3. #hl[*Load-sharing clusters*: all copies are equal in role but execute *different* requests] simultaneously, splitting the workload. This maximizes throughput without requiring coordination among requests, but provides no single-fault masking on a per-request basis.
 
-#note[These architectures introduce a *metalevel*: parts that control the rest of the system (managing replication, detecting failures, coordinating state). The metalevel itself must be dependable, or the whole scheme collapses.]
+#note[These architectures introduce a *metalevel*: parts that control the rest of the system (managing replication, detecting failures, coordinating state). #hl[The metalevel itself must be dependable], or the whole scheme collapses.]
 
 === Stable Memory
 
 #def("Stable Memory")[
   Uses replication strategies (*persistency on disk*) to guarantee not losing any information. It is based on the *limiting fault assumption*: a low and negligible probability of multiple faults over related memory components (single fault over connected blocks of memory).
 ]
-
-Any error is converted into an *omission* (a control code is associated to the block and the block is considered correct or faulty). Blocks are organized in *two different copies* over different disks, with a really low probability of simultaneous faults (conjunct faults): the two copies contain the same information. *Replication degree is two.*
+#v(-0.7em)
+Any error is converted into an *omission* (a control code is associated to the block and the block is considered correct or faulty). #hl[Blocks are organized in *two different copies* over different] #hl[disks], with a really low probability of simultaneous faults (conjunct faults): the #hl[two copies contain] #hl[the same information]. *Replication degree is two.*
 
 #note[High cost of implementation, especially in terms of timing (how to limit the recovery time?)]
 
 === Stable Memory: Support Protocols
 
-Any operation (either read or write) operates on both copies; if one is incorrect, a recovery protocol starts:
+Any operation (either read or write) operates on both copies, if one is incorrect, a recovery protocol starts:
 - Any *action from a correct block*: proceeds starting from one copy and then to the other.
 - Any *action from an incorrect block*: considered an omission fault and starts a recovery protocol.
 
@@ -257,21 +264,21 @@ The recovery protocol has the goal of recovering both copies to a safe state, ev
 - If *both copies are equal and consistent*: no action.
 - If *only one copy is correct*: the protocol copies the correct value over the wrong copy.
 - If *both copies are correct but inconsistent*: the consistency is established (one content is enforced).
-- If copies have a *time/version indicator*: it is used to choose the correct copy.
+If copies have a *time/version indicator*, this is used to choose the correct copy.
 
 === TANDEM Systems
 
 #def("TANDEM")[
-  TANDEM (later acquired by Compaq then HP, marketed as "NonStop") is a *special-purpose fault-tolerant system* designed for continuous online operation - it keeps data in memory (not solely on disk) and replicates every hardware component: two processors, two buses, two disks, and so on. All copies operate in *perfectly synchronous lockstep*.
+  *TANDEM* (later acquired by Compaq then HP, marketed as "NonStop") is a *special-purpose fault-tolerant system* designed for continuous online operation. It keeps data in memory (not solely on disk) and #hl[replicates #underline[every] hardware component]: two processors, two buses, two disks, and so on. All copies operate in *perfectly synchronous lockstep*.
 ]
 
 The goal is a *fail-safe* system that tolerates any single hardware fault:
 - Every component is mirrored, so if one fails, its twin continues without interruption.
 - Stable memory is implemented by writing to both buses, which each write to a mirrored pair of disks.
-
+#v(-0.7em)
 #note[The cost is very high: double hardware, strict synchrony overhead. This makes TANDEM a special-purpose solution for mission-critical environments like banking and financial transaction processing.]
 
-Replication can follow two strategies: execute every action on *both* copies simultaneously (active replication), or execute on *one* copy and use the other purely as a hot standby backup.
+#hl[Replication can follow two strategies: execute every action on *both* copies] simultaneously (active replication), #hl[or execute on *one* copy and use the other purely as a hot standby backup].
 
 === RAID: Redundant Array of Inexpensive Disks
 
@@ -279,12 +286,17 @@ Replication can follow two strategies: execute every action on *both* copies sim
   #kw[RAID] is a general-purpose technique that coordinates a set of commodity disks to improve either *performance* (via striping) or *fault tolerance* (via redundancy), or both, at a much lower cost than special-purpose hardware like TANDEM.
 ]
 
-The original goal was to improve *throughput* via *data striping*: split a file across multiple disks so they can be read or written in parallel. Later RAID levels added *parity* or *mirroring* to recover from disk failures. Each level trades off cost, capacity, and protection differently:
+The original goal was to improve *throughput* via #hl[*data striping*: split a file across multiple] #hl[disks so they can be read or written in parallel]. Later RAID levels #hl[added *parity* or *mirroring* to reco-]#hl[ver from disk failures]. Each level trades off cost, capacity, and protection differently:
 
-- *RAID 0 - striping only*: data split across N disks for maximum parallel I/O throughput. No redundancy: any single disk failure loses all data. Suitable for performance-critical scratch storage where loss is acceptable.
-- *RAID 1 - mirroring*: every disk has an exact copy. Maximum redundancy: survives failure of any one disk. Reads can be load-balanced across both; writes must hit both. Cost: 50% capacity overhead.
-- *RAID 3 & 4 - striping with a dedicated parity disk*: data striped byte-by-byte (RAID 3) or block-by-block (RAID 4), with a single dedicated parity disk. The parity disk becomes a bottleneck: only one write I/O at a time can proceed.
-- *RAID 5 & 6 - distributed parity*: parity blocks are spread across all disks, eliminating the parity-disk bottleneck. RAID 5 tolerates one disk failure; RAID 6 adds a second parity block to tolerate two simultaneous failures. Best balance of performance, capacity, and fault tolerance for general use.
+- #hl[*RAID 0 - striping only*]: data split across N disks for maximum parallel I/O throughput. #underline[No redundancy]: any single disk failure loses all data. Suitable for performance-critical scratch storage where loss is acceptable.
+- #hl[*RAID 1 - mirroring*: every disk has an exact copy]. Maximum redundancy: survives failure of any one disk. Reads can be load-balanced across both, while writes must hit both. Cost: 50% capacity overhead.
+- #hl[*RAID 3 & 4 - striping with a dedicated parity disk*]: data striped byte-by-byte (RAID 3) or block-by-block (RAID 4), with a single dedicated parity disk. The #hl[parity disk becomes a bottleneck]: only one write I/O at a time can proceed.
+- #hl[*RAID 5 & 6 - distributed parity*]: parity blocks are spread across all disks, eliminating the parity-disk bottleneck. RAID 5 tolerates one disk failure; RAID 6 adds a second parity block to tolerate two simultaneous failures. Best balance of performance, capacity, and fault tolerance for general use.
+
+#figure(
+  image("../assets/raids.jpg", width: 60%),
+  caption: [RAIDs comparison.]
+)
 
 == Fault Tolerant Support: Costs and Principles
 
@@ -295,15 +307,6 @@ The original goal was to improve *throughput* via *data striping*: split a file 
 - Implementation of the algorithm (and their correctness).
 
 There is no *unique strategy* for always accepted solutions: dependability is a non-functional property with many facets. In general terms, the recovery protocol must be more reliable than the application itself.
-
-- *Special-purpose systems* #arrow ad-hoc resources even with better QoS.
-- *General-purpose systems* #arrow fault tolerance support insists on user resources.
-
-=== Minimal Intrusion Principle
-
-#def("Minimal Intrusion Principle")[
-  Applies to any solution to *limit the cost of the dependability support*, by organizing the resource engagement (overhead) at any support and system level. It is an engineering principle that should be considered in any design of systems, to answer with the requested SLA.
-]
 
 - *Special-purpose systems*: achieve dependability via an added ad-hoc architecture completely separated from the application one. Costs are high and the design is complex (formal proofs?).
 - *General-purpose systems*: user resources are the only one available. The fault tolerance support *must economize on its design* so not to get too much from the resources for the application levels.
@@ -317,7 +320,7 @@ Dependability costs are generally high in two senses and dimensions:
 Often fault assumptions can make the system more or less complex and viable the cost of the solutions.
 
 Cost may depend on many different factors: memory and persistency costs, communication overhead, implementation complexity, what to replicate, how many copies, where to keep them, how to coordinate, etc.
-
+#v(-0.7em)
 #note[The general trend is in the sense of *optimizing protocols, supports, infrastructures*.]
 
 == Resource Management and Replication Architectures
@@ -327,13 +330,13 @@ Cost may depend on many different factors: memory and persistency costs, communi
 In distributed systems, we can consider *replicated resources* with an obvious need of coordination toward a common goal (also software fault-tolerance):
 
 - *Replicated resources*: multiple resource copies on different nodes with *several replication degrees*.
-- *Partitioned resources*: multiple resource copies on different nodes (without any replication degree) to work *independently*.
+- #hl[*Partitioned resources*: multiple resource copies on different nodes] (without any replication degree) #hl[to work #underline[*independently*]].
 
 Redundancy can suggest architectures to get a better QoS: *replication of processes and data*.
 
 === Abstract Unique Resource Model
 
-The *replication degree* is the number of copies (#kw[\# copies]) of the entity to replicate. The greater the number of copies, the greater the redundancy. The better the reliability and availability. *The greater the cost and the overhead.*
+The #hl[#kw[replication degree] is the number of copies (*[\# copies]*) of the entity to replicate]. The greater the number of copies, the greater the redundancy. The better the reliability and availability. *The greater the cost and the overhead.*
 
 Two extreme models of FT architectures:
 1. *One only executes* (master-slave).
@@ -356,17 +359,13 @@ Structure: MASTER #arrow CHECKPOINTING #arrow CONTROL (slaves observe).
 ]
 
 In *TMR* (Triple Modular Redundancy) *three copies* are used: we can tolerate on faults and can identify up to two faults. In software FT, different copies can use *different algorithms* toward the goal.
+=== Passive Replication Model
 
 #figure(
   image("../assets/replication-models.svg", width: 95%),
   caption: "Passive (master-slave) vs. active (TMR) replication: trade-off between simplicity and fault masking strength."
 )
 
-=== Passive Replication Model
-
-The two extreme FT models are:
-- *Master Slave* (passive model).
-- *Active Copies* (active model).
 
 The *passive model* (master/slave or primary/backup):
 - Has one *active process only* (the master or primary) actively executing over data; the other copies (passive ones or backups) become operational only in *case of failure* of the master.
@@ -379,9 +378,8 @@ This mode can produce a possible conflict between the state of the master and th
 
 *Master and Slaves are an internal architecture.*
 
-*Fault Recovery*: who identifies the fault and when:
-
-Secondary copies (slaves) must identify the fault of the master *by observing its activity*: by using application messages coming from the master and by keeping the timing into account. Even ad-hoc management messages can be used and exchanged.
+*Fault Recovery*: _who identifies the fault and when?_\
+#hl[Secondary copies (slaves) must identify the fault of the master *by observing its activity*]: by using application messages coming from the master and by keeping the timing into account. Even ad-hoc management messages can be used and exchanged.
 
 The organization can use:
 - *One slave* for the control protocol (_if single fault_).
@@ -391,7 +389,7 @@ The entire *resource*, from an external perspective, can tolerate a different nu
 
 === Checkpoint: Slave Checkpoint
 
-In general, the master updates the slave states via *checkpointing* #arrow the updating action also made in a chain: the master updates the first slave that updates the second, …
+In general, the #hl[master updates the slave states via *checkpointing* #arrow the updating action also made] #hl[in a chain]: the master updates the first slave that updates the second, …
 
 The management policies can distinguish:
 - The required actions to grant a correct response: *update of the primary copy* (first slave).
@@ -403,12 +401,12 @@ Those strategies can achieve different policies and different state updating cos
 
 === Master-Slave: Checkpoint Timing
 
-The update of the state and its establishment over the slaves:
-- *Periodic action* (time-driven).
-- *Event action* (event-driven).
+The #hl[update of the state] and its establishment over the slaves:
+- #hl[*Periodic action*] (time-driven).
+- #hl[*Event action*] (event-driven).
 
 In case of a *sequential resource*, the state is clearer and easier to identify and establish. In case of a *parallel resource*, all the parallel actions should be taken into account and considered toward the state saving. The state subjected to more *concurrent actions is less easy to isolate* and the *state is harder to identify* and distinguish.
-
+#v(-0.7em)
 #note[The checkpoint of a resource with several operations going on at the same time is more complex to deal with and to complete correctly, because of the sharing of data between concurrent activities.]
 
 Checkpoint at *entrance/exit* and in *specific decision points*.
@@ -416,8 +414,6 @@ Checkpoint at *entrance/exit* and in *specific decision points*.
 == Active Replication: Models and Coordination
 
 === Active Replication Model Details
-
-*Active copies*: all copies are active and consistent in executing all operations.
 
 An activity executes the operation for any private data copy. Client external requests to the server can have an either *explicit* or *implicit* approach related to replication:
 
@@ -428,24 +424,24 @@ An activity executes the operation for any private data copy. Client external re
 
 Fault tolerance is usually an *invisible internal detail* of the replicated resource: the client sees a single logical service and is unaware of how many copies exist. To coordinate requests across copies, a *manager* role is needed:
 
-- *Single manager (static)*: one designated copy acts as manager for all operations. It receives every request, distributes it to other copies, collects their results, and returns the agreed answer to the client. Simple to implement and easy to reason about, but the manager is both a performance bottleneck and a potential single point of failure.
-- *Rotating managers (dynamic)*: each operation gets a different manager, chosen by locality (the copy closest to the client) or by rotation (round-robin across copies). This distributes the coordination load evenly and removes the single point of failure, but requires careful handling when multiple operations are in flight simultaneously to avoid conflicting decisions by different concurrent managers.
-
+- #hl[*Single manager (static)*: one designated copy acts as manager for all operations]. It receives every request, distributes it to other copies, collects their results, and returns the agreed answer to the client. Simple to implement and easy to reason about, but the manager is both a performance bottleneck and a potential single point of failure.
+- #hl[*Rotating managers (dynamic)*: each operation gets a different manager, chosen by locality] (the copy closest to the client)#hl[ or by rotation] (round-robin across copies). This distributes the coordination load evenly and removes the single point of failure, but requires careful handling when multiple operations are in flight simultaneously to avoid conflicting decisions by different concurrent managers.
+#v(-0.7em)
 #note[When several operations are handled by different managers at the same time, the managers must avoid interfering with each other: for example, by acquiring per-object locks or using atomic multicast to impose a consistent execution order.]
 
 === Active Copies Coordination
 
 Active models can decide different coordination models:
-- *Perfect synchrony (full consistency or strict consistency)*: all copies should agree and produce a *completely synchronized view*, with the same internal copy scheduling for all copies (difficult for nested actions or external actions).
+- #hl[*Perfect synchrony*] (full consistency or strict consistency): #hl[all copies should agree and produce] #hl[a *completely synchronized view*, with the same internal copy scheduling for all copies] (difficult for nested actions or external actions).
 - *Different approaches to synchrony (less consistency)*: even if some minimal threshold can be considered, actions can complete before all copies agree on the final outcome, and the final agreement can take place later (also it does not apply even eventually).
-
+#v(-0.7em)
 #note[Less synchronous strategies cost less in time, mainly client service time, and makes protocols easier and more viable but grant less in operation ordering and release some _semantic properties_. Some modern Cloud systems decide of abandoning *perfect synchrony* in favor of an *eventual synchrony*.]
 
 === Copies Coordination: Read/Write Actions
 
 Different actions on active copies have different requirements and management:
 - *Read actions*: typically actions that can occur easily in parallel and accessing a limited number of copies.
-- *Write actions*: those intrinsically require *coordination among copies*.
+- #hl[*Write actions*: those intrinsically require *coordination among copies*].
 
 Any action that can change the state implies more coordination to propagate such a change:
 - In case of a *clean state partitioning*, where any change applies to different partitions, those actions can proceed independently in parallel without any coordination.
@@ -455,22 +451,22 @@ There are also actions with very specific intrinsic semantics. For instance, the
 
 === Active Copies Updating
 
-Any action that requires to update the state of any copy:
-
-The *update action* must occur *before delivering the answer* to grant a complete consistency but that impacts on response time (more delay in case of failures) (*eager policies vs. lazy*).
+When dealing with active copies updating, any action that requires to update the state of any copy:\
+The #hl[*update action* must occur *before delivering the answer* to grant a complete consistency] but that impacts on response time (more delay in case of failures) (*eager policies vs. lazy*).
 
 If the component employs *different managers for any operation*, it is a manager duty to command the internal actions. If the component defines *parallel operations*, all managers must negotiate and conciliate their decisions, causing some conflict to be solved and some actions in incorrect order to be *undone or redone*.
-
-#note[*Strategies for the operation maximum duration*: In case of failure during one operation and before its correct completion, there should exist the feature of giving an answer anyway, because of the excess of accumulated delay in finishing internal agreement protocols.]
+#v(-0.7em)
+#note[
+  In case of failure during one operation and before its correct completion, there should exist the feature of giving an answer anyway, because of the excess of accumulated delay in finishing internal agreement protocols.
+  ]
 
 === Active Copy Agreement
 
 Copies can reach an agreement before giving the answer:
 - *All copies should agree* on the specific action (*full agreement*).
-- *Majority voting* (not all copies must agree) *with a quorum* (also weighted): correct copies can go on freely; other copies must agree on it and then reinserted in the group (recovery).
+- #hl[*Majority voting* (not all copies must agree) *with a quorum*] (also weighted): correct copies can go on freely; other copies must agree on it and then reinserted in the group (recovery).
 
-*Failure detection*: who is in charge? When? *Reinsertion detection*: who is in charge? When?
-
+*Failure detection*: _who is in charge? When? *Reinsertion detection*: who is in charge? When?_\
 There is a *strict need of monitoring* and execution control.
 
 *Group semantics*: in a group, depending on agreed semantics of actions, there may be also less expensive and less coordinated actions on execution orders. *The less the coordination, the less is the cost.*
@@ -493,7 +489,7 @@ The client initiates the operation by sending its request to the replicated reso
 
 === Phase 2: Copy Coordination
 
-Before executing, copies must coordinate to agree on *when and in which order to run* the operation. This is critical when multiple operations may be in flight simultaneously: without prior coordination, different replicas could apply concurrent operations in different orders, leading to divergent states. One copy acts as *manager* for this operation, proposing an execution schedule. Copies may carry different weights (as in weighted quorum protocols) and play different roles. This is the *first coordination phase*.
+Before executing, copies must coordinate to agree on *when and in which order to run* the operation. This is critical when multiple operations may be in flight simultaneously: without prior coordination, different replicas could apply concurrent operations in different orders, leading to divergent states. #hl[One copy acts as *manager* for this operation, proposing an execution schedule]. Copies may carry different weights (as in weighted quorum protocols) and play different roles. This is the *first coordination phase*.
 
 === Phase 3: Copy Execution
 
@@ -501,7 +497,7 @@ With coordination complete, copies actually run the operation. In an *active mod
 
 === Phase 4: Copy Agreement
 
-After executing, all copies must agree on the *final result* before it is delivered to the client. Some copies may have produced divergent outputs due to faults or concurrent operations from other managers. The group votes: if a quorum agrees on the same result, that becomes the committed answer; divergent copies are excluded from the group and must be recovered and re-synchronized before they can rejoin. If agreement cannot be reached (too many copies failed), the operation is rolled back. This is the *second coordination phase*.
+#hl[After executing, all copies must agree on the *final result*] before it is delivered to the client. Some copies may have produced divergent outputs due to faults or concurrent operations from other managers. #hl[The group votes: if a quorum agrees on the same result, that becomes the committed answer]; divergent copies are excluded from the group and must be recovered and re-synchronized before they can rejoin. #hl[If agreement cannot be reached] (too many copies failed), #hl[the operation is rolled back]. This is the *second coordination phase*.
 
 === Phase 5: Result Delivery
 
@@ -509,9 +505,9 @@ Finally, the agreed result is returned to the waiting client. The preferred form
 
 === Observations on Active Copies Operations
 
-The sequence of the five phases gives a first idea of the complexity of an active copy replication. The coordination among copies tends to induce a high overhead to be limited. So the *replication degree must be kept low* and *replication policies are to be kept simple*.
-
-#note[*Eager consistency* (strong guarantees) vs. *Lazy availability* (fast, optimistic). The trade-off is central to replication system design.]
+The coordination overhead means the *replication degree must be kept low* and *replication policies are to be kept simple*.
+#v(-0.7em)
+#note[#hl[*Eager consistency* (strong guarantees) vs. *Lazy availability* (fast, optimistic)]. The trade-off is central to replication system design.]
 
 === Active Copy Operations Classification
 
@@ -543,7 +539,7 @@ Flow: Phase 1 #arrow Phase 3 (Execution + Update primary) #arrow Phase 4 (Client
 
 === Update of Active Copies
 
-*Eager policies* favor *consistency and correctness* of the operations, instead of the promptness of the answer to the client:
+#hl[*Eager policies* favor *consistency and correctness* ]of the operations, instead of the promptness of the answer to the client:
 - The goal is *not very fast precocious answers*, because that can lead to undo actions, that are not easy to be done, and, in some cases, impossible to backtrack.
 
 Copy coordination is *two phases toward consistency granting* (specially in case of concurrent actions):
@@ -591,9 +587,7 @@ Flow: Phase 1 (Client) #arrow Phase 2 (Atomic Broadcast in Server Coordination) 
 
 === Widespread Replication Models
 
-The *Master-Slave* (passive) model is simpler and has only one execution point per operation. *Active Copies* replication is more complex and requires coordination across all replicas for every operation.
-
-In any model, the cost is influenced by the *group replication degree*: the number of copies, either working or not. A search on the most common applications and more widespread ones, the *replication degree is typically very limited* (no more than a few copies).
+In any model, the cost is influenced by the *group replication degree*: the number of copies, either working or not. In practice, the *replication degree is typically very limited* (no more than a few copies).
 
 There are also *intermediate replication models*, non-FT oriented, with a set of resources able to work independently on the same kind of operations: they operate on *different services at the same time*, and they can share the *responsibility of being a back-up of each other* (throughput driven and load balancing).
 
@@ -625,11 +619,12 @@ The devised minimal cost solution:
 - *INDEX01 and INDEX02*: two Web Servers in a cluster, two Tomcat instances managed by an Apache proxy.
 - *Reliability* granted by a module of *High Availability Linux* master-slave with a heartbeat.
 
+#figure(
+  image("../assets/alma-architecture.jpg",width: 34%),
+  caption: [ALMA architecture.]
+)
+
 == High Availability Clusters
-
-=== High Availability (HA)
-
-High availability costs tend to decrease and to get better service. Low cost solutions are more and more common with better QoS and better dependability. Solutions are more and more *off-the-shelf*.
 
 === High Availability Cluster
 
@@ -637,8 +632,8 @@ High availability costs tend to decrease and to get better service. Low cost sol
   A cluster for *high availability* consists of a set of *independent nodes* that cooperate to provide a *dependable service, always on 24/7*.
 ]
 
-The clusters are a good off-the-shelf solution for high availability:
-- *Robust* and *reliable*.
+The #hl[clusters] are a good off-the-shelf solution for high availability:
+- #hl[*Robust* and *reliable*].
 - *Cost-effective* (easy to buy off-the-shelf hardware and support).
 - *Typically one Front-end*.
 
@@ -678,23 +673,22 @@ Red Hat Cluster suite evolved a lot and is off-the-shelf. Red Hat Cluster can co
 
 === Optimistic Lazy Policies
 
-We use *lazy update* when one copy can answer with a little (no) coordination with other copies in an *optimistic policy that can deliver the answer very fast*: as in the case of *Amazon S3* (Amazon Simple Storage Service).
+We use #hl[*lazy update*] when one copy can answer with a little (no) coordination with other copies in an *#hl[optimistic policy that can deliver the answer very fast]*: _as in the case of *Amazon S3* (Amazon Simple Storage Service)._
 
 Amazon memory and persistence support *renounces to any strict consistency* and provides both *consistent* and *eventually consistent* operations.
 
 === Eventual Consistency
 
 #def("Eventual Consistency")[
-  *Strong consistency* has the eager update but slow answer. *Eventual consistency* (called final or tending to infinity) is a lazy update in the direction of *released consistency*: updates are commanded but not waited for.
+  *Strong consistency* has the eager update but slow answer. #kw[Eventual consistency] (called final or tending to infinity) is a #hl[lazy update in the direction of *released consistency*]: #underline[updates are commanded but not waited for].
 ]
 
-So concurrent operations over other copies can see different values. On a long term, copy values are *reconciliated* and a consistent view is achieved. The *inconsistency window* may depend on many factors: communication delays, workload of the system, copy replication degree, ...
+So concurrent operations over other copies can see different values. #hl[On a long term, copy values] #hl[are *reconciliated*] and a consistent view is achieved. The *inconsistency window* may depend on many factors: communication delays, workload of the system, copy replication degree, ...
 #v(-0.7em)
 #note[
   The ACID vs. BASE framing (CAP theorem, 2PC, BASE properties) is covered in the #link(<ch06-acid>)[_*ACID*_] and #link(<ch06-base>)[_*BASE* sections of the Cloud and Data Center Global Strategies chapter_]. This section focuses on eventual consistency as a replication policy.
 ]
-#v(-1em)
-#note[(We are happy if it is *as limited as possible*.)]
+
 
 === Amazon S3: Optimistic Lazy Policies
 
@@ -717,53 +711,58 @@ In the case of *Amazon S3* you can also control both the allocation for your cop
   #kw[Docker Swarm] is Docker's native container orchestration mode. A Swarm cluster consists of *manager nodes* and *worker nodes*: managers schedule and coordinate containers (called *services*), while workers execute them. A single manager console can distribute a containerized application across many nodes dynamically.
 ]
 
-Docker Swarm provides built-in fault tolerance: if a worker node fails, the manager detects it via heartbeats and *reschedules the affected containers onto healthy nodes*, allowing the system to continue running (possibly in a degraded state until the new containers are ready).
+Docker Swarm provides #hl[built-in fault tolerance]: if a worker node fails, the manager detects it via heartbeats and *reschedules the affected containers onto healthy nodes*, allowing the system to continue running (possibly in a degraded state until the new containers are ready).
 
-For the manager itself, Swarm supports *multiple manager replicas* using the Raft consensus algorithm, removing the single point of failure. As long as a majority of manager nodes are alive, the cluster continues to schedule and coordinate services without interruption.
+For the manager itself, Swarm supports *multiple manager replicas* using the *#underline[Raft]* consensus algorithm, removing the single point of failure. As long as a majority of manager nodes are alive, the cluster continues to schedule and coordinate services without interruption.
 
 == Apache ZooKeeper <ch12-zookeeper>
 
 === ZooKeeper Overview
 
 #def("Apache ZooKeeper")[
-  ZooKeeper is a service for storing some *limited client data*, by using a *distributed replicated cluster of nodes* with excellent QoS, both *available and reliable*.
+  #kw[ZooKeeper] is a service for storing some *limited client data*, by using a *distributed replicated cluster of nodes* with excellent QoS, both *available *and* reliable*.
 ]
 
 ZooKeeper is designed around four core principles:
 1. *Simple*: the data model is a small hierarchical namespace of znodes (similar to a filesystem tree), each holding a small amount of data. No complex queries: just read, write, and watch.
-2. *Replicated*: ZooKeeper runs as a cluster (an ensemble) of servers, all holding a copy of the state. Clients can connect to any server; all reads are local and fast; writes go through the leader.
-3. *Ordered*: every write is assigned a globally unique, monotonically increasing transaction ID. Clients can use these IDs to impose their own ordering invariants on top of ZooKeeper's operations.
+2. *Replicated*: #hl[ZooKeeper runs as a cluster] (an ensemble) of servers, #hl[all holding a copy] of the state. Clients can connect to any server for reads, that are local and fast, while writes go through the leader.
+3. #hl[*Ordered*: every write is assigned a globally unique, monotonically increasing transaction ID]. Clients can use these IDs to impose their own ordering invariants on top of ZooKeeper's operations.
 4. *Fast*: optimized for read-heavy workloads. Reads are served directly from any server's in-memory state without contacting the leader. The typical workload is far more reads than writes.
 
-Data are kept by ZooKeeper servers as *znodes*, organized in a UNIX-like hierarchical namespace and replicated using *leader-follower (master-slave) replication*.
+#hl[Data are kept by ZooKeeper servers as *znodes*], organized in a UNIX-like *hierarchical namespace* and #hl[replicated using *leader-follower (master-slave) replication*].
+
+#figure(
+  image("../assets/zookerper-hadoop.png", width: 70%),
+  caption: [Zookeeper architecture.]
+)
 
 === ZooKeeper Architecture
 
-ZooKeeper organizes its data in a *hierarchical namespace* similar to a UNIX filesystem. Each node in the tree is called a *znode* and can hold a small amount of data (typically metadata, not large blobs).
+Each node in the tree is called a *znode* and can hold a small amount of data (typically metadata, not large blobs).
 
 Two types of znodes exist:
 - *Persistent znodes*: survive client disconnections. Used for configuration data and service registrations.
 - *Ephemeral znodes*: exist only as long as the client session that created them is alive. When the client disconnects or crashes, its ephemeral znodes are automatically deleted. This property is the basis for distributed *presence detection* and *lock release on failure*.
 
-The leader is elected among server nodes using majority voting. A simple API (available in Java and C) lets clients manage the namespace:
+The #hl[leader is elected among server nodes using majority voting]. A simple API (available in Java and C) lets clients manage the namespace:
 - `Create(path, data, flags)`, `Delete(path, version)`
 - `getData(path, watch)`, `setData(path, data, version)`
 - `getChildren(path, watch)`, `exists(path, watch)`
 
-Clients can attach a *watch* flag to any read call: they receive a one-time notification the next time that znode changes. Watches are reset after firing, so a client that wants continuous notification must re-register after each event. Transaction IDs on every write let servers serve clients fresh, ordered data.
+#hl[Clients can attach a *watch* flag to any read call]: they receive a one-time notification the next time that znode changes. Watches are reset after firing, so a client that wants continuous notification must re-register after each event. Transaction IDs on every write let servers serve clients fresh, ordered data.
 
 === ZooKeeper Reads and Writes
 
 ZooKeeper keeps all data *in memory* across the ensemble. This makes reads extremely fast but limits the total data size to available RAM.
 
-- *Reads* are served locally by any server in the ensemble. They are fast but may return slightly stale data (since followers may lag behind the leader momentarily).
-- *Writes* always go through the *leader*, which uses a two-phase broadcast (ZAB protocol) to commit the write to a majority of followers before acknowledging the client. This ensures linearizable writes.
+- #hl[*Reads* are served locally] by any server in the ensemble. They are fast but may return slightly stale data (since followers may lag behind the leader momentarily).
+- #hl[*Writes* always go through the *leader*], which uses a #hl[*two-phase broadcast*] (ZAB protocol) #hl[to commit] #hl[the write to a majority of followers before acknowledging the client]. This ensures linearizable writes.
 
-Clients can *watch* a znode: they register a one-time notification that fires when that znode's data or children change. This watch mechanism is the foundation for implementing distributed locks, configuration distribution, and leader election on top of ZooKeeper.
+The watch mechanism is the foundation for implementing distributed locks, configuration distribution, and leader election on top of ZooKeeper.
 
 === ZooKeeper Leader Election
 
-*Replication is passive with a leader elected.* In case of leader crash, the election is based on the most recent data change among znodes (*transactionID*) via *majority voting*.
+#hl[*Replication is passive with a leader elected*]. In case of leader crash, #hl[the election is based on the] #hl[most recent data change among znodes (*transactionID*) via *majority voting*].
 
 Election is also possible in case of Data Centers *partitioning* so to *work disconnected independently*.
 

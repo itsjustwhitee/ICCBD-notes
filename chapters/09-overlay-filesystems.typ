@@ -156,9 +156,6 @@ The key technology: #kw[Distributed Hash Table (DHT)].
 - *Load balancing*: when nodes change, re-map keys (only O(1/N) fraction of keys move)
 - *Self-organization*: nodes cooperate to maintain the structure without any central coordinator
 
-DHT properties in a dynamic environment:
-- *Load balancing*: maybe even change the key-hash when nodes change (*dynamicity of nodes*), necessitating node mapping on the fly
-- *Replicate entries on more nodes* to increase availability using neighbor close nodes
 
 === Chord
 
@@ -278,10 +275,7 @@ NFS architecture:
 - Uses *UDP* connections (and many TCP variations)
 - Based on *RPC* for the entire communication support: efficient, low overhead
 
-*NFS limitations:*
-- A client can mount from *several servers on its directories*, so the client file system can share different contents with several servers, but this gives a *peculiar global vision with different views per client*
-- *No global shared view* among all nodes
-- *No replication nor QoS* are granted
+*NFS limitation:* a client can mount from *several servers*, giving each client a *different global view* (no uniform namespace), on top of the no-replication, no-QoS constraints already noted.
 
 === AFS: Andrew File System - Quality File Systems
 
@@ -348,12 +342,7 @@ Key design decisions:
 
 ==== GFS Metadata
 
-Metadata has three types:
-- File/chunk namespaces
-- File-to-chunk mappings
-- Location of replicas of any chunk
-
-All *in memory* (< 64 bytes per chunk) with GFS capacity limitation.
+All metadata is kept *in memory* (< 64 bytes per chunk), limiting total GFS capacity but enabling fast lookups.
 
 Large chunks have many advantages:
 - Fewer *client-master interactions* and reduced size of metadata

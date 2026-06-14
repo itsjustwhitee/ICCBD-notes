@@ -26,11 +26,11 @@ jobs:
           # JetBrains Mono — packaged in Ubuntu repos
           sudo apt-get install -y fonts-jetbrains-mono
 
-          # Syne — variable font from google/fonts (covers all weights)
+          # Syne — download zip from Google Fonts (same as "Download family" on the site)
           mkdir -p ~/.local/share/fonts
-          curl -fsSL \
-            "https://github.com/google/fonts/raw/main/ofl/syne/Syne%5Bwght%5D.ttf" \
-            -o ~/.local/share/fonts/Syne.ttf
+          curl -fsSL "https://fonts.google.com/download?family=Syne" -o /tmp/syne.zip
+          unzip -q /tmp/syne.zip -d /tmp/syne
+          find /tmp/syne -name "*.ttf" -exec cp {} ~/.local/share/fonts/ \;
 
       - name: Compile
         run: typst compile main.typ ICCBD-notes.pdf

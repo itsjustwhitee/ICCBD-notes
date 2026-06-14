@@ -7,9 +7,9 @@
   Package: OpenStack - `c - Openstack 26.pdf`
 ]
 
-OpenStack is an open-source *cloud operating system* that pools physical hardware
-resources into on-demand compute, storage, and network services exposed through
-standardized APIs. It is the canonical example of an open-source *IaaS* platform,
+#hl[OpenStack is an open-source *cloud operating system* that pools physical hardware
+resources into on-demand] #hl[compute, storage, and network services exposed through
+standardized APIs]. It is the canonical example of an open-source #hl[*IaaS*] platform,
 and understanding its architecture reveals the fundamental design patterns behind
 any large cloud infrastructure.
 
@@ -25,27 +25,6 @@ sites, that must simultaneously satisfy two contrasting requirements:
 
 In global deployments, data and computation are replicated across many
 geographical locations to satisfy both goals.
-
-=== NIST Cloud Reference Model
-
-#def("NIST Cloud")[
-  The #kw[NIST cloud model] defines a cloud by five essential characteristics,
-  three service models, and two deployment models.
-]
-
-*Essential characteristics*:
-- *On-demand self-service*: users provision resources without human interaction.
-- *Broad network access*: resources are accessible over standard networks.
-- *Resource pooling*: multi-tenant sharing of physical resources.
-- *Rapid elasticity*: capacity appears unlimited and scales instantly.
-- *Measured service*: usage is metered and billed.
-
-*Service models*:
-- *SaaS*: Software as a Service (application layer).
-- *PaaS*: Platform as a Service (runtime/middleware layer).
-- *IaaS*: Infrastructure as a Service (virtual machines, storage, networking).
-
-*Deployment models*: Public cloud, Private cloud, Hybrid cloud.
 
 === Cloud Resource Virtualization
 

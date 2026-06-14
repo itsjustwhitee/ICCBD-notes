@@ -1,92 +1,148 @@
-<svg viewBox="0 0 580 340" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="10">
-
-  <!-- Title -->
-  <text x="290" y="18" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">Kubernetes Cluster Architecture</text>
-
-  <!-- Control Plane box -->
-  <rect x="20" y="30" width="250" height="200" rx="8" fill="#e8f4ff" stroke="#4a90d9" stroke-width="2"/>
-  <text x="145" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#1a4a80">Control Plane</text>
-
-  <!-- API Server -->
-  <rect x="35" y="58" width="220" height="28" rx="4" fill="#cce5ff" stroke="#4a90d9" stroke-width="1"/>
-  <text x="145" y="77" text-anchor="middle" font-weight="bold" fill="#1a4a80">kube-apiserver</text>
-
-  <!-- etcd -->
-  <rect x="35" y="93" width="100" height="28" rx="4" fill="#f0d0ff" stroke="#9c27b0" stroke-width="1"/>
-  <text x="85" y="112" text-anchor="middle" font-weight="bold" fill="#4a0072">etcd</text>
-  <text x="85" y="123" text-anchor="middle" fill="#4a0072">(state store)</text>
-
-  <!-- scheduler -->
-  <rect x="155" y="93" width="100" height="28" rx="4" fill="#d4edda" stroke="#28a745" stroke-width="1"/>
-  <text x="205" y="107" text-anchor="middle" font-weight="bold" fill="#155724">kube-scheduler</text>
-
-  <!-- controller manager -->
-  <rect x="35" y="135" width="220" height="28" rx="4" fill="#fff3cd" stroke="#f0ad4e" stroke-width="1"/>
-  <text x="145" y="154" text-anchor="middle" font-weight="bold" fill="#7d5a00">kube-controller-manager</text>
-
-  <!-- cloud controller -->
-  <rect x="35" y="170" width="220" height="28" rx="4" fill="#ffe0cc" stroke="#e8721a" stroke-width="1"/>
-  <text x="145" y="184" text-anchor="middle" fill="#7d2e00">cloud-controller-manager</text>
-  <text x="145" y="194" text-anchor="middle" fill="#7d2e00">(optional)</text>
-
-  <!-- Arrow from control plane to workers -->
-  <line x1="270" y1="130" x2="305" y2="130" stroke="#555" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrd)"/>
-  <text x="287" y="122" text-anchor="middle" font-size="9" fill="#666">gRPC</text>
-
-  <!-- Worker Node 1 -->
-  <rect x="305" y="30" width="255" height="130" rx="8" fill="#f0fff4" stroke="#28a745" stroke-width="2"/>
-  <text x="432" y="50" text-anchor="middle" font-size="12" font-weight="bold" fill="#155724">Worker Node</text>
-
-  <!-- kubelet -->
-  <rect x="320" y="58" width="100" height="28" rx="4" fill="#d4edda" stroke="#28a745" stroke-width="1"/>
-  <text x="370" y="77" text-anchor="middle" font-weight="bold" fill="#155724">kubelet</text>
-
-  <!-- kube-proxy -->
-  <rect x="445" y="58" width="100" height="28" rx="4" fill="#d4edda" stroke="#28a745" stroke-width="1"/>
-  <text x="495" y="77" text-anchor="middle" font-weight="bold" fill="#155724">kube-proxy</text>
-
-  <!-- Pod 1 -->
-  <rect x="320" y="95" width="100" height="55" rx="4" fill="#fff" stroke="#28a745" stroke-width="1"/>
-  <text x="370" y="112" text-anchor="middle" fill="#155724">Pod</text>
-  <rect x="330" y="118" width="35" height="22" rx="3" fill="#d4edda" stroke="#28a745" stroke-width="0.8"/>
-  <text x="347" y="133" text-anchor="middle" font-size="9" fill="#155724">C1</text>
-  <rect x="375" y="118" width="35" height="22" rx="3" fill="#d4edda" stroke="#28a745" stroke-width="0.8"/>
-  <text x="392" y="133" text-anchor="middle" font-size="9" fill="#155724">sidecar</text>
-
-  <!-- Pod 2 -->
-  <rect x="445" y="95" width="100" height="55" rx="4" fill="#fff" stroke="#28a745" stroke-width="1"/>
-  <text x="495" y="112" text-anchor="middle" fill="#155724">Pod</text>
-  <rect x="455" y="118" width="35" height="22" rx="3" fill="#d4edda" stroke="#28a745" stroke-width="0.8"/>
-  <text x="472" y="133" text-anchor="middle" font-size="9" fill="#155724">C1</text>
-  <rect x="500" y="118" width="35" height="22" rx="3" fill="#d4edda" stroke="#28a745" stroke-width="0.8"/>
-  <text x="517" y="133" text-anchor="middle" font-size="9" fill="#155724">C2</text>
-
-  <!-- Worker Node 2 -->
-  <rect x="305" y="175" width="255" height="100" rx="8" fill="#f0fff4" stroke="#28a745" stroke-width="2"/>
-  <text x="432" y="195" text-anchor="middle" font-size="12" font-weight="bold" fill="#155724">Worker Node</text>
-  <rect x="320" y="205" width="100" height="28" rx="4" fill="#d4edda" stroke="#28a745" stroke-width="1"/>
-  <text x="370" y="224" text-anchor="middle" font-weight="bold" fill="#155724">kubelet</text>
-  <rect x="445" y="205" width="100" height="28" rx="4" fill="#d4edda" stroke="#28a745" stroke-width="1"/>
-  <text x="495" y="224" text-anchor="middle" font-weight="bold" fill="#155724">kube-proxy</text>
-  <rect x="350" y="240" width="165" height="28" rx="4" fill="#fff" stroke="#28a745" stroke-width="1"/>
-  <text x="432" y="259" text-anchor="middle" fill="#155724">Pod  |  Pod  |  Pod</text>
-
-  <!-- kubectl external -->
-  <rect x="20" y="255" width="100" height="32" rx="5" fill="#ffe0b2" stroke="#e8721a" stroke-width="1.5"/>
-  <text x="70" y="275" text-anchor="middle" font-weight="bold" fill="#7d2e00">kubectl / User</text>
-  <line x1="120" y1="271" x2="145" y2="85" stroke="#e8721a" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arro)"/>
-  <text x="95" y="215" text-anchor="middle" font-size="9" fill="#e8721a">HTTPS/REST</text>
-
-  <!-- Legend -->
-  <text x="20" y="310" font-size="10" fill="#555">C = Container</text>
-
-  <!-- Arrow markers -->
-  <defs>
-    <marker id="arrd" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-      <path d="M0,0 L0,6 L8,3 z" fill="#555"/>
-    </marker>
-    <marker id="arro" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-      <path d="M0,0 L0,6 L8,3 z" fill="#e8721a"/>
-    </marker>
-  </defs>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 558 262" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;">
+    <g transform="matrix(1,0,0,0.877582,-18,-23.327446)">
+        <path d="M270,39.116L270,220.884C270,225.915 266.415,230 262,230L28,230C23.585,230 20,225.915 20,220.884L20,39.116C20,34.085 23.585,30 28,30L262,30C266.415,30 270,34.085 270,39.116Z" style="fill:rgb(232,244,255);stroke:rgb(74,144,217);stroke-width:2px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,127,23)">
+        <g transform="matrix(12,0,0,12,79.2,0)">
+        </g>
+        <text x="-79.2px" y="0px" style="font-family:'JetBrainsMono-Bold', 'JetBrains Mono', monospace;font-weight:700;font-size:12px;fill:rgb(26,74,128);">Control Plane - Master</text>
+    </g>
+    <g transform="matrix(1,0,0,1,-18,79)">
+        <path d="M255,62L255,82C255,84.208 253.208,86 251,86L39,86C36.792,86 35,84.208 35,82L35,62C35,59.792 36.792,58 39,58L251,58C253.208,58 255,59.792 255,62Z" style="fill:rgb(238,173,173);stroke:rgb(209,44,44);stroke-width:1px;"/>
+        <g transform="matrix(1,0,0,1,144.602051,74.592773)">
+            <text x="-42px" y="0px" style="font-family:'JetBrainsMono-Bold', 'JetBrains Mono', monospace;font-weight:700;font-size:10px;fill:rgb(114,24,24);">kube-apiserver</text>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,-18,-62)">
+        <path d="M135,97L135,117C135,119.208 133.208,121 131,121L39,121C36.792,121 35,119.208 35,117L35,97C35,94.792 36.792,93 39,93L131,93C133.208,93 135,94.792 135,97Z" style="fill:rgb(240,208,255);stroke:rgb(156,39,176);stroke-width:1px;"/>
+        <g transform="matrix(1,0,0,1,84.87793,104.510254)">
+            <text x="-12px" y="0px" style="font-family:'JetBrainsMono-Bold', 'JetBrains Mono', monospace;font-weight:700;font-size:10px;fill:rgb(74,0,114);">etcd</text>
+        </g>
+        <g transform="matrix(1,0,0,1,84.87793,115.510254)">
+            <text x="-39px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:10px;fill:rgb(74,0,114);">(state store)</text>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,-18,-62)">
+        <path d="M255,97L255,117C255,119.208 253.208,121 251,121L159,121C156.792,121 155,119.208 155,117L155,97C155,94.792 156.792,93 159,93L251,93C253.208,93 255,94.792 255,97Z" style="fill:rgb(212,237,218);stroke:rgb(40,167,69);stroke-width:1px;"/>
+        <g transform="matrix(1,0,0,1,204.602051,110.520508)">
+            <text x="-42px" y="0px" style="font-family:'JetBrainsMono-Bold', 'JetBrains Mono', monospace;font-weight:700;font-size:10px;fill:rgb(21,87,36);">kube-scheduler</text>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,-18,-68)">
+        <g transform="matrix(0.752727,0,0,1,35.854533,0)">
+            <path d="M255,139L255,159C255,161.208 252.619,163 249.686,163L40.314,163C37.381,163 35,161.208 35,159L35,139C35,136.792 37.381,135 40.314,135L249.686,135C252.619,135 255,136.792 255,139Z" style="fill:rgb(255,243,205);stroke:rgb(240,173,78);stroke-width:1px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,144.602051,151.526855)">
+            <text x="-69px" y="0px" style="font-family:'JetBrainsMono-Bold', 'JetBrains Mono', monospace;font-weight:700;font-size:10px;fill:rgb(125,90,0);">kube-controller-manager</text>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,-4,-68)">
+        <g transform="matrix(0.619845,0,0,1,55.122452,0)">
+            <path d="M255,174L255,194C255,196.208 252.108,198 248.547,198L41.453,198C37.892,198 35,196.208 35,194L35,174C35,171.792 37.892,170 41.453,170L248.547,170C252.108,170 255,171.792 255,174Z" style="fill:rgb(255,224,204);stroke:rgb(232,114,26);stroke-width:1px;"/>
+        </g>
+        <g transform="matrix(1,0,0,1,144.736328,183.737305)">
+            <text x="-62.64px" y="0px" style="font-family:'JetBrainsMono-Italic', 'JetBrains Mono', monospace;font-style:italic;font-size:8.7px;fill:rgb(125,46,0);">cloud-controller-manager</text>
+        </g>
+        <g transform="matrix(1,0,0,1,144.736328,191.737305)">
+            <text x="-23.4px" y="0px" style="font-family:'JetBrainsMono-Italic', 'JetBrains Mono', monospace;font-style:italic;font-size:7.8px;fill:rgb(122,96,81);">(optional)</text>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,-18,56)">
+        <g transform="matrix(1,-0,-0,1,18,-56)">
+            <use xlink:href="#_Image1" x="292.973" y="73.42" width="264px" height="138px"/>
+        </g>
+        <path d="M560,38L560,152C560,156.415 556.415,160 552,160L313,160C308.585,160 305,156.415 305,152L305,38C305,33.585 308.585,30 313,30L552,30C556.415,30 560,33.585 560,38Z" style="fill:rgb(240,255,244);stroke:rgb(40,167,69);stroke-width:2px;"/>
+        <g transform="matrix(1,0,0,1,432,50)">
+            <text x="-39.6px" y="0px" style="font-family:'JetBrainsMono-Bold', 'JetBrains Mono', monospace;font-weight:700;font-size:12px;fill:rgb(21,87,36);">Worker Node</text>
+        </g>
+        <path d="M420,62L420,82C420,84.208 418.208,86 416,86L324,86C321.792,86 320,84.208 320,82L320,62C320,59.792 321.792,58 324,58L416,58C418.208,58 420,59.792 420,62Z" style="fill:rgb(212,237,218);stroke:rgb(40,167,69);stroke-width:1px;"/>
+        <g transform="matrix(1,0,0,1,369.955,75.75)">
+            <text x="-21px" y="0px" style="font-family:'JetBrainsMono-Bold', 'JetBrains Mono', monospace;font-weight:700;font-size:10px;fill:rgb(21,87,36);">kubelet</text>
+        </g>
+        <path d="M545,62L545,82C545,84.208 543.208,86 541,86L449,86C446.792,86 445,84.208 445,82L445,62C445,59.792 446.792,58 449,58L541,58C543.208,58 545,59.792 545,62Z" style="fill:rgb(212,237,218);stroke:rgb(40,167,69);stroke-width:1px;"/>
+        <g transform="matrix(1,0,0,1,494.79,75.75)">
+            <text x="-30px" y="0px" style="font-family:'JetBrainsMono-Bold', 'JetBrains Mono', monospace;font-weight:700;font-size:10px;fill:rgb(21,87,36);">kube-proxy</text>
+        </g>
+        <path d="M420,99L420,146C420,148.208 418.208,150 416,150L324,150C321.792,150 320,148.208 320,146L320,99C320,96.792 321.792,95 324,95L416,95C418.208,95 420,96.792 420,99Z" style="fill:white;stroke:rgb(40,167,69);stroke-width:1px;"/>
+        <g transform="matrix(1,0,0,1,370,110)">
+            <text x="-9px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:10px;fill:rgb(21,87,36);">Pod</text>
+        </g>
+        <path d="M365,121L365,137C365,138.656 363.656,140 362,140L333,140C331.344,140 330,138.656 330,137L330,121C330,119.344 331.344,118 333,118L362,118C363.656,118 365,119.344 365,121Z" style="fill:rgb(212,237,218);stroke:rgb(40,167,69);stroke-width:0.8px;"/>
+        <g transform="matrix(1,0,0,1,347,132)">
+            <text x="-5.4px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:9px;fill:rgb(21,87,36);">C1</text>
+        </g>
+        <path d="M410,121L410,137C410,138.656 408.656,140 407,140L378,140C376.344,140 375,138.656 375,137L375,121C375,119.344 376.344,118 378,118L407,118C408.656,118 410,119.344 410,121Z" style="fill:rgb(212,237,218);stroke:rgb(40,167,69);stroke-width:0.8px;"/>
+        <g transform="matrix(1,0,0,1,392.3335,132.09)">
+            <g transform="matrix(9,0,0,9,13.5,0)">
+            </g>
+            <text x="-13.5px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:9px;fill:rgb(21,87,36);">Proxy</text>
+        </g>
+        <path d="M545,99L545,146C545,148.208 543.208,150 541,150L449,150C446.792,150 445,148.208 445,146L445,99C445,96.792 446.792,95 449,95L541,95C543.208,95 545,96.792 545,99Z" style="fill:white;stroke:rgb(40,167,69);stroke-width:1px;"/>
+        <g transform="matrix(1,0,0,1,495,110)">
+            <text x="-9px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:10px;fill:rgb(21,87,36);">Pod</text>
+        </g>
+        <path d="M490,121L490,137C490,138.656 488.656,140 487,140L458,140C456.344,140 455,138.656 455,137L455,121C455,119.344 456.344,118 458,118L487,118C488.656,118 490,119.344 490,121Z" style="fill:rgb(212,237,218);stroke:rgb(40,167,69);stroke-width:0.8px;"/>
+        <g transform="matrix(1,0,0,1,472,132)">
+            <text x="-5.4px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:9px;fill:rgb(21,87,36);">C1</text>
+        </g>
+        <path d="M535,121L535,137C535,138.656 533.656,140 532,140L503,140C501.344,140 500,138.656 500,137L500,121C500,119.344 501.344,118 503,118L532,118C533.656,118 535,119.344 535,121Z" style="fill:rgb(212,237,218);stroke:rgb(40,167,69);stroke-width:0.8px;"/>
+        <g transform="matrix(1,0,0,1,517,132)">
+            <text x="-5.4px" y="0px" style="font-family:'JetBrainsMono-Regular', 'JetBrains Mono', monospace;font-size:9px;fill:rgb(21,87,36);">C2</text>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,57,-27)">
+        <path d="M120,260L120,282C120,284.76 117.76,287 115,287L25,287C22.24,287 20,284.76 20,282L20,260C20,257.24 22.24,255 25,255L115,255C117.76,255 120,257.24 120,260Z" style="fill:rgb(255,224,178);stroke:rgb(232,114,26);stroke-width:1.5px;"/>
+        <g transform="matrix(1,0,0,1,70,275)">
+            <text x="-42px" y="0px" style="font-family:'JetBrainsMono-Bold', 'JetBrains Mono', monospace;font-weight:700;font-size:10px;fill:rgb(125,46,0);">kubectl / User</text>
+        </g>
+    </g>
+    <g transform="matrix(0.997856,0.015949,0.015949,0.881343,-19.044801,-19.22668)">
+        <path d="M141.233,277.956L143.059,206.441" style="fill:none;fill-rule:nonzero;stroke:rgb(22,62,104);stroke-width:1.5px;stroke-linecap:round;stroke-dasharray:4,6,0,0,0,0;"/>
+    </g>
+    <g transform="matrix(-0.003969,0.99797,-0.677777,0.025476,427.488497,2.972003)">
+        <path d="M141.233,277.956L143.059,206.441" style="fill:none;fill-rule:nonzero;stroke:rgb(22,62,104);stroke-width:1.5px;stroke-linecap:round;stroke-dasharray:4,6,0,0,0,0;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,160.145728,199.882856)">
+        <text x="-27px" y="0px" style="font-family:'JetBrainsMono-Italic', 'JetBrains Mono', monospace;font-style:italic;font-size:9px;fill:rgb(85,76,69);">HTTPS/REST</text>
+    </g>
+    <g transform="matrix(1,0,0,1,468.231333,232.3815)">
+        <text x="0px" y="0px" style="font-family:'JetBrainsMono-Italic', 'JetBrains Mono', monospace;font-style:italic;font-size:9.5px;fill:rgb(85,85,85);">C = Container</text>
+    </g>
+    <g transform="matrix(1,0,0,0.947089,-18,-18.825315)">
+        <path d="M159,157.5L159,163.95" style="fill:none;"/>
+        <g transform="matrix(1,-0,-0,1.055866,18,19.877019)">
+            <path d="M142.966,132.177L141,130.866L139.034,132.177" style="fill:none;stroke:rgb(85,85,85);stroke-width:0.87px;stroke-linecap:round;stroke-miterlimit:10;"/>
+            <path d="M142.966,134.614L141,135.925L139.034,134.614" style="fill:none;stroke:rgb(85,85,85);stroke-width:0.87px;stroke-linecap:round;stroke-miterlimit:10;"/>
+            <path d="M141,130.866L141,135.925" style="fill:none;stroke:rgb(85,85,85);stroke-width:0.87px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"/>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,6.371021,-98.700402,-908.078854)">
+        <path d="M159,157.5L159,163.95" style="fill:none;"/>
+        <g transform="matrix(1,-0,-0,0.156961,98.700402,142.53271)">
+            <path d="M62.266,97.193L60.3,95.882L58.334,97.193" style="fill:none;stroke:rgb(85,85,85);stroke-width:0.87px;stroke-linecap:round;stroke-miterlimit:10;"/>
+            <path d="M62.266,134.614L60.3,135.925L58.334,134.614" style="fill:none;stroke:rgb(85,85,85);stroke-width:0.87px;stroke-linecap:round;stroke-miterlimit:10;"/>
+            <path d="M60.3,95.882L60.3,135.925" style="fill:none;stroke:rgb(85,85,85);stroke-width:0.87px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"/>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,12.018914,-125.758465,-1833.500967)">
+        <path d="M159,157.5L159,163.95" style="fill:none;"/>
+        <g transform="matrix(1,-0,-0,0.083202,125.758465,152.5513)">
+            <path d="M35.207,61.314L33.242,60.003L31.276,61.314" style="fill:none;stroke:rgb(85,85,85);stroke-width:0.87px;stroke-linecap:round;stroke-miterlimit:10;"/>
+            <path d="M35.207,135.164L33.242,136.475L31.276,135.164" style="fill:none;stroke:rgb(85,85,85);stroke-width:0.87px;stroke-linecap:round;stroke-miterlimit:10;"/>
+            <path d="M33.242,60.003L33.242,136.475" style="fill:none;stroke:rgb(85,85,85);stroke-width:0.87px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"/>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,12.018914,62.700402,-1833.500967)">
+        <path d="M159,157.5L159,163.95" style="fill:none;"/>
+        <g transform="matrix(1,-0,-0,0.083202,-62.700402,152.5513)">
+            <path d="M223.666,61.314L221.7,60.003L219.734,61.314" style="fill:none;stroke:rgb(85,85,85);stroke-width:0.87px;stroke-linecap:round;stroke-miterlimit:10;"/>
+            <path d="M223.666,135.164L221.7,136.475L219.734,135.164" style="fill:none;stroke:rgb(85,85,85);stroke-width:0.87px;stroke-linecap:round;stroke-miterlimit:10;"/>
+            <path d="M221.7,60.003L221.7,136.475" style="fill:none;stroke:rgb(85,85,85);stroke-width:0.87px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"/>
+        </g>
+    </g>
+    <defs>
+        <image id="_Image1" width="264px" height="138px" xlink:href="data:image/png;base64,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"/>
+    </defs>
 </svg>

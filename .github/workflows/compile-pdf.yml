@@ -23,27 +23,14 @@ jobs:
 
       - name: Install fonts
         run: |
-          # JetBrains Mono — packaged in Ubuntu repos
           sudo apt-get install -y fonts-jetbrains-mono
 
-          # Syne — CSS v1 API with old IE UA returns direct TTF URLs from gstatic.com
           mkdir -p ~/.local/share/fonts
-          python3 - <<'PYEOF'
-import urllib.request, re, os
-
-req = urllib.request.Request(
-    "https://fonts.googleapis.com/css?family=Syne:400,500,600,700,800",
-    headers={"User-Agent": "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)"}
-)
-css = urllib.request.urlopen(req).read().decode()
-urls = re.findall(r"url\((https://fonts\.gstatic\.com/[^)]+)\)", css)
-dest = os.path.expanduser("~/.local/share/fonts")
-for i, url in enumerate(urls):
-    data = urllib.request.urlopen(url).read()
-    with open(os.path.join(dest, f"Syne-{i}.ttf"), "wb") as f:
-        f.write(data)
-    print(f"Syne-{i}.ttf <- {url}")
-PYEOF
+          for weight in 400 500 600 700 800; do
+            curl -fsSL \
+              "https://cdn.jsdelivr.net/npm/@fontsource/syne/files/syne-latin-${weight}-normal.woff2" \
+              -o ~/.local/share/fonts/Syne-${weight}.woff2
+          done
 
       - name: Compile
         run: typst compile main.typ ICCBD-notes.pdf

@@ -30,7 +30,7 @@ jobs:
           mkdir -p ~/.local/share/fonts
           curl -fsSL "https://fonts.google.com/download?family=Syne" -o /tmp/syne.zip
           unzip -q /tmp/syne.zip -d /tmp/syne
-          find /tmp/syne -name "*.ttf" -exec cp {} ~/.local/share/fonts/ \;
+          find /tmp/syne/static -name "*.ttf" -exec cp {} ~/.local/share/fonts/ \;
 
       - name: Compile
         run: typst compile main.typ ICCBD-notes.pdf

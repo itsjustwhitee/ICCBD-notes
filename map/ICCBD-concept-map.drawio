@@ -1,0 +1,862 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="ICCBD Concept Map" id="iccbd-concept">
+    <mxGraphModel dx="1712" dy="991" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;fontSize=22;fontStyle=1;align=left;verticalAlign=middle;" value="ICCBD — Concept Map: technologies &amp; their core components" vertex="1">
+          <mxGeometry height="40" width="1100" x="40" y="24" as="geometry" />
+        </mxCell>
+        <mxCell id="legend" parent="1" style="text;html=1;fontSize=12;align=left;verticalAlign=middle;fontColor=#555555;" value="Solid box = component   |   Dashed box = pointer to another technology (→)   |   Arrow = based-on / feeds / evolves   |   “Links →” chip lists cross-references" vertex="1">
+          <mxGeometry height="24" width="1500" x="40" y="74" as="geometry" />
+        </mxCell>
+        <mxCell id="microservices" parent="1" style="swimlane;fontStyle=1;align=center;startSize=34;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;rounded=1;arcSize=4;" value="MICROSERVICES" vertex="1">
+          <mxGeometry height="588" width="400" x="40" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="microservices_c0" parent="microservices" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Single responsibility&lt;/b&gt;: one job, composable" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="microservices_c1" parent="microservices" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Independent deploy &amp; scaling&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="microservices_c2" parent="microservices" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Bounded context&lt;/b&gt;: owns its own data store" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="microservices_c3" parent="microservices" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Polyglot&lt;/b&gt;: own language/stack per service" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="microservices_c4" parent="microservices" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Own process&lt;/b&gt;: fault isolation" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="254" as="geometry" />
+        </mxCell>
+        <mxCell id="microservices_c5" parent="microservices" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;API Gateway&lt;/b&gt;: single entry, routing, auth" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="306" as="geometry" />
+        </mxCell>
+        <mxCell id="microservices_c6" parent="microservices" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=6 4;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ &lt;b&gt;Service discovery&lt;/b&gt;: Consul / etcd / DNS-SD" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="358" as="geometry" />
+        </mxCell>
+        <mxCell id="microservices_c7" parent="microservices" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Circuit breaker&lt;/b&gt;: resilience pattern" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="microservices_c8" parent="microservices" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=6 4;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ &lt;b&gt;Service mesh&lt;/b&gt;: Istio / Envoy / Cilium-eBPF" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="462" as="geometry" />
+        </mxCell>
+        <mxCell id="microservices_links" parent="microservices" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=2 2;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ Links:  Containers  •  FaaS (finer split)" vertex="1">
+          <mxGeometry height="50" width="376" x="12" y="516" as="geometry" />
+        </mxCell>
+        <mxCell id="containers" parent="1" style="swimlane;fontStyle=1;align=center;startSize=34;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;rounded=1;arcSize=4;" value="CONTAINERS / DOCKER" vertex="1">
+          <mxGeometry height="588" width="400" x="40" y="784" as="geometry" />
+        </mxCell>
+        <mxCell id="containers_c0" parent="containers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Process isolation&lt;/b&gt;: lighter than a VM" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="containers_c1" parent="containers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Namespaces&lt;/b&gt;: PID/NET/MNT/IPC/UTS/USER" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="containers_c2" parent="containers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;cgroups&lt;/b&gt;: CPU / RAM / I/O limits" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="containers_c3" parent="containers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Image&lt;/b&gt;: immutable layers (Union/OverlayFS)" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="containers_c4" parent="containers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Dockerfile&lt;/b&gt;: declarative build recipe" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="254" as="geometry" />
+        </mxCell>
+        <mxCell id="containers_c5" parent="containers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Docker engine&lt;/b&gt;: CLI + daemon + containerd" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="306" as="geometry" />
+        </mxCell>
+        <mxCell id="containers_c6" parent="containers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Registry&lt;/b&gt;: image store/distribution" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="358" as="geometry" />
+        </mxCell>
+        <mxCell id="containers_c7" parent="containers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Compose&lt;/b&gt;: multi-container app" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="containers_c8" parent="containers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Networks / Volumes / Secrets&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="462" as="geometry" />
+        </mxCell>
+        <mxCell id="containers_links" parent="containers" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=2 2;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ Links:  Kubernetes (orchestration)  •  used by FaaS executors" vertex="1">
+          <mxGeometry height="50" width="376" x="12" y="516" as="geometry" />
+        </mxCell>
+        <mxCell id="middleware" parent="1" style="swimlane;fontStyle=1;align=center;startSize=34;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;rounded=1;arcSize=4;" value="MIDDLEWARE" vertex="1">
+          <mxGeometry height="432" width="400" x="40" y="1428" as="geometry" />
+        </mxCell>
+        <mxCell id="middleware_c0" parent="middleware" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Role&lt;/b&gt;: decoupling layer (hide distribution + heterogeneity)" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="middleware_c1" parent="middleware" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Communication&lt;/b&gt;: RPC, message queues" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="middleware_c2" parent="middleware" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Information&lt;/b&gt;: file/record/DB/log managers" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="middleware_c3" parent="middleware" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Control&lt;/b&gt;: threads, scheduler, transactions" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="middleware_c4" parent="middleware" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Naming / discovery / security&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="254" as="geometry" />
+        </mxCell>
+        <mxCell id="middleware_c5" parent="middleware" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=6 4;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ &lt;b&gt;Examples&lt;/b&gt;: CORBA, Java RMI, MOM" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="306" as="geometry" />
+        </mxCell>
+        <mxCell id="middleware_links" parent="middleware" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=2 2;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ Links:  CORBA  •  MOM  •  Cloud" vertex="1">
+          <mxGeometry height="50" width="376" x="12" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="corba" parent="1" style="swimlane;fontStyle=1;align=center;startSize=34;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;rounded=1;arcSize=4;" value="CORBA" vertex="1">
+          <mxGeometry height="588" width="400" x="40" y="1916" as="geometry" />
+        </mxCell>
+        <mxCell id="corba_c0" parent="corba" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;ORB&lt;/b&gt;: object bus, routes calls (no hosting)" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="corba_c1" parent="corba" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;IDL&lt;/b&gt;: language-neutral interface contract" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="corba_c2" parent="corba" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;IOR&lt;/b&gt;: global remote object reference" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="corba_c3" parent="corba" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Stub (Proxy C) / Skeleton (Proxy S)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="corba_c4" parent="corba" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;POA&lt;/b&gt;: maps request -&gt; servant" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="254" as="geometry" />
+        </mxCell>
+        <mxCell id="corba_c5" parent="corba" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;GIOP / IIOP&lt;/b&gt;: binary wire protocol (CDR)" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="306" as="geometry" />
+        </mxCell>
+        <mxCell id="corba_c6" parent="corba" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;SII / DII / DSI&lt;/b&gt;: static vs dynamic invocation" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="358" as="geometry" />
+        </mxCell>
+        <mxCell id="corba_c7" parent="corba" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;IR / IMR&lt;/b&gt;: interface &amp; impl repositories" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="corba_c8" parent="corba" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;OMA&lt;/b&gt;: services, facilities, domain interfaces" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="462" as="geometry" />
+        </mxCell>
+        <mxCell id="corba_links" parent="corba" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=2 2;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ Links:  Middleware  •  Pub/Sub (events)" vertex="1">
+          <mxGeometry height="50" width="376" x="12" y="516" as="geometry" />
+        </mxCell>
+        <mxCell id="cloud_models" parent="1" style="swimlane;fontStyle=1;align=center;startSize=34;fillColor=#ffe6cc;strokeColor=#d6b656;fontSize=13;rounded=1;arcSize=4;" value="CLOUD SERVICE MODELS" vertex="1">
+          <mxGeometry height="484" width="400" x="500" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="cloud_models_c0" parent="cloud_models" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Spectrum&lt;/b&gt;: On-prem &gt; MaaS &gt; IaaS &gt; PaaS &gt; FaaS &gt; SaaS" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="cloud_models_c1" parent="cloud_models" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Who manages what (provider vs customer)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="cloud_models_c2" parent="cloud_models" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=6 4;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ &lt;b&gt;IaaS&lt;/b&gt;: virtual machines -&gt; OpenStack" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="cloud_models_c3" parent="cloud_models" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=6 4;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ &lt;b&gt;FaaS&lt;/b&gt;: only function logic -&gt; Serverless" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="cloud_models_c4" parent="cloud_models" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;BaaS&lt;/b&gt;: DBaaS, storage, auth, push" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="254" as="geometry" />
+        </mxCell>
+        <mxCell id="cloud_models_c5" parent="cloud_models" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;NIST&lt;/b&gt;: on-demand, elastic, pooled, metered" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="306" as="geometry" />
+        </mxCell>
+        <mxCell id="cloud_models_c6" parent="cloud_models" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;XaaS umbrella (anything-as-a-service)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="358" as="geometry" />
+        </mxCell>
+        <mxCell id="cloud_models_links" parent="cloud_models" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=2 2;fillColor=#ffe6cc;strokeColor=#d6b656;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ Links:  OpenStack (IaaS)  •  Serverless (FaaS)" vertex="1">
+          <mxGeometry height="50" width="376" x="12" y="412" as="geometry" />
+        </mxCell>
+        <mxCell id="openstack" parent="1" style="swimlane;fontStyle=1;align=center;startSize=34;fillColor=#ffe6cc;strokeColor=#d6b656;fontSize=13;rounded=1;arcSize=4;" value="OPENSTACK (IaaS)" vertex="1">
+          <mxGeometry height="588" width="400" x="500" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="openstack_c0" parent="openstack" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Nova&lt;/b&gt;: compute (VM lifecycle, scheduler)" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="openstack_c1" parent="openstack" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Neutron&lt;/b&gt;: networking (NaaS, SDN, L2/L3)" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="openstack_c2" parent="openstack" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Cinder&lt;/b&gt;: block storage (volumes, snapshots)" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="openstack_c3" parent="openstack" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Swift&lt;/b&gt;: object storage (account/container/object)" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="openstack_c4" parent="openstack" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Glance&lt;/b&gt;: image registry (metadata catalog)" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="254" as="geometry" />
+        </mxCell>
+        <mxCell id="openstack_c5" parent="openstack" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Keystone&lt;/b&gt;: identity, auth, tokens, catalog" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="306" as="geometry" />
+        </mxCell>
+        <mxCell id="openstack_c6" parent="openstack" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Horizon&lt;/b&gt;: web dashboard (presentation)" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="358" as="geometry" />
+        </mxCell>
+        <mxCell id="openstack_c7" parent="openstack" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Ceilometer&lt;/b&gt;: telemetry / metering" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="openstack_c8" parent="openstack" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Heat&lt;/b&gt;: orchestration (stack templates)" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="462" as="geometry" />
+        </mxCell>
+        <mxCell id="openstack_links" parent="openstack" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=2 2;fillColor=#ffe6cc;strokeColor=#d6b656;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ Links:  Cloud models  •  shared-nothing + AMQP/RabbitMQ" vertex="1">
+          <mxGeometry height="50" width="376" x="12" y="516" as="geometry" />
+        </mxCell>
+        <mxCell id="kubernetes" parent="1" style="swimlane;fontStyle=1;align=center;startSize=34;fillColor=#ffe6cc;strokeColor=#d6b656;fontSize=13;rounded=1;arcSize=4;" value="KUBERNETES (k8s)" vertex="1">
+          <mxGeometry height="692" width="400" x="500" y="1324" as="geometry" />
+        </mxCell>
+        <mxCell id="kubernetes_c0" parent="kubernetes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;API Server&lt;/b&gt;: REST CRUD, watch = pub/sub" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="kubernetes_c1" parent="kubernetes" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=6 4;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ &lt;b&gt;etcd&lt;/b&gt;: KV store, source of truth (RAFT)" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="kubernetes_c2" parent="kubernetes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Scheduler&lt;/b&gt;: places Pods on nodes" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="kubernetes_c3" parent="kubernetes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Controller mgr&lt;/b&gt;: reconcile loops (operator pattern)" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="kubernetes_c4" parent="kubernetes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;kubelet&lt;/b&gt;: node agent, health" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="254" as="geometry" />
+        </mxCell>
+        <mxCell id="kubernetes_c5" parent="kubernetes" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=6 4;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ &lt;b&gt;Pod&lt;/b&gt;: 1+ containers, shared net/storage" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="306" as="geometry" />
+        </mxCell>
+        <mxCell id="kubernetes_c6" parent="kubernetes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;kube-proxy / eBPF (Cilium)&lt;/b&gt;: service routing" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="358" as="geometry" />
+        </mxCell>
+        <mxCell id="kubernetes_c7" parent="kubernetes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;CNI&lt;/b&gt;: Flannel / Calico / Cilium" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="kubernetes_c8" parent="kubernetes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Workloads&lt;/b&gt;: Deployment, StatefulSet, DaemonSet, Job" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="462" as="geometry" />
+        </mxCell>
+        <mxCell id="kubernetes_c9" parent="kubernetes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Service + Ingress&lt;/b&gt;: discovery, load balance" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="514" as="geometry" />
+        </mxCell>
+        <mxCell id="kubernetes_c10" parent="kubernetes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;HPA / KEDA&lt;/b&gt;: autoscaling" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="566" as="geometry" />
+        </mxCell>
+        <mxCell id="kubernetes_links" parent="kubernetes" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=2 2;fillColor=#ffe6cc;strokeColor=#d6b656;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ Links:  Containers (Pods)  •  RAFT (etcd)  •  base for Knative/OpenFaaS" vertex="1">
+          <mxGeometry height="50" width="376" x="12" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="serverless" parent="1" style="swimlane;fontStyle=1;align=center;startSize=34;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13;rounded=1;arcSize=4;" value="SERVERLESS / FaaS" vertex="1">
+          <mxGeometry height="588" width="400" x="960" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="serverless_c0" parent="serverless" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Stateless, event-driven, ephemeral&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="serverless_c1" parent="serverless" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Zero-scaling&lt;/b&gt;: pay per activation" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="serverless_c2" parent="serverless" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Cold start&lt;/b&gt;: boot latency (slim images, warm pool)" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="serverless_c3" parent="serverless" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;BaaS + FaaS split&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="serverless_c4" parent="serverless" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Orchestration vs Choreography&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="254" as="geometry" />
+        </mxCell>
+        <mxCell id="serverless_c5" parent="serverless" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Trigger&lt;/b&gt;: events -&gt; platform" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="306" as="geometry" />
+        </mxCell>
+        <mxCell id="serverless_c6" parent="serverless" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Controller&lt;/b&gt;: lifecycle, LB, async via MOM" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="358" as="geometry" />
+        </mxCell>
+        <mxCell id="serverless_c7" parent="serverless" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Executor&lt;/b&gt;: Invoker/watchdog + env + logic" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="serverless_c8" parent="serverless" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Composition&lt;/b&gt;: merging / reflective / chaining" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="462" as="geometry" />
+        </mxCell>
+        <mxCell id="serverless_links" parent="serverless" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=2 2;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ Links:  Containers (isolation)  •  Kubernetes (platforms)" vertex="1">
+          <mxGeometry height="50" width="376" x="12" y="516" as="geometry" />
+        </mxCell>
+        <mxCell id="knative" parent="1" style="swimlane;fontStyle=1;align=center;startSize=34;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13;rounded=1;arcSize=4;" value="KNATIVE" vertex="1">
+          <mxGeometry height="536" width="400" x="960" y="784" as="geometry" />
+        </mxCell>
+        <mxCell id="knative_c0" parent="knative" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=6 4;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ &lt;b&gt;Built on Kubernetes (CRDs); not FaaS&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="knative_c1" parent="knative" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Serving&lt;/b&gt;: Ingress, Activator, Autoscaler" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="knative_c2" parent="knative" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Serving&lt;/b&gt;: Queue-Proxy sidecar, Controller" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="knative_c3" parent="knative" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;CRDs&lt;/b&gt;: Service, Route, Configuration, Revision" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="knative_c4" parent="knative" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Revisions&lt;/b&gt;: scale-to-zero, traffic split, rollback" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="254" as="geometry" />
+        </mxCell>
+        <mxCell id="knative_c5" parent="knative" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Eventing&lt;/b&gt;: Broker, Trigger, Channel, Subscription" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="306" as="geometry" />
+        </mxCell>
+        <mxCell id="knative_c6" parent="knative" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=6 4;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ &lt;b&gt;Eventing sources&lt;/b&gt;: Kafka, Pub/Sub, CloudEvents" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="358" as="geometry" />
+        </mxCell>
+        <mxCell id="knative_c7" parent="knative" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;At-least-once delivery (HTTP POST)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="knative_links" parent="knative" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=2 2;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ Links:  Kubernetes (CRDs)  •  Kafka (eventing src)  •  NOT FaaS: microservices" vertex="1">
+          <mxGeometry height="50" width="376" x="12" y="464" as="geometry" />
+        </mxCell>
+        <mxCell id="openfaas" parent="1" style="swimlane;fontStyle=1;align=center;startSize=34;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13;rounded=1;arcSize=4;" value="OpenFAAS" vertex="1">
+          <mxGeometry height="484" width="400" x="960" y="1376" as="geometry" />
+        </mxCell>
+        <mxCell id="openfaas_c0" parent="openfaas" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=6 4;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ &lt;b&gt;Built on Kubernetes / Docker&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="openfaas_c1" parent="openfaas" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Gateway&lt;/b&gt;: HTTP trigger + controller + UI/REST" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="openfaas_c2" parent="openfaas" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Watchdog/Invoker&lt;/b&gt;: forking vs HTTP mode" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="openfaas_c3" parent="openfaas" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Providers&lt;/b&gt;: faas-provider abstraction" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="openfaas_c4" parent="openfaas" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=6 4;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ &lt;b&gt;Prometheus&lt;/b&gt;: pull-based monitoring" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="254" as="geometry" />
+        </mxCell>
+        <mxCell id="openfaas_c5" parent="openfaas" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=6 4;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ &lt;b&gt;NATS&lt;/b&gt;: pub/sub + req/reply messaging" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="306" as="geometry" />
+        </mxCell>
+        <mxCell id="openfaas_c6" parent="openfaas" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;faasd&lt;/b&gt;: containerd, single-node (edge/IoT)" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="358" as="geometry" />
+        </mxCell>
+        <mxCell id="openfaas_links" parent="openfaas" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=2 2;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ Links:  Kubernetes/Docker  •  Prometheus  •  NATS" vertex="1">
+          <mxGeometry height="50" width="376" x="12" y="412" as="geometry" />
+        </mxCell>
+        <mxCell id="openwhisk" parent="1" style="swimlane;fontStyle=1;align=center;startSize=34;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13;rounded=1;arcSize=4;" value="APACHE OpenWhisk" vertex="1">
+          <mxGeometry height="432" width="400" x="960" y="1916" as="geometry" />
+        </mxCell>
+        <mxCell id="openwhisk_c0" parent="openwhisk" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Action-oriented, event-driven FaaS&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="openwhisk_c1" parent="openwhisk" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;NGINX&lt;/b&gt;: single API gateway" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="openwhisk_c2" parent="openwhisk" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Controller&lt;/b&gt;: auth + load balance (bottleneck)" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="openwhisk_c3" parent="openwhisk" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=6 4;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ &lt;b&gt;Apache Kafka&lt;/b&gt;: async event bus" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="openwhisk_c4" parent="openwhisk" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Invoker&lt;/b&gt;: runs actions in Docker containers" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="254" as="geometry" />
+        </mxCell>
+        <mxCell id="openwhisk_c5" parent="openwhisk" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;CouchDB&lt;/b&gt;: functions, params, results" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="306" as="geometry" />
+        </mxCell>
+        <mxCell id="openwhisk_links" parent="openwhisk" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=2 2;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ Links:  Kafka  •  Serverless" vertex="1">
+          <mxGeometry height="50" width="376" x="12" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="mom" parent="1" style="swimlane;fontStyle=1;align=center;startSize=34;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;rounded=1;arcSize=4;" value="MOM / PUB-SUB" vertex="1">
+          <mxGeometry height="588" width="400" x="1420" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="mom_c0" parent="mom" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Decoupling&lt;/b&gt;: space + time + synchronization" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="mom_c1" parent="mom" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Pub-Sub&lt;/b&gt;: producers/consumers over topics" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="mom_c2" parent="mom" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Filtering&lt;/b&gt;: topic / content / type based" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="mom_c3" parent="mom" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Tuple space (Linda)&lt;/b&gt;: out/in, non-deterministic" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="mom_c4" parent="mom" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Models&lt;/b&gt;: centralized hub vs distributed P2P" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="254" as="geometry" />
+        </mxCell>
+        <mxCell id="mom_c5" parent="mom" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Blocks&lt;/b&gt;: queue mgr, relay, broker, MCA" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="306" as="geometry" />
+        </mxCell>
+        <mxCell id="mom_c6" parent="mom" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=6 4;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ &lt;b&gt;MQTT&lt;/b&gt;: IoT broker, sensors (low power)" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="358" as="geometry" />
+        </mxCell>
+        <mxCell id="mom_c7" parent="mom" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;OPC-UA&lt;/b&gt;: Industry 4.0, C/S + pub-sub" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="mom_c8" parent="mom" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=6 4;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ &lt;b&gt;Examples&lt;/b&gt;: Kafka, RabbitMQ, NATS, JMS, DDS" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="462" as="geometry" />
+        </mxCell>
+        <mxCell id="mom_links" parent="mom" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=2 2;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ Links:  Kafka  •  CORBA (events)" vertex="1">
+          <mxGeometry height="50" width="376" x="12" y="516" as="geometry" />
+        </mxCell>
+        <mxCell id="kafka" parent="1" style="swimlane;fontStyle=1;align=center;startSize=34;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;rounded=1;arcSize=4;" value="APACHE KAFKA" vertex="1">
+          <mxGeometry height="640" width="400" x="1420" y="784" as="geometry" />
+        </mxCell>
+        <mxCell id="kafka_c0" parent="kafka" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Topic&lt;/b&gt;: append-only, totally-ordered log" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="kafka_c1" parent="kafka" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Partition&lt;/b&gt;: ordered unit of parallelism (offset)" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="kafka_c2" parent="kafka" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Broker&lt;/b&gt;: leader/follower per partition" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="kafka_c3" parent="kafka" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Producer&lt;/b&gt;: writes to partition leader" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="kafka_c4" parent="kafka" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Consumer&lt;/b&gt;: pull model, offset-based" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="254" as="geometry" />
+        </mxCell>
+        <mxCell id="kafka_c5" parent="kafka" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Consumer group&lt;/b&gt;: 1 partition per consumer" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="306" as="geometry" />
+        </mxCell>
+        <mxCell id="kafka_c6" parent="kafka" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=6 4;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ &lt;b&gt;ZooKeeper&lt;/b&gt;: metadata + leader election" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="358" as="geometry" />
+        </mxCell>
+        <mxCell id="kafka_c7" parent="kafka" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Replication (passive)&lt;/b&gt;: leader + followers" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="kafka_c8" parent="kafka" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Visibility&lt;/b&gt;: write&gt;replicate&gt;ack&gt;readable" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="462" as="geometry" />
+        </mxCell>
+        <mxCell id="kafka_c9" parent="kafka" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Retention &amp; replay&lt;/b&gt;: reset offset" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="514" as="geometry" />
+        </mxCell>
+        <mxCell id="kafka_links" parent="kafka" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=2 2;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ Links:  ZooKeeper (metadata)  •  feeds Spark/Flink" vertex="1">
+          <mxGeometry height="50" width="376" x="12" y="568" as="geometry" />
+        </mxCell>
+        <mxCell id="qos" parent="1" style="swimlane;fontStyle=1;align=center;startSize=34;fillColor=#f8cecc;strokeColor=#b85450;fontSize=13;rounded=1;arcSize=4;" value="QoS (QUALITY OF SERVICE)" vertex="1">
+          <mxGeometry height="640" width="400" x="1420" y="1480" as="geometry" />
+        </mxCell>
+        <mxCell id="qos_c0" parent="qos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;TCP/IP best-effort vs OSI guaranteed (SLA)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="qos_c1" parent="qos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;App classes&lt;/b&gt;: Elastic vs Real-time" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="qos_c2" parent="qos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Indicators&lt;/b&gt;: latency/RTT, jitter, skew, QoE" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="qos_c3" parent="qos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;IntServ&lt;/b&gt;: per-flow reservation (RSVP)" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="qos_c4" parent="qos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;DiffServ&lt;/b&gt;: per-class, DSCP marking" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="254" as="geometry" />
+        </mxCell>
+        <mxCell id="qos_c5" parent="qos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;RTP / RTCP&lt;/b&gt;: real-time transport + control" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="306" as="geometry" />
+        </mxCell>
+        <mxCell id="qos_c6" parent="qos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;RTSP / SIP&lt;/b&gt;: streaming &amp; session control" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="358" as="geometry" />
+        </mxCell>
+        <mxCell id="qos_c7" parent="qos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Shaping&lt;/b&gt;: leaky bucket / token bucket" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="qos_c8" parent="qos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Scheduling&lt;/b&gt;: WFQ, fair queuing, RR, GPS" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="462" as="geometry" />
+        </mxCell>
+        <mxCell id="qos_c9" parent="qos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Congestion&lt;/b&gt;: RED; Mgmt: SNMP / RMON" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="514" as="geometry" />
+        </mxCell>
+        <mxCell id="qos_links" parent="qos" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=2 2;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ Links:  best-effort vs guaranteed" vertex="1">
+          <mxGeometry height="50" width="376" x="12" y="568" as="geometry" />
+        </mxCell>
+        <mxCell id="zookeeper" parent="1" style="swimlane;fontStyle=1;align=center;startSize=34;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;rounded=1;arcSize=4;" value="APACHE ZOOKEEPER" vertex="1">
+          <mxGeometry height="380" width="400" x="1880" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="zookeeper_c0" parent="zookeeper" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Coordination service (hierarchical KV / znodes)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="zookeeper_c1" parent="zookeeper" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Leader election (ZAB, RAFT-like)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="zookeeper_c2" parent="zookeeper" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Distributed locks / config / membership&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="zookeeper_c3" parent="zookeeper" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Ensemble&lt;/b&gt;: quorum of nodes" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="zookeeper_c4" parent="zookeeper" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Reads scale on followers; writes via leader&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="254" as="geometry" />
+        </mxCell>
+        <mxCell id="zookeeper_links" parent="zookeeper" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=2 2;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ Links:  Kafka  •  Cassandra  •  Replication" vertex="1">
+          <mxGeometry height="50" width="376" x="12" y="308" as="geometry" />
+        </mxCell>
+        <mxCell id="replication" parent="1" style="swimlane;fontStyle=1;align=center;startSize=34;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;rounded=1;arcSize=4;" value="REPLICATION &amp; DEPENDABILITY" vertex="1">
+          <mxGeometry height="640" width="400" x="1880" y="576" as="geometry" />
+        </mxCell>
+        <mxCell id="replication_c0" parent="replication" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Dependability = availability + reliability + recovery&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="replication_c1" parent="replication" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Passive (master-slave)&lt;/b&gt;: checkpoint to backup" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="replication_c2" parent="replication" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Active&lt;/b&gt;: all replicas execute + agreement" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="replication_c3" parent="replication" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Eager (sync, strong) vs Lazy (async, eventual)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="replication_c4" parent="replication" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Quorum&lt;/b&gt;: W+R&gt;N, W&gt;N/2" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="254" as="geometry" />
+        </mxCell>
+        <mxCell id="replication_c5" parent="replication" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Fault models&lt;/b&gt;: Safe/Silent/Operational/High-Dep" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="306" as="geometry" />
+        </mxCell>
+        <mxCell id="replication_c6" parent="replication" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Stable memory, RAID, TANDEM&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="358" as="geometry" />
+        </mxCell>
+        <mxCell id="replication_c7" parent="replication" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;HA cluster&lt;/b&gt;: failover, heartbeat, SAN" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="replication_c8" parent="replication" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=6 4;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ &lt;b&gt;Red Hat Cluster&lt;/b&gt;: CMAN, DLM, GFS, Fencing" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="462" as="geometry" />
+        </mxCell>
+        <mxCell id="replication_c9" parent="replication" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Docker Swarm&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="514" as="geometry" />
+        </mxCell>
+        <mxCell id="replication_links" parent="replication" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=2 2;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ Links:  RAFT/ZooKeeper  •  NoSQL  •  Group algorithms" vertex="1">
+          <mxGeometry height="50" width="376" x="12" y="568" as="geometry" />
+        </mxCell>
+        <mxCell id="group" parent="1" style="swimlane;fontStyle=1;align=center;startSize=34;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;rounded=1;arcSize=4;" value="GROUP COMM. &amp; ALGORITHMS" vertex="1">
+          <mxGeometry height="588" width="400" x="1880" y="1272" as="geometry" />
+        </mxCell>
+        <mxCell id="group_c0" parent="group" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Multicast ordering&lt;/b&gt;: FIFO / Causal / Atomic" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="group_c1" parent="group" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Reliable multicast&lt;/b&gt;: hold-back, NAK" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="group_c2" parent="group" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Lamport clock&lt;/b&gt;: logical time, happened-before" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="group_c3" parent="group" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Vector clock&lt;/b&gt;: causal + concurrency detection" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="group_c4" parent="group" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Mutual exclusion&lt;/b&gt;: coordinator, Ricart-Agrawala" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="254" as="geometry" />
+        </mxCell>
+        <mxCell id="group_c5" parent="group" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Election&lt;/b&gt;: Bully, Ring" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="306" as="geometry" />
+        </mxCell>
+        <mxCell id="group_c6" parent="group" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;ISIS&lt;/b&gt;: ABCast / CBCast / GBCast" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="358" as="geometry" />
+        </mxCell>
+        <mxCell id="group_c7" parent="group" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Global snapshot&lt;/b&gt;: consistent cuts (Chandy-Lamport)" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="group_c8" parent="group" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Clock sync&lt;/b&gt;: UTC, NTP" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="462" as="geometry" />
+        </mxCell>
+        <mxCell id="group_links" parent="group" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=2 2;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ Links:  Replication  •  ZooKeeper" vertex="1">
+          <mxGeometry height="50" width="376" x="12" y="516" as="geometry" />
+        </mxCell>
+        <mxCell id="overlay" parent="1" style="swimlane;fontStyle=1;align=center;startSize=34;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;rounded=1;arcSize=4;" value="OVERLAY NETWORKS &amp; DHT" vertex="1">
+          <mxGeometry height="484" width="400" x="2340" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="overlay_c0" parent="overlay" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;ON&lt;/b&gt;: logical network at application level" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="overlay_c1" parent="overlay" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Unstructured&lt;/b&gt;: Napster (index), Gnutella (flood)" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="overlay_c2" parent="overlay" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Scale-free topology (BitTorrent, Kazaa)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="overlay_c3" parent="overlay" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Structured&lt;/b&gt;: DHT = consistent hashing key-&gt;node" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="overlay_c4" parent="overlay" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Chord&lt;/b&gt;: finger table, O(log N) lookup" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="254" as="geometry" />
+        </mxCell>
+        <mxCell id="overlay_c5" parent="overlay" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Pastry / CAN&lt;/b&gt;: prefix routing" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="306" as="geometry" />
+        </mxCell>
+        <mxCell id="overlay_c6" parent="overlay" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;VPN&lt;/b&gt;: classic overlay (IPSec/SSL tunnel)" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="358" as="geometry" />
+        </mxCell>
+        <mxCell id="overlay_links" parent="overlay" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=2 2;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ Links:  NoSQL (DHT)  •  Kafka (hashing)" vertex="1">
+          <mxGeometry height="50" width="376" x="12" y="412" as="geometry" />
+        </mxCell>
+        <mxCell id="nosql" parent="1" style="swimlane;fontStyle=1;align=center;startSize=34;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;rounded=1;arcSize=4;" value="NoSQL" vertex="1">
+          <mxGeometry height="432" width="400" x="2340" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="nosql_c0" parent="nosql" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Models&lt;/b&gt;: Key-Value, Document, Wide-Column, Graph" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="nosql_c1" parent="nosql" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Schema-less; scale-out on COTS&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="nosql_c2" parent="nosql" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=6 4;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ &lt;b&gt;Consistent hashing (DHT-based)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="nosql_c3" parent="nosql" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Column-oriented storage (fast range scans)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="nosql_c4" parent="nosql" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=6 4;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ &lt;b&gt;BASE over ACID (eventual consistency)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="254" as="geometry" />
+        </mxCell>
+        <mxCell id="nosql_c5" parent="nosql" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Examples&lt;/b&gt;: DynamoDB, BigTable, HBase, Redis, Neo4j" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="306" as="geometry" />
+        </mxCell>
+        <mxCell id="nosql_links" parent="nosql" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=2 2;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ Links:  Cassandra  •  MongoDB  •  Consistency/CAP" vertex="1">
+          <mxGeometry height="50" width="376" x="12" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="cassandra" parent="1" style="swimlane;fontStyle=1;align=center;startSize=34;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;rounded=1;arcSize=4;" value="CASSANDRA" vertex="1">
+          <mxGeometry height="536" width="400" x="2340" y="1168" as="geometry" />
+        </mxCell>
+        <mxCell id="cassandra_c0" parent="cassandra" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Column-based key-value store (multi-DC)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="cassandra_c1" parent="cassandra" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=6 4;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ &lt;b&gt;Ring DHT&lt;/b&gt;: partitioner, token ranges" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="cassandra_c2" parent="cassandra" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Replication&lt;/b&gt;: RF, KeySpace, NetworkTopology" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="cassandra_c3" parent="cassandra" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Write&lt;/b&gt;: commit log &gt; Memtable &gt; SSTable (immutable)" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="cassandra_c4" parent="cassandra" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Bloom filter, compaction, tombstone&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="254" as="geometry" />
+        </mxCell>
+        <mxCell id="cassandra_c5" parent="cassandra" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Gossip membership, accrual detector (phi)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="306" as="geometry" />
+        </mxCell>
+        <mxCell id="cassandra_c6" parent="cassandra" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Consistency levels&lt;/b&gt;: ANY/ONE/QUORUM/ALL" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="358" as="geometry" />
+        </mxCell>
+        <mxCell id="cassandra_c7" parent="cassandra" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Hinted handoff&lt;/b&gt;: always writable" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="cassandra_links" parent="cassandra" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=2 2;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ Links:  DHT ring  •  ZooKeeper  •  quorum" vertex="1">
+          <mxGeometry height="50" width="376" x="12" y="464" as="geometry" />
+        </mxCell>
+        <mxCell id="mongodb" parent="1" style="swimlane;fontStyle=1;align=center;startSize=34;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;rounded=1;arcSize=4;" value="MONGODB" vertex="1">
+          <mxGeometry height="536" width="400" x="2340" y="1760" as="geometry" />
+        </mxCell>
+        <mxCell id="mongodb_c0" parent="mongodb" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Document store&lt;/b&gt;: BSON collections" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="mongodb_c1" parent="mongodb" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Sharded cluster&lt;/b&gt;: mongos, config server, shards" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="mongodb_c2" parent="mongodb" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Shard = replica set (primary + secondaries)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="mongodb_c3" parent="mongodb" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Sharding&lt;/b&gt;: chunks, hash/range key" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="mongodb_c4" parent="mongodb" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=6 4;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ &lt;b&gt;Oplog replication, RAFT election, arbiters&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="254" as="geometry" />
+        </mxCell>
+        <mxCell id="mongodb_c5" parent="mongodb" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Read preference / write concern&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="306" as="geometry" />
+        </mxCell>
+        <mxCell id="mongodb_c6" parent="mongodb" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Balancing&lt;/b&gt;: split + migrate chunks" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="358" as="geometry" />
+        </mxCell>
+        <mxCell id="mongodb_c7" parent="mongodb" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;CAP&lt;/b&gt;: CP (consistency under partition)" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="mongodb_links" parent="mongodb" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=2 2;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ Links:  RAFT  •  quorum  •  NoSQL" vertex="1">
+          <mxGeometry height="50" width="376" x="12" y="464" as="geometry" />
+        </mxCell>
+        <mxCell id="consistency" parent="1" style="swimlane;fontStyle=1;align=center;startSize=34;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;rounded=1;arcSize=4;" value="CONSISTENCY &amp; CAP" vertex="1">
+          <mxGeometry height="380" width="400" x="2340" y="2352" as="geometry" />
+        </mxCell>
+        <mxCell id="consistency_c0" parent="consistency" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;CAP theorem&lt;/b&gt;: pick 2 of C / A / P" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="consistency_c1" parent="consistency" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;ACID (RDBMS)&lt;/b&gt;: consistency-first" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="consistency_c2" parent="consistency" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;BASE (NoSQL)&lt;/b&gt;: availability-first" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="consistency_c3" parent="consistency" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Eventual consistency&lt;/b&gt;: replicas converge" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="consistency_c4" parent="consistency" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Cloud DC&lt;/b&gt;: Edge (guess) + Internal (sharding, cache)" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="254" as="geometry" />
+        </mxCell>
+        <mxCell id="consistency_links" parent="consistency" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=2 2;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ Links:  NoSQL  •  Cloud edge/internal" vertex="1">
+          <mxGeometry height="50" width="376" x="12" y="308" as="geometry" />
+        </mxCell>
+        <mxCell id="distfs" parent="1" style="swimlane;fontStyle=1;align=center;startSize=34;fillColor=#b0e3e6;strokeColor=#0e8088;fontSize=13;rounded=1;arcSize=4;" value="DISTRIBUTED FILE SYSTEMS" vertex="1">
+          <mxGeometry height="432" width="400" x="2800" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="distfs_c0" parent="distfs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0e8088;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;NFS&lt;/b&gt;: stateless, remote mount" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="distfs_c1" parent="distfs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0e8088;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;AFS&lt;/b&gt;: client caching, callbacks" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="distfs_c2" parent="distfs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0e8088;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;GFS&lt;/b&gt;: master + chunkservers (64MB, 3 replicas)" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="distfs_c3" parent="distfs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0e8088;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;GFS&lt;/b&gt;: leases, version numbers, record append" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="distfs_c4" parent="distfs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0e8088;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;HDFS&lt;/b&gt;: NameNode + DataNodes" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="254" as="geometry" />
+        </mxCell>
+        <mxCell id="distfs_c5" parent="distfs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0e8088;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Consistency&lt;/b&gt;: defined / undefined regions" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="306" as="geometry" />
+        </mxCell>
+        <mxCell id="distfs_links" parent="distfs" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=2 2;fillColor=#b0e3e6;strokeColor=#0e8088;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ Links:  MapReduce (storage)  •  Replication" vertex="1">
+          <mxGeometry height="50" width="376" x="12" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="mapreduce" parent="1" style="swimlane;fontStyle=1;align=center;startSize=34;fillColor=#b0e3e6;strokeColor=#0e8088;fontSize=13;rounded=1;arcSize=4;" value="MAPREDUCE / HADOOP" vertex="1">
+          <mxGeometry height="536" width="400" x="2800" y="628" as="geometry" />
+        </mxCell>
+        <mxCell id="mapreduce_c0" parent="mapreduce" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0e8088;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Map&lt;/b&gt;: parallel transform -&gt; (k,v) pairs" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="mapreduce_c1" parent="mapreduce" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0e8088;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Shuffle &amp; Sort&lt;/b&gt;: group by key (global barrier)" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="mapreduce_c2" parent="mapreduce" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0e8088;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Reduce&lt;/b&gt;: aggregate per key" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="mapreduce_c3" parent="mapreduce" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=6 4;fillColor=#ffffff;strokeColor=#0e8088;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ &lt;b&gt;Runs on GFS/HDFS (data locality)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="mapreduce_c4" parent="mapreduce" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0e8088;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Master/Worker farm; backup tasks (stragglers)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="254" as="geometry" />
+        </mxCell>
+        <mxCell id="mapreduce_c5" parent="mapreduce" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0e8088;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Fault tolerance&lt;/b&gt;: re-execute via heartbeat" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="306" as="geometry" />
+        </mxCell>
+        <mxCell id="mapreduce_c6" parent="mapreduce" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0e8088;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Hadoop&lt;/b&gt;: Common, HDFS, MapReduce, YARN" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="358" as="geometry" />
+        </mxCell>
+        <mxCell id="mapreduce_c7" parent="mapreduce" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0e8088;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;YARN&lt;/b&gt;: GRM, App Master, Node Manager, containers" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="mapreduce_links" parent="mapreduce" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=2 2;fillColor=#b0e3e6;strokeColor=#0e8088;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ Links:  GFS/HDFS  •  Spark (evolution)" vertex="1">
+          <mxGeometry height="50" width="376" x="12" y="464" as="geometry" />
+        </mxCell>
+        <mxCell id="spark" parent="1" style="swimlane;fontStyle=1;align=center;startSize=34;fillColor=#b0e3e6;strokeColor=#0e8088;fontSize=13;rounded=1;arcSize=4;" value="APACHE SPARK" vertex="1">
+          <mxGeometry height="536" width="400" x="2800" y="1220" as="geometry" />
+        </mxCell>
+        <mxCell id="spark_c0" parent="spark" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0e8088;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;RDD&lt;/b&gt;: immutable, in-memory, distributed" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="spark_c1" parent="spark" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0e8088;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Transformations (lazy) / Actions (eager)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="spark_c2" parent="spark" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0e8088;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Lineage&lt;/b&gt;: fault tolerance without replication" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="spark_c3" parent="spark" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0e8088;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;persist/cache&lt;/b&gt;: fast iterative reuse" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="spark_c4" parent="spark" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0e8088;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;DAG -&gt; stages -&gt; tasks&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="254" as="geometry" />
+        </mxCell>
+        <mxCell id="spark_c5" parent="spark" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0e8088;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Driver + Cluster Master + Executors&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="306" as="geometry" />
+        </mxCell>
+        <mxCell id="spark_c6" parent="spark" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=6 4;fillColor=#ffffff;strokeColor=#0e8088;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ &lt;b&gt;Deploy&lt;/b&gt;: Standalone / YARN / MESOS" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="358" as="geometry" />
+        </mxCell>
+        <mxCell id="spark_c7" parent="spark" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0e8088;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;~40x faster than Hadoop (iterative)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="spark_links" parent="spark" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=2 2;fillColor=#b0e3e6;strokeColor=#0e8088;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ Links:  YARN/MESOS  •  HDFS  •  Spark Streaming" vertex="1">
+          <mxGeometry height="50" width="376" x="12" y="464" as="geometry" />
+        </mxCell>
+        <mxCell id="stream" parent="1" style="swimlane;fontStyle=1;align=center;startSize=34;fillColor=#b0e3e6;strokeColor=#0e8088;fontSize=13;rounded=1;arcSize=4;" value="STREAM PROCESSING" vertex="1">
+          <mxGeometry height="588" width="400" x="2800" y="1812" as="geometry" />
+        </mxCell>
+        <mxCell id="stream_c0" parent="stream" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0e8088;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Unbounded data, real-time (sec/sub-sec)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="46" as="geometry" />
+        </mxCell>
+        <mxCell id="stream_c1" parent="stream" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0e8088;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Dataflow graph of operators (kernels)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="98" as="geometry" />
+        </mxCell>
+        <mxCell id="stream_c2" parent="stream" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=6 4;fillColor=#ffffff;strokeColor=#0e8088;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ &lt;b&gt;Spark Streaming&lt;/b&gt;: micro-batch, DStream (RDD seq)" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="stream_c3" parent="stream" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0e8088;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Flink&lt;/b&gt;: true event-at-a-time streaming" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="202" as="geometry" />
+        </mxCell>
+        <mxCell id="stream_c4" parent="stream" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0e8088;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Flink&lt;/b&gt;: JobManager/TaskManager, slots, pipelining" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="254" as="geometry" />
+        </mxCell>
+        <mxCell id="stream_c5" parent="stream" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0e8088;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Back-pressure handling&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="306" as="geometry" />
+        </mxCell>
+        <mxCell id="stream_c6" parent="stream" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0e8088;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Guarantees&lt;/b&gt;: at-least-once (Storm) / exactly-once" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="358" as="geometry" />
+        </mxCell>
+        <mxCell id="stream_c7" parent="stream" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0e8088;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Flink snapshots&lt;/b&gt;: barriers, checkpoints" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="stream_c8" parent="stream" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#0e8088;fontSize=11;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="&lt;b&gt;Windows, event-time, watermark&lt;/b&gt;" vertex="1">
+          <mxGeometry height="46" width="376" x="12" y="462" as="geometry" />
+        </mxCell>
+        <mxCell id="stream_links" parent="stream" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=2 2;fillColor=#b0e3e6;strokeColor=#0e8088;fontSize=11;fontStyle=2;align=left;verticalAlign=middle;spacingLeft=8;spacingRight=6;" value="→ Links:  Kafka (source)  •  Spark (micro-batch)" vertex="1">
+          <mxGeometry height="50" width="376" x="12" y="516" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1" edge="1" parent="1" source="microservices" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=10;fontColor=#555555;" target="containers" value="deployed in">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge2" edge="1" parent="1" source="containers" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=10;fontColor=#555555;" target="kubernetes" value="orchestrated by">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge3" edge="1" parent="1" source="middleware" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=10;fontColor=#555555;" target="corba" value="e.g.">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge4" edge="1" parent="1" source="cloud_models" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=10;fontColor=#555555;" target="openstack" value="IaaS">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge5" edge="1" parent="1" source="serverless" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=10;fontColor=#555555;" target="knative" value="platform">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge6" edge="1" parent="1" source="knative" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;dashed=1;endArrow=open;endFill=0;strokeColor=#888888;fontSize=10;fontColor=#555555;" target="kubernetes" value="based on">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="700" y="1300" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge7" edge="1" parent="1" source="openfaas" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;dashed=1;endArrow=open;endFill=0;strokeColor=#888888;fontSize=10;fontColor=#555555;" target="kubernetes" value="based on">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge8" edge="1" parent="1" source="openwhisk" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;dashed=1;endArrow=open;endFill=0;strokeColor=#888888;fontSize=10;fontColor=#555555;" target="kafka" value="uses">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1390" y="2132" />
+              <mxPoint x="1390" y="1104" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge9" edge="1" parent="1" source="mom" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=10;fontColor=#555555;" target="kafka" value="e.g.">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge10" edge="1" parent="1" source="kafka" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;dashed=1;endArrow=open;endFill=0;strokeColor=#888888;fontSize=10;fontColor=#555555;" target="zookeeper" value="metadata">
+          <mxGeometry relative="1" x="0.1321" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="1860" y="800" />
+              <mxPoint x="1860" y="330" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge11" edge="1" parent="1" source="group" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=10;fontColor=#555555;" target="replication" value="enables">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge12" edge="1" parent="1" source="replication" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;dashed=1;endArrow=open;endFill=0;strokeColor=#888888;fontSize=10;fontColor=#555555;" target="zookeeper" value="uses">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge13" edge="1" parent="1" source="overlay" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=10;fontColor=#555555;" target="nosql" value="DHT">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge14" edge="1" parent="1" source="nosql" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=10;fontColor=#555555;" target="cassandra" value="e.g.">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge15" edge="1" parent="1" source="distfs" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=10;fontColor=#555555;" target="mapreduce" value="storage">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge16" edge="1" parent="1" source="mapreduce" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=10;fontColor=#555555;" target="spark" value="evolved into">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge17" edge="1" parent="1" source="spark" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#555555;fontSize=10;fontColor=#555555;" target="stream" value="Spark Streaming">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

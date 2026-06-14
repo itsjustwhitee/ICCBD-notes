@@ -110,6 +110,24 @@ Big Data characteristics, batch processing in large clusters, data parallelism, 
 
 ---
 
+## Concept Map
+
+A schematic **concept map** that summarizes the whole course at a glance lives in [`map/`](map/).  
+Each main **technology** is a box grouping its **core components / sub-technologies** (e.g. *Kubernetes* → API server, etcd/RAFT, scheduler, controllers, Pods → containers; *OpenStack* → Nova, Neutron, Cinder, Swift, Glance, Keystone; *Knative* → Serving, Eventing, scale-to-zero, built on Kubernetes). Cross-references between technologies are shown as `→` pointer boxes and short "Links" chips, keeping the view readable rather than a tangle of arrows. It covers 26 technologies across the same topics as the notes, and is handy for **quick revision**.
+
+Available formats:
+
+| File | Use |
+|------|-----|
+| [`map/ICCBD-concept-map.svg`](map/ICCBD-concept-map.svg) | Best for **viewing** — single page, infinitely zoomable |
+| [`map/ICCBD-concept-map.html`](map/ICCBD-concept-map.html) | Interactive view in a browser |
+| [`map/ICCBD-concept-map.drawio`](map/ICCBD-concept-map.drawio) | **Editable** source — open at [app.diagrams.net](https://app.diagrams.net) or draw.io desktop |
+| [`map/generate-concept-map.py`](map/generate-concept-map.py) | Script that regenerates the `.drawio` (for bulk edits) |
+
+> The map is a single large canvas, so **PDF export splits it across pages badly**, prefer the **SVG** or **HTML** export, or open the `.drawio` in any editor.
+
+---
+
 ## Building
 
 ```bash

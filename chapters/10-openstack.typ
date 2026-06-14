@@ -43,7 +43,7 @@ network and storage are also pooled:
 
 The result is a unified resource pool that offers flexibility and efficiency for
 many simultaneous applications.
-
+#v(-0.7em)
 #analogy("Cloud as a Utility")[
   Just as the electrical grid abstracts the physical generators from the consumer,
   cloud resource virtualization abstracts physical hardware from application
@@ -56,10 +56,8 @@ many simultaneous applications.
 === History and Positioning
 
 #def("OpenStack")[
-  #kw[OpenStack] is an open-source *cloud operating system* (IaaS platform)
-  founded by NASA and Rackspace in 2010, now maintained by a consortium of
-  300+ companies. It is distributed under the Apache 2.0 licence with a
-  six-month release cycle.
+  #kw[OpenStack] is an open-source *cloud operating system* (IaaS platform).
+  It is distributed under the Apache 2.0 licence with a six-month release cycle.
 ]
 
 Key positioning facts:
@@ -73,10 +71,10 @@ Key positioning facts:
 OpenStack is a *cloud operating system* that sits between applications and
 physical hardware:
 
-- *Upward*: it exposes RESTful APIs consumed by applications, admins, and users.
+- *Upward*: it #hl[exposes RESTful APIs] consumed by applications, admins, and users.
 - *Downward*: it creates resource pools from physical servers and automates the
   network.
-- *Internally*: it acts as a control plane: scheduling, orchestration, image
+- *Internally*: it #hl[acts as a control plane]: scheduling, orchestration, image
   management, identity, and metering.
 
 === Logical Layers
@@ -96,30 +94,37 @@ In OpenStack these map directly to named services (see next section).
 === Design Guidelines
 
 All OpenStack services share a common architectural philosophy:
-
+#v(-0.7em)
 #prop("OpenStack Design Principles")[
-  - *Horizontal scalability*: scale out by adding nodes, not scaling up.
-  - *Minimal dependencies*: services are designed to be loosely coupled; each replicates its core components to avoid single points of failure.
-  - *Shared-nothing*: each service stores all needed information internally; no global shared state between services.
-  - *Asynchronous, pub/sub communication*: services communicate through a message queue (AMQP/RabbitMQ) rather than synchronous RPC, making the system resilient and decoupled.
+  - *Horizontal scalability*: #hl[scale out by adding nodes], not scaling up.
+  - *Minimal dependencies*: services are designed to be loosely coupled and each replicates its core components to avoid single points of failure.
+  - *Shared-nothing*: each service stores all needed information internally #so #hl[no global shared] #hl[state between services].
+  - *Asynchronous, pub/sub communication*: #hl[services communicate through a message queue] (AMQP/RabbitMQ) rather than synchronous RPC, making the system resilient and decoupled.
 ]
-#v(-1em)
-#why("Why asynchronous messaging?")[
-  In a cloud, a single user request may trigger actions across many services (compute,
-  networking, storage, image). If each call were synchronous, one slow service would
-  block the entire chain. Message queues decouple the sender from the receiver:
-  requests are queued and processed when the service is ready, improving resilience
-  and enabling horizontal scaling of any individual service.
+#v(-0.3em)
+#extra[
+  #why([*asynchronous messaging*])[
+    In a cloud, a single user request may trigger actions across many services (compute,
+    networking, storage, image). If each call were synchronous, one slow service would
+    block the entire chain. Message queues decouple the sender from the receiver:
+    requests are queued and processed when the service is ready, improving resilience
+    and enabling horizontal scaling of any individual service.
+  ]
 ]
 
 === Common Service Architecture
 
 Every OpenStack service is built from the same four internal building blocks:
 
-- *pub/sub messaging service*: AMQP-based (RabbitMQ by default, Qpid supported).
+- #hl[*pub/sub messaging service*]: AMQP-based (RabbitMQ by default, Qpid supported).
 - *One or more core components*: the actual service logic.
-- *RESTful API component*: the external face of the service, interoperable with clients.
-- *Local database component*: stores internal service state (MySQL, MongoDB, SQLAlchemy, HBase depending on requirements).
+- *#hl[RESTful API] component*: the external face of the service, interoperable with clients.
+- *#hl[Local database] component*: stores internal service state (MySQL, MongoDB, SQLAlchemy, HBase depending on requirements).
+
+#figure(
+  image("../assets/openstack-architecture.jpg", width: 70%),
+  caption: [Openstack.]
+)
 
 == OpenStack Core Services
 
@@ -135,14 +140,14 @@ Every OpenStack service is built from the same four internal building blocks:
 
   Additional services: *Ceilometer* (telemetry/metering), *Heat* (orchestration).
 ]
-
-All services communicate through Keystone for authentication and through the
+#v(-0.7em)
+#hl[All services communicate through Keystone for authentication] and through the
 message queue for internal coordination. The Dashboard (Horizon) provides a
 unified graphical interface across all services.
 
 #figure(
   image("../assets/openstack-architecture.svg", width: 95%),
-  caption: "OpenStack core services: Horizon on top, Keystone and RabbitMQ as cross-cutting infrastructure, and the five resource services above the physical hardware layer."
+  caption: "OpenStack core services."
 )
 
 == Nova - Compute Service
@@ -150,32 +155,34 @@ unified graphical interface across all services.
 === What Nova Does
 
 #def("Nova")[
-  #kw[Nova] is OpenStack's compute service. It provisions and manages large
+  #kw[Nova] is OpenStack's *compute* service. It provisions and manages large
   pools of virtual machine instances across a cluster of hypervisor nodes.
 ]
 
-- Provides *on-demand virtual servers* (instances).
+- Provides #hl[*on-demand virtual servers* (instances)].
 - Manages large networks of VMs.
 - Designed to *horizontally scale* on standard commodity hardware.
 - Supports multiple hypervisors: KVM, XenServer, VMware, Hyper-V.
-- Exposes compute resources via *REST APIs*, web interface, and CLI.
+- Exposes #hl[compute resources via *REST APIs*], web interface, and CLI.
 
 === Nova Internal Components
 
 Nova is itself a distributed system, with dedicated daemons for each function:
 
 - *nova-api*: RESTful API gateway (supports OpenStack, EC2, and admin APIs). All client commands arrive here.
-- *nova-compute*: runs on every hypervisor node; communicates with the underlying hypervisor (libvirt, XenAPI, etc.) to start/stop/manage VM instances.
+- #hl[*nova-compute*: communicates with the underlying hypervisor] (libvirt, XenAPI, etc.) #hl[to start/stop/]#hl[manage VM instances].
 - *nova-scheduler*: coordinates all services and determines *placement* of new VM requests: which physical host gets the new VM.
 - *nova-conductor*: mediates database access from nova-compute to avoid direct DB connections from untrusted compute nodes.
 - *nova database*: stores build-time and run-time state of the cloud infrastructure (typically MySQL).
-- *Queue (RabbitMQ)*: the message bus that connects all Nova services. Requests are enqueued, enabling async processing and decoupling.
-- *nova-console / nova-novncproxy / nova-consoleauth*: provide proxied console access to VM instances.
-
-#note[
-  `nova-network` (network configuration) and `nova-volume` (persistent storage)
-  are legacy components. Their responsibilities have been moved to *Neutron* and
-  *Cinder* respectively in modern deployments.
+- #hl[*Queue (RabbitMQ)*: the message bus that connects all Nova services]. Requests are enqueued, enabling async processing and decoupling.
+- *nova-console / nova-novncproxy / nova-consoleauth*: provide proxied console access to VM instance and authentication.
+#v(-0.3em)
+#extra[
+  #note[
+    `nova-network` (network configuration) and `nova-volume` (persistent storage)
+    are legacy components. Their responsibilities have been moved to *Neutron* and
+    *Cinder* respectively in modern deployments.
+  ]
 ]
 
 === Nova General Interaction Pattern
@@ -183,18 +190,23 @@ Nova is itself a distributed system, with dedicated daemons for each function:
 The request flow for any Nova operation follows this pattern:
 
 + Client sends a request to *Nova API*.
-+ Nova API validates credentials with *Keystone* and writes initial state to *MySQL*.
++ Nova API #hl[validates credentials with *Keystone*] and writes initial state to *MySQL*.
 + Nova API forwards the request to *Nova Scheduler* via *RabbitMQ*.
-+ Nova Scheduler confirms resource availability and selects a host; publishes back.
-+ The target *Nova Service* (nova-compute) polls RabbitMQ, receives the message, and executes the action.
++ Nova Scheduler confirms resource availability, selects a host and publishes back.
++ The #hl[target *Nova Service* (nova-compute) polls RabbitMQ, receives the message, and executes] the action.
 + Both Scheduler and Service update *MySQL* with the final state.
-
+#v(-0.7em)
 #analogy("Nova as a Dispatcher")[
   Nova behaves like a taxi dispatch center: the API is the phone line (receives
   requests), the scheduler is the dispatcher (decides which driver handles the job),
   and nova-compute nodes are the individual drivers. RabbitMQ is the radio network
   connecting dispatch to drivers.
 ]
+
+#figure(
+  image("../assets/openstack-nova.jpg", width: 45%),
+  caption: [Nova general interaction scheme.]
+)
 
 === VM Provisioning Workflow (Multi-Service)
 
@@ -204,18 +216,15 @@ Launching a VM involves coordinating Nova, Keystone, Glance, and Swift:
 + Nova API authenticates with *Keystone*.
 + Nova Scheduler picks a compute host and schedules the VM.
 + Nova API requests the *boot image* from *Glance API*.
-+ Glance Registry looks up image metadata; Glance API fetches the actual image from *Swift*.
++ Glance Registry looks up image metadata #so Glance API fetches the actual image from *Swift*.
 + Nova Compute receives the image and starts the VM on the hypervisor.
-
-This end-to-end flow illustrates how every service relies on Keystone for auth
-and how image delivery flows through Glance/Swift.
 
 == Swift - Object Storage
 
 === What Swift Does
 
 #def("Swift")[
-  #kw[Swift] is OpenStack's *distributed object storage* service. It stores and
+  #kw[Swift] is OpenStack's *distributed #underline[object] storage* service. It stores and
   retrieves unstructured data objects (files, images, backups, archives) via
   HTTP/REST, without requiring a traditional filesystem hierarchy.
 ]
@@ -223,36 +232,51 @@ and how image delivery flows through Glance/Swift.
 #important("Swift is not a filesystem")[
   Swift is not a POSIX filesystem or a block device. It stores *objects* (arbitrary
   byte sequences + metadata) identified by a hierarchical name
-  (account / container / object). Mutations create new objects rather than
-  modifying existing ones; this is what enables concurrent reads and efficient
+  (account / container / object). #hl[Mutations create] #hl[new objects rather than
+  modifying existing ones]. This is what enables concurrent reads and efficient
   replication (only changed chunks need to be transferred).
 ]
 
 - Provides *scalability, redundancy, and durability* through replication.
 - No central point of control, inherently distributed.
-- Stores static data: VM images, photo storage, email storage, backups.
+- #hl[Stores static data]: VM images, photo storage, email storage, backups.
 - Accessed via APIs or integrated directly inside applications.
 
 === Object Storage Data Model
 
-Objects in Swift are organized in a three-level hierarchy:
+Objects in Swift are organized in a *three-level* hierarchy:
 
 - *Account*: top-level namespace (like a user or project).
 - *Container*: a named bucket within an account (like a directory, but flat).
-- *Object*: the actual data blob + metadata (name, size, content-type, custom headers).
+- #hl[*Object*: the actual data blob + metadata] (name, size, content-type, custom headers).
 
 When an object changes, its metadata is updated and only the changed chunks need
 to be replicated, making replication efficient.
+#extra[
+  #note[
+    Objects are structurally *immutable*. If the data content changes, a new object 
+    is written entirely (or per-chunk), and the old one is 
+    asynchronously garbage-collected.\
+    If only metadata changes, just the metadata 
+    storage is updated without copying or duplicating the 
+    underlying heavy data blob.
+  ]
+]
 
 === Swift Components
 
-- *swift-proxy*: the entry point; handles all incoming requests (uploads, metadata modifications, container creation) and routes them internally.
+- #hl[*swift-proxy*: the entry point]. It handles all incoming requests (uploads, metadata modifications, container creation) and routes them internally.
 - *Account server*: manages account-level metadata defined through the storage service.
 - *Container server*: maps containers (buckets) within the object storage service.
-- *Object server*: manages the actual file data on storage nodes.
+- #hl[*Object server*]: manages the actual file data on storage nodes.
 
-The proxy is the only publicly exposed component; the storage servers form
+The proxy is the only publicly exposed component, while the storage servers form
 an internal ring accessed only through the proxy.
+
+#figure(
+  image("../assets/openstack-swift.jpg", width: 25%),
+  caption: [Swift.]
+)
 
 == Cinder - Block Storage
 
@@ -260,7 +284,7 @@ an internal ring accessed only through the proxy.
 
 #def("Cinder")[
   #kw[Cinder] is OpenStack's *block storage* service. It manages persistent
-  storage volumes that can be attached to VM instances, analogous to a cloud
+  storage *volumes* that can be attached to VM instances, analogous to a cloud
   version of a SAN or network-attached disk.
 ]
 #v(-1em)
@@ -272,8 +296,8 @@ an internal ring accessed only through the proxy.
 
 - Creates, attaches, and detaches *volumes* to/from VM instances.
 - Supports protocols: iSCSI, NFS, FC, RBD (Ceph), GlusterFS.
-- Supports backends: Ceph, NetApp, Nexenta, SolidFire, Zadara, and more.
-- Allows creating *snapshots* of volumes for backup or cloning.
+#extra[- Supports backends: Ceph, NetApp, Nexenta, SolidFire, Zadara, and more.]
+- Allows creating #hl[*snapshots* of volumes for backup or cloning].
 
 === Cinder Components
 
@@ -281,6 +305,11 @@ an internal ring accessed only through the proxy.
 - *cinder-volume*: executes read/write operations; interacts with the database and message queue to maintain consistency.
 - *cinder-scheduler*: selects the best storage backend/node to create a new volume.
 - *cinder database*: maintains the state of all volumes (available, in-use, error, etc.).
+
+#figure(
+  image("../assets/openstack-cinder.jpg", width: 14.35%),
+  caption: [Cinder.]
+)
 
 == Glance - Image Service
 
@@ -293,7 +322,7 @@ an internal ring accessed only through the proxy.
 
 - Allows storing images on *different storage backends* (filesystem, Swift, Amazon S3, HTTP).
 - Supports multiple disk formats: Raw, qcow2, VMDK, VHD, ISO, etc.
-- Images are typically stored in *Swift*; Glance acts as a metadata catalog and
+- #hl[Images are typically stored in *Swift*, Glance acts as a metadata catalog] and
   API layer on top of the actual storage.
 
 === Glance Components
@@ -301,11 +330,17 @@ an internal ring accessed only through the proxy.
 - *glance-api*: handles API requests to discover, store, and retrieve images.
 - *glance-registry*: stores, processes, and retrieves image *metadata* (dimensions, format, owner, etc.).
 - *glance database*: the metadata store.
-
+#v(-0.7em)
 #note[
-  Glance itself does not store image bits; it delegates that to an external
+  Glance itself does not store image bits, it delegates that to an external
   repository (Swift, S3, filesystem). It is a metadata registry + delivery proxy.
 ]
+
+#figure(
+  crop(image("../assets/openstack-glance.png", width: 40%),
+    top: 14%, bottom: 4%, left: 2%, right: 2%),
+  caption: [Glance.] 
+)
 
 == Horizon - Dashboard
 
@@ -342,9 +377,9 @@ barrier to using OpenStack.
 
 === Keystone's Four Sub-Services
 
-- *Identity*: user information and authentication.
-- *Token*: after login, replaces the password with a time-limited token for subsequent API calls.
-- *Catalog*: endpoint registry: maps service type (compute, image, etc.) to URLs.
+- #hl[*Identity*: user information and authentication].
+- *Token*: #hl[after login, replaces the password with a time-limited token] for subsequent API calls.
+- *Catalog*: endpoint registry #swarrow maps service type (compute, image, etc.) to URLs.
 - *Policy*: rule-based authorization engine.
 
 === Keystone Request Flow
@@ -352,14 +387,19 @@ barrier to using OpenStack.
 + Client sends a request with credentials to Keystone.
 + Keystone authenticates and returns a *token* (+ tenant/role information).
 + Client forwards the token with its request to the target OpenStack service.
-+ The target service *validates the token with Keystone* before processing the request.
++ The #hl[target service *validates the token with Keystone* before processing the request].
 + Unauthorized requests are rejected at step 2 or step 4.
-
-#important("Keystone is the security perimeter")[
-  Every OpenStack service call must carry a valid Keystone token. Keystone is
-  therefore the single, centralized trust anchor for the entire cloud. If Keystone
+#v(-0.7em)
+#note[
+  Since Keystone is
+  therefore the single, centralized trust anchor for the entire cloud, if it
   is unavailable, no authenticated operation in the cloud can proceed.
 ]
+
+#figure(
+  image("../assets/openstack-keystone.jpg", width: 50%),
+  caption: [Keystone.]
+)
 
 == Neutron - Networking Service
 
@@ -372,29 +412,34 @@ barrier to using OpenStack.
 ]
 
 Key properties:
-- *Multi-tenancy*: full isolation and abstraction per tenant; each tenant has its own virtual networks.
-- *Technology-agnostic*: APIs define the *service*, vendor plug-ins provide the *implementation*. Vendor-specific extensions are supported.
-- *Loose coupling*: Neutron is a standalone service, not exclusive to OpenStack.
+- #hl[*Multi-tenancy*: full isolation and abstraction per tenant] #so each tenant has its own virtual networks.
+- #hl[*Technology-agnostic*]: APIs define the *service*, vendor plug-ins provide the *implementation*. Vendor-specific extensions are supported.
+- #hl[*Loose coupling*]: Neutron is a standalone service, not exclusive to OpenStack.
 
 === Logical vs. Physical View
 
 #prop("Neutron Abstraction")[
-  Neutron *decouples* the logical view of the network from the physical view.
-  Tenants see isolated virtual networks; the physical data-centre network is
+  #hl[Neutron *decouples* the logical view of the network from the physical view].\
+  Tenants see isolated virtual networks #so the physical data-centre network is
   hidden behind the abstraction.
 ]
 
 *Logical concepts*:
 - *Network*: an isolated virtual Layer-2 domain (logical switch).
 - *Subnet*: an IPv4 or IPv6 address block assignable to VMs or routers.
-- *Port*: a logical switch port; defines the MAC and IP addresses of a virtual interface (VIF).
+- *Port*: a logical switch port that defines the MAC and IP addresses of a virtual interface (VIF).
 
 === Neutron Components
 
 - *neutron-server*: accepts API requests and forwards them to the appropriate plugin.
-- *Plugins and Agents*: perform real actions: connecting/disconnecting ports, creating networks and subnets, managing routing rules (iptables, Open vSwitch, etc.).
+- #hl[*Plugins and Agents*: perform real actions] #swarrow connecting/disconnecting ports, creating networks and subnets, managing routing rules (iptables, Open vSwitch, etc.).
 - *Message queue*: decouples neutron-server from the agents running on hypervisor nodes.
 - *neutron database*: persists network state for plugins that require it.
+
+#figure(
+  image("../assets/openstack-quantum.jpg", width: 38%),
+  caption: [Neutron (quantum).]
+)
 
 === Neutron Agents
 
@@ -403,8 +448,8 @@ Key properties:
 - *L3 agent*: provides L3/NAT forwarding for external network access.
 
 #note[
-  OpenStack created *OpenFlow* support so VMs can send packets to each other
-  without double IP/MAC translation. This avoids the performance overhead of
+  OpenStack created #hl[*OpenFlow* support so VMs can send packets to each other
+  without] #hl[double IP/MAC translation]. This avoids the performance overhead of
   NAT traversal and enables near-native packet forwarding rates.
 ]
 
@@ -413,18 +458,19 @@ Key properties:
 Tenant networks are isolated, user-created networks. Neutron supports several
 types:
 
-- *Flat*: all instances on one shared network; no VLAN tagging.
-- *Local*: instances confined to a single compute node; fully isolated from external networks.
-- *VLAN*: each tenant network maps to an 802.1Q VLAN ID in the physical network. Requires 802.1Q-capable switches; supports up to 4096 tenant networks.
+- *Flat*: all instances on one shared network, no VLAN tagging.
+- *Local*: instances confined to a single compute node, fully isolated from external networks.
+- *VLAN*: each tenant network maps to an 802.1Q VLAN ID in the physical network. Requires 802.1Q-capable switches and supports up to 4096 tenant networks.
 - *VXLAN / GRE*: overlay tunnels that carry tenant traffic over the physical network. Allow many more isolated networks than VLAN (no 4096 limit) and avoid reconfiguring physical switches.
 
-#why("Why VXLAN over VLAN for large clouds?")[
-  VLAN is limited to 4096 IDs. A large public cloud may have thousands of tenants
-  each needing multiple isolated networks. VXLAN uses a 24-bit segment ID (16 million
-  possible networks) and encapsulates traffic in UDP, allowing tenant isolation to
-  be implemented entirely in software without modifying the physical switching fabric.
+#extra[
+  #why([*VXLAN over VLAN*])[
+    VLAN is limited to 4096 IDs. A large public cloud may have thousands of tenants
+    each needing multiple isolated networks. VXLAN uses a 24-bit segment ID (16 million
+    possible networks) and encapsulates traffic in UDP, allowing tenant isolation to
+    be implemented entirely in software without modifying the physical switching fabric.
+  ]
 ]
-
 A *Neutron router* is required to route traffic between tenant networks or to
 reach external networks (including the Internet).
 

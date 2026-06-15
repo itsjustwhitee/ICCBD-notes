@@ -233,8 +233,6 @@ In dynamic systems, you can also create *non-forecasted dynamic resources* and t
   [*Dynamic*], [*Adapts* to current situation; allocated only when needed (on-need).], [Allocation *cost* impacts execution time.],
 )
 
-#hl[Dynamic systems can also *reallocate* already-running resources (*migration*)], but migration is expensive and must be carefully managed.
-
 === Allocation Decision Models
 
 - *Explicit* (user-driven) #swarrow User specifies the mapping for each resource before execution.
@@ -298,8 +296,6 @@ In distributed deployments, *agents* coordinate among themselves to provide a un
   #note[
     In Unix, luckily, persistent communication elements are used\ #so VMs can be migrated without this problem😄, but if the intermediate migrates how will we re-establish communication?😨
   ]
-
-The static case can use more precise algorithms (out-of-band), while dynamic must compete with the running application.
 
 === The Farm Pattern
 
@@ -422,9 +418,7 @@ Migration involves three steps:
 2. *T (#hl[Transfer])* #swarrow decide #hl[*which* process to transfer and *when*] to do it. In heterogeneous systems, maybe some resources are *NOT movable to specific nodes* (such as in heterogeneous systems).
 3. *L (#hl[Location])* #swarrow decide #hl[*where* to migrate] the process.
 
-#extra[Those actions are taken at runtime, so they should be *simple*. T & L are often intertwined and interdependent.]
-
-T and L are often interdependent and must integrate with local scheduling.
+#extra[Those actions are taken at runtime, so they should be *simple*. T & L are often intertwined and interdependent, and must integrate with local scheduling.]
 
 #table(
   columns: (auto, 1fr),
@@ -665,13 +659,7 @@ In practice, at growing $P$:
   caption: [Speedup and Efficiency plots (depend on $P$, but also $N$).]
 )
 
-The *heavily-loaded limit* $T_"HL"(N) = inf_P T_P(N)$: the $P$ with which we get the least complexity. Optimum is typically when $N/P$ is very high #swarrow all processors are *very loaded*, with heavy load to carry out (considering the sequential limit).
-
-=== Parallel Time Model
-
-$T_P(N) = T_"CompP" + T_"CompS" + T_"Comm"$
-
-The *heavily-loaded limit* (HL) is the minimum $T_P$ over all $P$: ideally achieved when $N/P$ is large and all processors carry a heavy load.
+The *heavily-loaded limit* $T_"HL"(N) = inf_P T_P(N)$ is the minimum $T_P$ over all $P$ — the $P$ that yields the least complexity. It is ideally achieved when $N/P$ is very high: all processors are *heavily loaded*, carrying out work right up to the sequential limit.
 
 === Overhead Time
 

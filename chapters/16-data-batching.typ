@@ -328,7 +328,7 @@ Both multi-stage and interactive apps require faster *data sharing across parall
 ]
 #v(-1em)
 #def("Apache Spark")[
-  #kw[Spark] is *not a modified version of Hadoop* but a separate, fast, MapReduce-like engine. It is a *new optimized version of Hadoop* that provides:
+  #kw[Spark] is *not a modified version of Hadoop* but a separate, fast, MapReduce-like engine, optimized for in-memory processing. It provides:
   - *In-memory data storage* for very fast iterative queries
   - *General execution* of graphs and powerful optimizations
   - Up to *40× faster than Hadoop* for iterative workloads

@@ -279,9 +279,7 @@ The classic *Client/Server (C/S)* model is an SOA implementation, but without di
 C/S has known weaknesses (rigidity, tight coupling), typically addressed by small tailored variations.
 
 === Granularity problem
-In SOA the question is if it is better to have coarse grained services or fine grained components. The former (coarse) are harder to manage but grant higher abstraction level, the latter, instead, have augmented fragmentation and limited internal interaction.
-
-Initially the choice was for coarse-grained entities, more compact and easier to move and manage. Sooner, fine grained resources were adopted for dynamicity and runtime changes.
+SOA faces the same granularity trade-off seen earlier: *coarse-grained services* give higher abstraction but are harder to manage, while *fine-grained components* add flexibility at the cost of fragmentation and limited internal interaction. Historically the choice moved from coarse-grained entities (compact, easy to move) toward fine-grained ones, driven by the need for dynamicity and runtime changes.
 
 #extra[
   #side-note(color: gray)[

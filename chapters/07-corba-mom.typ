@@ -542,8 +542,6 @@ Kafka organizes #hl[messages in *topics*]. A topic is a repository #hl[where man
   A #kw[broker] is a Kafka cluster server. The cluster maintains a distributed log of data over many servers called brokers. Each partition has one *leader* (handles read and write requests) and may have *followers* (replicate the leader passively). #underline[Each broker is a leader for some partitions and a follower for others].
 ]
 
-  - *Producers* send data directly to the broker *leader* of the target partition (using round-robin or key-based strategy).
-  - *Consumers* fetch data from brokers using a *pull-based* model (optimizes throughput, reduces broker burden).
   - *ZooKeeper*: hierarchical, distributed key-value store used by Kafka for coordination metadata (list of brokers, list of consumers and their offsets, list of producers).
   - *Consumer Group*: a logical subscriber entity. Each partition is assigned to *exactly one consumer* within the group, parallelizing consumption without conflicts. If a consumer fails, the group rebalances automatically, assigning the orphaned partitions to remaining members. Adding more consumers than partitions leaves the extras idle.
 
@@ -577,9 +575,8 @@ Kafka organizes #hl[messages in *topics*]. A topic is a repository #hl[where man
 ]
 #v(-1em)
 #prop("Replication and Fault Tolerance")[
-  - Each partition is *replicated* over a predefined number of brokers (*passive replication*): one leader, zero or more followers.
-  - The *leader* handles all read and write requests for that partition. Followers replicate the leader passively and act only as backups.
-  - Each broker is a *leader for some of its partitions and a follower for others*, distributing the load evenly across the cluster.
+  - Partitions use *passive replication* over a predefined number of brokers: followers replicate the leader and act only as backups, ready to be *promoted* if the leader fails.
+  - Spreading partition leadership across brokers *distributes load evenly* across the cluster.
 ]
 #v(-1em)
 #important("Message Visibility Pipeline")[
@@ -600,10 +597,8 @@ Kafka organizes #hl[messages in *topics*]. A topic is a repository #hl[where man
 === Kafka Producers and Consumers
 
 #important("Producers Responsibilities")[
-  - *Publish* data to topics of their choice.
-  - Send data directly to the broker *leader* of the partition.
-  - Be responsible for *strategies*: which partition to assign records to (random or key-based).
-  - Decide to which partition to write.
+  - *Publish* data to topics of their choice, sending directly to the broker *leader* of the target partition.
+  - Decide *which partition* to write to, applying a random or key-based strategy.
 ]
 #v(-1em)
 #important("Consumers: Pull Model")[

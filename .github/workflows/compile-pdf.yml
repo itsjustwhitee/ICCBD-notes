@@ -6,6 +6,7 @@ on:
     paths:
       - "**.typ"
       - "assets/**"
+      - "summary/**"
 
 permissions:
   contents: write
@@ -30,10 +31,12 @@ jobs:
           cp /tmp/syne/fonts/ttf/*.ttf ~/.local/share/fonts/
 
       - name: Compile
-        run: typst compile main.typ ICCBD-notes.pdf
+        run: |
+          typst compile main.typ ICCBD-notes.pdf
+          typst compile --root . summary/summary.typ ICCBD-summary.pdf
 
       - name: Commit PDF
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "ci: update compiled PDF [skip ci]"
-          file_pattern: ICCBD-notes.pdf
+          file_pattern: "ICCBD-notes.pdf ICCBD-summary.pdf"

@@ -293,9 +293,7 @@ Other file systems introduced *global quality* in the sense of *replication* and
 
 === Modern Global File Systems
 
-Modern *global systems* need new tools for data storage with *global scalability and quality*. File systems must use *replication* and dynamic management of data in all their parts to achieve better QoS.
-
-Starting from traditional C/S file systems (similar to NFS), modern systems move to *dynamic management of data* in all their parts.
+Modern *global systems* need new tools for data storage with *global scalability and quality*. Starting from traditional C/S file systems (similar to NFS), they move to *replication* and *dynamic management of data in all their parts* to achieve better QoS.
 
 Major global distributed file systems:
 - *Google File System (GFS)*: for Google data
@@ -307,22 +305,13 @@ GFS exploits *Google hardware, data, and application properties* to improve perf
 
 === GFS Design Assumptions
 
-- *Large scale*: thousands of machines, thousands of disks; files are *huge* (multi-GB)
-- File access model is *read/append (almost no write)*:
-  - Most reads are sequential
-  - Random writes practically non-existent; new knowledge is appended to a file, not overwritten
-- *Component failures are normal* events:
-  - Hundreds of thousands of machines/disks
-  - *MTBF of 3 years/disk* #swarrow 100 disk failures/day
-  - Additionally: network, memory, power failures
-  - #hl[The system must *detect, tolerate, and recover* from failures automatically]
+GFS is designed around the specific workload and failure profile of Google's infrastructure:
 
-=== GFS Design Criteria
-
-- Deal with a "limited" number of *large files*: just a few millions, one file is 100MB-multi-GB, few small files
-- *Read-mostly* workload: large streaming reads (multi-MB), large sequential append operations
-- Provide *atomic consistency* to parallel writes with low overhead (every write writes on a block completely, so one block = one write report in parallel on append)
-- *Highly-sustained throughput* much more important than *low latency*
+- *Large scale, large files*: thousands of machines and disks; a "limited" number (a few millions) of *huge files* (100 MB to multi-GB), few small files
+- *Read/append workload (almost no random write)*: mostly large sequential streaming reads (multi-MB) and large sequential appends; random overwrites are practically non-existent (new data is appended, not overwritten)
+- *Component failures are the norm*: with hundreds of thousands of machines/disks (MTBF ~3 years/disk #swarrow ~100 disk failures/day), plus network, memory, and power failures, the system must #hl[*detect, tolerate, and recover* automatically]
+- *Atomic consistency for concurrent appends* at low overhead: every write covers a full block, so one block = one atomic write report even under parallel append
+- *Sustained throughput* matters far more than *low latency*
 
 === GFS Design Novel Strategies
 

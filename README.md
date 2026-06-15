@@ -13,7 +13,12 @@
 These are personal lecture notes compiled from the official course slides of ICCBD at Unibo.  
 They are written in **Typst** using the [`justwhitee-notes`](https://typst.app/universe/package/justwhitee-notes/) template (`@preview/justwhitee-notes:0.2.2`).
 
-The compiled PDF (`ICCBD-notes.pdf`) is generated from `main.typ`, which includes all chapters (in `chapters/`) in the order listed below.
+Two compiled PDFs are generated automatically by CI:
+
+| File | Source | Description |
+|------|--------|-------------|
+| [`ICCBD-notes.pdf`](ICCBD-notes.pdf) | `main.typ` | Full lecture notes — all 18 chapters in detail |
+| [`ICCBD-summary.pdf`](ICCBD-summary.pdf) | `summary/summary.typ` | Compact summary — all key concepts, algorithms, and comparisons condensed for quick revision |
 
 ---
 
@@ -131,7 +136,11 @@ Available formats:
 ## Building
 
 ```bash
-typst compile main.typ
+# Full notes
+typst compile main.typ ICCBD-notes.pdf
+
+# Compact summary
+typst compile summary/summary.typ ICCBD-summary.pdf
 ```
 
 Requires [Typst](https://typst.app/) and the `justwhitee-notes` package (automatically fetched from the Typst Universe on first compile).

@@ -491,7 +491,7 @@ The DC does not use a flat network but typically *hierarchical interconnect mach
 )
 
 #def("Clos Network")[
-  A #kw[Clos network] achieves the same goal as Fat-Tree: more connections in layers, shorter traversal paths, better fault tolerance, and enhanced bandwidth. Used in modern DC spine-leaf architectures.
+  A #kw[Clos network] is a non-blocking multistage topology that achieves the *same goals as a Fat-Tree* (shorter paths, fault tolerance, high bandwidth through layered redundancy). It is the basis of modern DC *spine-leaf* architectures.
 ]
 #v(-0.7em)
 #figure(
@@ -499,7 +499,7 @@ The DC does not use a flat network but typically *hierarchical interconnect mach
     image("../assets/clos-network.png", width: 85%),
     top: 4%, bottom: 4%, left: 4%, right: 4%,
   ),
-  caption: [Fat tree scheme.]
+  caption: [Clos network scheme.]
 )
 
 The larger the DC, the more interconnected (and expensive) it must be. The hierarchy is the standard model.

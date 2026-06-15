@@ -48,11 +48,10 @@ To meet these, NoSQL systems ask for:
 
 === Requirements of Today's Workloads
 
-- *Speed* in answering
-- *No Single Point of Failure* (SPoF); in banks or specific use cases a higher cost is acceptable
-- *Low TCO* (Total Cost of Operation) or efficiency
-- *Fewer system administrators*
-- *Incremental scalability*: scale out, not up
+Beyond the motivations above, real deployments also demand *operational* efficiency:
+- *Low TCO* (Total Cost of Operation).
+- *Fewer system administrators* needed.
+- *Incremental scalability*: scale out, not up.
 
 #def("Scale Out vs. Scale Up")[
   - *Scale up* (vertical scalability): grow cluster capacity by replacing more powerful machines. Traditional approach; not cost-effective above the price curve sweet spot; requires replacing machines often.
@@ -398,8 +397,6 @@ Uses an *oplog (operation log)* for data sync:
 - *Primary-preferred*: primary if available, else secondary
 - *Secondary*: read from secondary (may return stale data: eventually consistent)
 - *Nearest*: lowest latency (useful to collocate application and DB on the same physical node; access in RAM)
-
-#note[Reads from secondary may fetch stale data. Nearest is most useful for read performance when collocating application and DB.]
 
 *Write Concern* determines the guarantee MongoDB provides on write success:
 - *Acknowledged* (default): primary returns answer immediately

@@ -249,12 +249,9 @@ Objects in Swift are organized in a *three-level* hierarchy:
 - *Account*: top-level namespace (like a user or project).
 - *Container*: a named bucket within an account (like a directory, but flat).
 - #hl[*Object*: the actual data blob + metadata] (name, size, content-type, custom headers).
-
-When an object changes, its metadata is updated and only the changed chunks need
-to be replicated, making replication efficient.
 #extra[
   #note[
-    Objects are structurally *immutable*. If the data content changes, a new object 
+    Objects are structurally *immutable*. If the data content changes, a new object
     is written entirely (or per-chunk), and the old one is 
     asynchronously garbage-collected.\
     If only metadata changes, just the metadata 

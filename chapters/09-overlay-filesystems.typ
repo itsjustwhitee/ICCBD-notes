@@ -27,9 +27,11 @@ Overlay networks may have *very different goals* but share core requirements:
 
 There are two fundamentally different kinds of overlay networks, distinguished by how new nodes are admitted:
 
-- #kw[Unstructured overlays]: new nodes choose the neighbor to use *randomly*. The network topology is arbitrary and grows freely. Worst cases and bottlenecks can appear. Examples: Napster, Gnutella, Kazaa, BitTorrent.
-- #kw[Structured overlays]: there is a *precise strategy* to let nodes join, to *organize the architecture*, and to react to failures and discontinuities. Examples: Chord, Pastry, CAN.
-
+- #kw[Unstructured overlays]: new nodes choose the neighbor to use *randomly*. The network topology is arbitrary and grows freely. Worst cases and bottlenecks can appear. 
+#extra[Examples: Napster, Gnutella, Kazaa, BitTorrent.]
+- #kw[Structured overlays]: there is a *precise strategy* to let nodes join, to *organize the architecture*, and to react to failures and discontinuities. 
+#extra[Examples: Chord, Pastry, CAN.]
+#v(-0.7em)
 #note[ONs are used not only for P2P applications but also for Message Oriented Middlewares (MOMs), social networks, and cloud infrastructure coordination, wherever scalable, self-organizing discovery of distributed resources is needed.]
 
 === Overlay Network Usage and Node Lifecycle
@@ -46,11 +48,11 @@ Every node in an ON follows a lifecycle:
 
 Running an overlay network is harder than running a static network because the membership changes constantly. Every practical ON must address:
 
-- *Maintaining edge links*: each node keeps a routing table of neighbor IP addresses. These must be kept fresh as nodes move or change address.
+- *Maintaining edge links*: each node keeps a routing table of (virtual) neighbor IP addresses. These must be kept fresh as nodes move or change address.
 - *Favoring insertion*: when a new node joins, it must find and connect to appropriate neighbors quickly, without disrupting the existing structure.
-- *Checking liveness*: nodes periodically ping their neighbors (heartbeats) to detect silent failures before they affect routing.
+- *Checking liveness*: #hl[nodes periodically ping their neighbors (heartbeats)] to detect silent failures before they affect routing.
 - *Identifying and recovering from faults*: when a neighbor fails, its edges must be detected as stale and replaced with alternative paths.
-- *Handling churn*: nodes join and leave (or crash) continuously. A well-designed ON restructures itself after each event in O(log N) operations, not O(N).
+- *Handling churn*: #hl[nodes join and leave (or crash) continuously]. A well-designed ON restructures itself after each event in O(log N) operations, not O(N).
 - *Maintaining structure under failures*: even when multiple nodes are absent simultaneously, the overlay must remain connected and correctly routed.
 - *Robustness to omissions*: message losses should be tolerable; the overlay should use redundant paths so that the failure of one route does not silence a node.
 

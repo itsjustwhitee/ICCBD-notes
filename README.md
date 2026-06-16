@@ -13,12 +13,14 @@
 These are personal lecture notes compiled from the official course slides of ICCBD at Unibo.  
 They are written in **Typst** using the [`justwhitee-notes`](https://typst.app/universe/package/justwhitee-notes/) template (`@preview/justwhitee-notes:0.2.2`).
 
-Two compiled PDFs are generated automatically by CI:
+Two compiled PDFs are generated automatically by CI on every push and published to the [**latest release**](https://github.com/itsjustwhitee/ICCBD-notes/releases/latest):
 
 | File | Source | Description |
 |------|--------|-------------|
-| [`ICCBD-notes.pdf`](ICCBD-notes.pdf) | `main.typ` | Full lecture notes — all 18 chapters in detail |
-| [`ICCBD-summary.pdf`](ICCBD-summary.pdf) | `summary/summary.typ` | Compact summary — all key concepts, algorithms, and comparisons condensed for quick revision |
+| [`ICCBD-notes.pdf`](https://github.com/itsjustwhitee/ICCBD-notes/releases/latest/download/ICCBD-notes.pdf) | `main.typ` | Full lecture notes — all 18 chapters in detail |
+| [`ICCBD-summary.pdf`](https://github.com/itsjustwhitee/ICCBD-notes/releases/latest/download/ICCBD-summary.pdf) | `summary/summary.typ` | Compact summary — all key concepts, algorithms, and comparisons condensed for quick revision |
+
+> The PDFs are **not committed to the repo** — they live as release assets so the source branch stays clean. The two links above always serve the most recent build.
 
 ---
 
@@ -124,7 +126,7 @@ Available formats:
 
 | File | Use |
 |------|-----|
-| [`map/ICCBD-concept-map.svg`](map/ICCBD-concept-map.svg) | Best for **viewing** — single page, infinitely zoomable |
+| [`ICCBD-concept-map.svg`](https://github.com/itsjustwhitee/ICCBD-notes/releases/latest/download/ICCBD-concept-map.svg) | Best for **viewing** — single page, infinitely zoomable (published with the [latest release](https://github.com/itsjustwhitee/ICCBD-notes/releases/latest); editable source in [`map/`](map/)) |
 | [`map/ICCBD-concept-map.html`](map/ICCBD-concept-map.html) | Interactive view in a browser |
 | [`map/ICCBD-concept-map.drawio`](map/ICCBD-concept-map.drawio) | **Editable** source — open at [app.diagrams.net](https://app.diagrams.net) or draw.io desktop |
 | [`map/generate-concept-map.py`](map/generate-concept-map.py) | Script that regenerates the `.drawio` (for bulk edits) |
@@ -145,7 +147,7 @@ typst compile summary/summary.typ ICCBD-summary.pdf
 
 Requires [Typst](https://typst.app/) and the `justwhitee-notes` package (automatically fetched from the Typst Universe on first compile).
 > For full requirements refer to [justwhitee-notes docs](https://typst.app/universe/package/justwhitee-notes/).
-> At the moment of writing this README notes are not complete/fully revisioned, but updated final pdf should be included :D
+> You don't need to build locally to read the notes: the up-to-date PDFs are always available on the [latest release](https://github.com/itsjustwhitee/ICCBD-notes/releases/latest).
 
 ---
 

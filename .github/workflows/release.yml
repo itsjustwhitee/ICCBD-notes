@@ -7,6 +7,8 @@ on:
       - "**.typ"
       - "assets/**"
       - "summary/**"
+      - "map/ICCBD-concept-map.svg"
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -35,8 +37,16 @@ jobs:
           typst compile main.typ ICCBD-notes.pdf
           typst compile --root . summary/summary.typ ICCBD-summary.pdf
 
-      - name: Commit PDF
-        uses: stefanzweifel/git-auto-commit-action@v5
+      - name: Publish PDFs to the rolling "latest" release
+        uses: softprops/action-gh-release@v2
         with:
-          commit_message: "ci: update compiled PDF [skip ci]"
-          file_pattern: "ICCBD-notes.pdf ICCBD-summary.pdf"
+          tag_name: latest
+          name: Latest compiled PDFs
+          body: >-
+            Auto-compiled from the latest commit on `main`.
+            Download `ICCBD-notes.pdf` (full notes), `ICCBD-summary.pdf` (compact summary),
+            or `ICCBD-concept-map.svg` (concept map) below.
+          files: |
+            ICCBD-notes.pdf
+            ICCBD-summary.pdf
+            map/ICCBD-concept-map.svg

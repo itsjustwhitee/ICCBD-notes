@@ -2,3 +2,4 @@ AGENTS.md
 .claude
 .env
 claude/
+*.pdf

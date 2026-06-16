@@ -171,11 +171,21 @@ Available namespace types:
 - `USR` #swarrow user and group IDs
 - `CGRP` #swarrow cgroup root directory
 
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_Can you name some namespaces? (at least 3)_]\
+  *MNT* (filesystem), *PID* (process IDs), *NET* (network stack and ports), *IPC* (shared memory, semaphores), *UTS* (hostname), *USR* (user/group IDs), *CGRP* (view of the cgroup hierarchy).
+]
+
 By #hl[combining namespaces] a container gets an #hl[isolated view of the world] while
 still sharing the *same kernel* as other containers.
 #v(-0.7em)
 #note[
   Full isolation is only the *default*. A container can also *share* a namespace with the host or with another container when that is useful. A monitoring agent that must see the host processes is given the *same PID namespace*, and the containers of a Kubernetes Pod share one *NET namespace* so they reach each other on `localhost`.
+]
+#v(-1em)
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_Can two containers share one or more namespaces? Does it make sense?_]\
+  Yes. A monitoring container shares the *PID* namespace to read other processes while keeping its own files (separate MNT). Sharing *all* namespaces makes them behave like plain host processes, as in a K8s Pod. Even then containers still pay off, because *packing*, *reproducibility* and *management* do not depend on isolation.
 ]
 #extra[
   Under the hood, namespaces work by decoupling a process from the global system tables and mapping its execution to private kernel pointers tree structuring links. Every node can see only itself. This abstraction enables dynamic translations, most notably within the `PID` namespace, where the main containerized process is assigned *PID 1* inside its isolated scope—behaving like the system init process—while the host OS simultaneously tracks it using a standard global PID. Similarly, the network stack isolation enforced by the `NET` namespace is bridged to the physical world by creating a virtual ethernet pair (`veth`), which acts as a software patch cord routing traffic between the container's private stack and the host's network bridge.
@@ -207,6 +217,11 @@ Key controllers:
   #hl[Namespaces provide *visibility isolation*] (what a process can see),
   while #hl[cgroups provide *resource isolation*] (how much a process can consume).
   Together they form the foundation of every Linux container.
+]
+#v(-1em)
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_What mechanisms enable isolation, and what is the difference between namespaces and cgroups?_]\
+  *Namespaces* isolate *visibility* (what a process can see). *cgroups* isolate *resources* (how much it can consume). Both apply to a process that still shares the host kernel.
 ]
 #extra[
   Conversely, control groups manage physical resource boundaries rather than visibility, exposing their interface to user-space through a virtual filesystem mounted at `/sys/fs/cgroup/`. Setting consumption ceilings simply involves writing raw configuration values into these kernel-managed text files. Memory allocation is governed by strict *Hard Limits*, meaning that if processes exceed their defined byte threshold, the kernel triggers the *OOM (Out Of Memory) Killer* to instantly terminate the offender. On the other hand, CPU allocation relies on *Soft Limits* and proportional shares, which do not artificially throttle performance when the host is idle, but instead guarantee a fair, weighted slice of CPU cycles only during resource contention.
@@ -242,6 +257,10 @@ Key controllers:
   - #hl[*Management*: container runtimes] provide start/stop/inspect/restart #hl[primitives].
   - #hl[*Packing*: cgroups] allow fitting many containers on one host with predictable resource budgets.
   - #hl[*Reproducibility*]: the container #hl[*image* bundles the application] with all its dependencies. The same image runs identically on any machine.
+]
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_Tell me about Linux containers. What are the 4 fundamental characteristics?_]\
+  A container is just a *process with a very restricted view of the world*, sharing the host kernel (it is not a VM). The four characteristics: *Isolation* (namespaces + cgroups), *Process management* (lifecycle), *Process packing* (app bundled with its dependencies), *Reproducible environment* (identical from dev to prod).
 ]
 
 == Docker <ch04-docker>
@@ -283,6 +302,10 @@ create #arrow start #arrow pause #arrow unpause #arrow stop #arrow remove.
   Only the diff layers unique to each service need to be pulled or pushed,
   making distribution efficient.
 ]
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_Describe the lifecycle from development to container execution._]\
+  The path is *Dockerfile #arrow Image #arrow Container instance*. Develop the Dockerfile, `build` it into a layered image, `push` it to a *registry*, `pull` it in another environment, `run` it (adds the R/W layer), then manage it with `stop` / `start` / `rm`.
+]
 
 === Dockerfile
 
@@ -292,6 +315,10 @@ A #hl[`Dockerfile` is the *recipe* for building an image]:
 - *Configuration instructions* (`ENV`, `ARG`, `EXPOSE`): metadata, no new layer.
 - #hl[*Filesystem instructions*] (`RUN`, `COPY`, `ADD`): #hl[modify the filesystem #so create a new layer].
 - *Multi-stage builds*: use intermediate images to compile code, then copy only the built artefact into the final image, keeping it small.
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_Can you write an example Dockerfile? How does it map to the images it creates?_]\
+  A Dockerfile is the *contract* for building an image. *Metadata* instructions (`FROM`, `ENV`, `EXPOSE`, `CMD`) add no layer. *Filesystem* instructions (`RUN`, `COPY`, `ADD`) each create one *immutable layer*, hashed by content (SHA-256) and shared across images. A running container adds a thin *read-write* layer on top (Copy-on-Write).
+]
 
 === Docker Networks
 

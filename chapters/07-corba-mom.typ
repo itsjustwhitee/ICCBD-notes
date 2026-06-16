@@ -578,6 +578,11 @@ Kafka organizes #hl[messages in *topics*]. A topic is a repository #hl[where man
   - Partitions use *passive replication* over a predefined number of brokers: followers replicate the leader and act only as backups, ready to be *promoted* if the leader fails.
   - Spreading partition leadership across brokers *distributes load evenly* across the cluster.
 ]
+#v(-0.7em)
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_What are synchronized partitions (in Kafka)?_]\
+  The *In-Sync Replicas (ISR)*: the follower replicas that are *fully caught up* with the leader's log for a partition. A write is safely committed once the ISR have copied it, and only a replica in the ISR can be *promoted to leader* if the current leader fails.
+]
 #v(-1em)
 #important("Message Visibility Pipeline")[
   A message written by a producer is *not immediately available* to consumers. The pipeline is:

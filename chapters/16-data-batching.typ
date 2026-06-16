@@ -360,6 +360,10 @@ The key data abstraction in Spark is the #kw[RDD]:
 
   RDDs achieve fault tolerance through *lineage* rather than replication.
 ]
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_What is an RDD? Why is it important?_]\
+  An *RDD* (Resilient Distributed Dataset) is Spark's core data unit: a *distributed, immutable, fault-tolerant* collection partitioned across workers. *Resilient*: on a worker failure it is *recomputed from its lineage* (the chain of transformations), so no replication is needed. *Distributed*: partitioned for parallelism. *Dataset*: an abstraction over data wherever it lives. It enables lazy, optimized evaluation.
+]
 
 === RDD Operations
 
@@ -371,6 +375,10 @@ Two kinds of operations on RDDs:
 #v(-1em)
 #prop("Actions (eager)")[
   *Return results* from input RDDs. Similar to Hadoop reduce tasks. *Force immediate evaluation* of all pending transformations in the input RDD. Examples: `reduce`, `count`, `first`, `take`, `save`, `pipe`.
+]
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_Difference between a Transformation and an Action in Spark?_]\
+  A *Transformation* (`map`, `filter`, `flatMap`) is *lazy*: it builds a new RDD but runs nothing yet. An *Action* (`count`, `collect`, `save`) is *eager*: it triggers execution of the accumulated DAG and returns a result.
 ]
 
 #example("Lazy Evaluation")[
@@ -447,6 +455,10 @@ lineLengths.persist()
   - *Driver*: central coordinator node running the `main()` method of the program, dispatching tasks
   - *Cluster Master*: launches and manages actual executors
   - *Executors*: responsible for running tasks; each spawns at least one dedicated JVM with an assigned share of CPU threads and RAM memory
+]
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_What is the base architecture of Apache Spark?_]\
+  A *master/worker* architecture. The *Driver* builds the *DAG* of lazy transformations on RDDs. When an *Action* is called, the DAG is optimized and split into *Stages*, each split into *Tasks* (one per partition). The *Cluster Manager* allocates *Executors* (JVMs), which run the tasks and return results to the Driver.
 ]
 
 === Spark Deployment Modes

@@ -111,6 +111,10 @@ Each worker node runs:
   planes to gates. Kubelets are pilots on each plane, ensuring their specific
   aircraft is operational.
 ]
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_Tell me about Kubernetes. What are the fundamental architectural elements?_]\
+  An open-source *orchestrator* using a *declarative model*: you state the desired state, it reconciles. *Master/worker* architecture. Control plane: *API server* (single gateway, everything goes through it), *scheduler* (places Pods), *controller-manager* (control loops), *etcd* (the only stateful component, holds all state). Worker: *kubelet* (node agent) and *kube-proxy* (Service networking).
+]
 
 == The Declarative Model
 
@@ -250,6 +254,10 @@ The operator lifecycle:
   of pre-built operators for databases (MongoDB, PostgreSQL, Redis), messaging
   (Kafka, RabbitMQ), monitoring (Prometheus), and more.
 ]
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_How is a Kubernetes Operator built? How does it work?_]\
+  An Operator is an *application-specific controller*. It adds a *CRD* (a new resource type, e.g. `MongoDB`) plus a *custom controller* that runs the reconcile loop: read the desired state from etcd, compare it with the observed state, and act to close the gap. It is how complex *stateful* apps get domain-specific management logic.
+]
 
 == etcd and RAFT
 
@@ -265,6 +273,14 @@ Properties:
 - #hl[*Strongly consistent*]: every read returns the most recently written value.
 - #hl[*Fault tolerant*]: replicates data across N nodes #so tolerates $⌊(N−1)/2⌋$ failures.
 - *Implements #hl[locking]*: controllers use etcd's distributed locking to coordinate.
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_Can RAFT work with a single node? And etcd?_]\
+  Yes. With one node the quorum is 1/1, so it is always its own leader and commits immediately. etcd works too (a log with checkpoint and compaction), but it is *not highly available*: if that node dies, the service is gone.
+]
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_In Kubernetes, what can I do if I want strict consistency?_]\
+  etcd does not give strict consistency for *application* operations by default. Either take a *distributed lock on etcd* (compare-and-swap, so only one instance runs the critical operation), or use a *broker with exactly-once* semantics (e.g. Kafka with transactions).
+]
 
 === RAFT
 
@@ -272,6 +288,10 @@ Raft is the core of etcd's distributed nature.
 #v(-0.7em)
 #def("RAFT")[
   #kw[RAFT] is a *consensus algorithm* designed to be *easy to understand*. It allows a cluster of servers to agree on a sequence of values even when some servers fail.
+]
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_Tell me about the RAFT algorithm._]\
+  A *consensus* algorithm, designed to be easier to understand than Paxos, that makes a group of servers agree on a *sequence of values* despite failures. It splits the problem into *leader election*, *log replication*, and *safety*. It is formally proven, tolerates a *minority* of failures, and in the common case needs one RPC to a majority.
 ]
 #v(-0.7em)
 RAFT decomposes the consensus problem into three relatively independent subproblems:
@@ -285,6 +305,14 @@ RAFT decomposes the consensus problem into three relatively independent subprobl
 #v(-0.7em)
 #how([*an election starts*])[
   Servers know when an election is needed because  the actual leader periodically broadcasts heartbeats to followers.
+]
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_How does leader election work in RAFT?_]\
+  Nodes are *Follower*, *Candidate*, or *Leader*. A follower that misses heartbeats past a *random timeout* becomes a candidate, increments the *term*, and asks for votes. Each node votes *once per term*. The candidate that gets a *majority* ($⌊N/2⌋+1$) becomes leader and starts heartbeats. Random timeouts avoid split votes, since one node usually wakes first.
+]
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_How does the quorum work? Can I have 4 nodes?_]\
+  Quorum is the *absolute majority* needed to decide. 3 nodes tolerate 1 failure, 5 tolerate 2. *4 nodes work but are no better than 3*: quorum is 3/4, still only 1 tolerated failure, with more overhead. Always prefer an *odd number* of nodes.
 ]
 
 *Log Replication* (normal operation)
@@ -300,6 +328,10 @@ RAFT decomposes the consensus problem into three relatively independent subprobl
   image("../assets/raft.jpg",width: 60%),
   caption: [RAFT log replication.]
 )
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_How does consistency work in RAFT?_]\
+  All nodes keep a copy of the *replicated log*. An entry is *committed* only after a *majority* has written it. By the safety rule, only a node with an up-to-date log can become leader, so committed entries are never lost. If the leader dies mid-replication, the new leader (the most up-to-date one) finishes it. The one thing that must survive is the *log on disk*.
+]
 
 *Safety*
 - #hl[Logs are kept consistent across the cluster].
@@ -316,6 +348,10 @@ RAFT decomposes the consensus problem into three relatively independent subprobl
   at a time. A bill (log entry) only passes when a majority of members vote for
   it. If the Speaker is absent, members elect a new one, but only a member
   who has read all previous bills can stand for election.
+]
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_What happens if a node dies in RAFT?_]\
+  *A follower dies*: the system keeps working while the quorum holds, and the node catches up on restart. *The leader dies*: followers stop getting heartbeats, after a random timeout one starts an election, and the node with the most up-to-date log wins. The service is briefly unavailable during the election. The *log on disk* must not be lost.
 ]
 
 == Nodes, Pods, and Workloads
@@ -353,6 +389,10 @@ Key Pod properties:
   (e.g., a web server + a log collector sidecar). Grouping them in a Pod guarantees
   co-location and shared networking without full container merging. For most workloads,
   one container per Pod is the norm.
+]
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_What happens if I place two containers in the same Pod? Is it convenient?_]\
+  They share the same *IP and port space*, the *volumes*, and the *network namespace* (they talk via `localhost`). *Pros*: zero-latency local communication and shared storage. *Cons*: you cannot scale the containers independently, only the *whole Pod* scales (the atomic unit). Convenient when they are *tightly coupled*, as in the *sidecar* pattern (app + log collector).
 ]
 
 === Scheduler
@@ -507,6 +547,10 @@ Two fundamental types:
   ),
   caption: [Kubernetes network scheme.]
 )
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_How does networking work in Kubernetes (high-level)?_]\
+  Every Pod gets its *own cluster-wide IP*, and every node its own IP. The core rule: *any Pod can talk to any other Pod directly*, on the same or a different node, *without NAT or proxies*. This flat model makes a remote Pod look like a local process.
+]
 
 === Kube-Proxy
 
@@ -584,6 +628,10 @@ objects and programs the data plane accordingly.
   image("../assets/k8s-ingress.png", width: 65%),
   caption: [Ingress in kubernetes.]
 )
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_What is a Service in Kubernetes? And an Ingress?_]\
+  A *Service* gives a *stable endpoint* (DNS name + fixed IP + port) for a changing set of Pods, load-balancing across them via label selectors. Modes: *ClusterIP* (internal only), *NodePort* (a port on every node), *LoadBalancer* (external cloud LB). An *Ingress* maps external HTTP/HTTPS hosts and paths to internal Services (e.g. `unibo.it/students` #arrow Service "students"). It needs an *Ingress Controller* to do the routing.
+]
 
 == Load Balancing and Autoscaling
 
@@ -631,6 +679,14 @@ Observed metrics can be:
   Custom or third-party schedulers can also be deployed alongside the default
   scheduler if the default scoring functions are insufficient for your workload.
 ]
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_How do I host a microservice web service on Kubernetes?_]\
+  Use a *microservices* architecture on K8s (portability, autoscaling, self-healing, declarative).\
+  (1) one *Deployment* per microservice, with its image.\
+  (2) one *Service* per Deployment to expose it (ClusterIP internal, LoadBalancer external).\
+  (3) if the frontend is fast and the backend slow, add an *HPA* to scale the backend Pods, with a Service in front to load-balance them.\
+  Alternative: put a *MOM* (Kafka) between frontend and backend to decouple them and absorb spikes.
+]
 
 == Service Mesh <ch08-service-mesh>
 
@@ -645,6 +701,12 @@ Observed metrics can be:
   - *Observability*
   - *Security*
   - *Dev/Ops* capabilities (fault injection, canary releases...)
+]
+#v(-1em)
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_Why does Kubernetes offer two models? What is a Service Mesh?_]\
+  K8s has two abstraction levels: the *base primitives* (Deployment, Service, Ingress) for standard workloads, and the *Operator pattern* (CRD + custom controller) for complex stateful apps with domain logic.\
+  A *Service Mesh* is a dedicated layer for service-to-service communication, usually via *sidecar proxies*, giving *observability*, *mTLS security*, and *traffic control* (circuit breaking, retry, timeout, canary). Examples: Istio, Linkerd.
 ]
 #v(-0.3em)
 #extra[

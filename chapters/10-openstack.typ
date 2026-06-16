@@ -111,6 +111,10 @@ All OpenStack services share a common architectural philosophy:
     and enabling horizontal scaling of any individual service.
   ]
 ]
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_What is the structure of an OpenStack service?_]\
+  Every service follows the same design: *horizontal scalability* (scale out), *shared-nothing* (each service has its own DB, no shared state), *loosely coupled* via *asynchronous pub/sub* over a MOM (some operations like VM creation are slow), *stateless where possible* (token auth), and *reliable* (replicated core components, minimal inter-service dependencies).
+]
 
 === Common Service Architecture
 
@@ -144,6 +148,10 @@ Every OpenStack service is built from the same four internal building blocks:
 #hl[All services communicate through Keystone for authentication] and through the
 message queue for internal coordination. The Dashboard (Horizon) provides a
 unified graphical interface across all services.
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_What are the core services of OpenStack? (IaaS levels)_]\
+  OpenStack is an open-source *IaaS*. Core services: *Horizon* (dashboard), *Keystone* (identity/auth), *Nova* (compute/VMs), *Neutron* (networking), *Glance* (VM images), *Swift* (object storage), *Cinder* (block storage). Plus *Ceilometer* (telemetry) and *Heat* (orchestration).
+]
 
 #figure(
   image("../assets/openstack-architecture.svg", width: 95%),
@@ -307,6 +315,10 @@ an internal ring accessed only through the proxy.
   image("../assets/openstack-cinder.jpg", width: 14.35%),
   caption: [Cinder.]
 )
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_Difference between Object and Block storage? Scalability and consistency?_]\
+  *Object storage* (Swift) keeps whole *immutable* objects with metadata, accessed by *HTTP REST*, *very scalable* on commodity hardware, *eventually consistent* (AP). *Block storage* (Cinder) exposes *raw mutable blocks* like a disk (POSIX), *strongly consistent*, but less scalable and pricier. Example: to change 4 KB in a 4 MB file, Swift must *rewrite the whole 4 MB object*, while Cinder edits only the *4 KB block*.
+]
 
 == Glance - Image Service
 
@@ -470,6 +482,10 @@ types:
 ]
 A *Neutron router* is required to route traffic between tenant networks or to
 reach external networks (including the Internet).
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_Does data locality make sense for VMs with Neutron?_]\
+  Yes. Neutron separates the *logical* network from the *physical* one. Putting two VMs on the *same hypervisor* lets them talk locally, with near-unlimited bandwidth and minimal latency, with no physical-network cost. On different hypervisors, traffic crosses the physical network (limited bandwidth, more latency). It is the same idea as *Pod affinity* in K8s. But co-locating everything on one node is a *single point of failure*, so locality must be balanced with resilience.
+]
 
 == Ceilometer and Heat
 

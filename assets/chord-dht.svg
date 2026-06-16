@@ -1,80 +1,134 @@
-<svg viewBox="0 0 500 420" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="11">
-
-  <!-- Title -->
-  <text x="250" y="20" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">Chord DHT Ring</text>
-
-  <!-- Ring circle -->
-  <circle cx="250" cy="220" r="140" fill="none" stroke="#aaa" stroke-width="1.5" stroke-dasharray="4,3"/>
-
-  <!-- ID space arc labels -->
-  <text x="250" y="66" text-anchor="middle" font-size="9" fill="#999">0 / 2^160</text>
-
-  <!-- Nodes on ring (8 nodes at various positions) -->
-  <!-- N0 at top -->
-  <circle cx="250" cy="80" r="16" fill="#cce5ff" stroke="#4a90d9" stroke-width="2"/>
-  <text x="250" y="85" text-anchor="middle" font-weight="bold" fill="#1a4a80">N0</text>
-
-  <!-- N14 at ~52deg -->
-  <circle cx="361" cy="106" r="16" fill="#cce5ff" stroke="#4a90d9" stroke-width="2"/>
-  <text x="361" y="111" text-anchor="middle" font-weight="bold" fill="#1a4a80">N14</text>
-
-  <!-- N21 at ~90deg (right) -->
-  <circle cx="390" cy="220" r="16" fill="#cce5ff" stroke="#4a90d9" stroke-width="2"/>
-  <text x="390" y="225" text-anchor="middle" font-weight="bold" fill="#1a4a80">N21</text>
-
-  <!-- N32 at ~135deg -->
-  <circle cx="349" cy="319" r="16" fill="#cce5ff" stroke="#4a90d9" stroke-width="2"/>
-  <text x="349" y="324" text-anchor="middle" font-weight="bold" fill="#1a4a80">N32</text>
-
-  <!-- N42 at bottom -->
-  <circle cx="250" cy="360" r="16" fill="#cce5ff" stroke="#4a90d9" stroke-width="2"/>
-  <text x="250" y="365" text-anchor="middle" font-weight="bold" fill="#1a4a80">N42</text>
-
-  <!-- N51 at ~225deg -->
-  <circle cx="151" cy="319" r="16" fill="#cce5ff" stroke="#4a90d9" stroke-width="2"/>
-  <text x="151" y="324" text-anchor="middle" font-weight="bold" fill="#1a4a80">N51</text>
-
-  <!-- N63 at left -->
-  <circle cx="110" cy="220" r="16" fill="#cce5ff" stroke="#4a90d9" stroke-width="2"/>
-  <text x="110" y="225" text-anchor="middle" font-weight="bold" fill="#1a4a80">N63</text>
-
-  <!-- N7 at ~315deg -->
-  <circle cx="139" cy="106" r="16" fill="#cce5ff" stroke="#4a90d9" stroke-width="2"/>
-  <text x="139" y="111" text-anchor="middle" font-weight="bold" fill="#1a4a80">N7</text>
-
-  <!-- Key K18 marker (stored at successor N21) -->
-  <circle cx="392" cy="160" r="10" fill="#fff3cd" stroke="#f0ad4e" stroke-width="1.5"/>
-  <text x="392" y="164" text-anchor="middle" font-size="9" font-weight="bold" fill="#7d5a00">K18</text>
-  <!-- Arrow K18 -> N21 -->
-  <line x1="391" y1="170" x2="389" y2="204" stroke="#f0ad4e" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#arrok)"/>
-  <text x="410" y="188" font-size="9" fill="#a06000">successor</text>
-
-  <!-- Finger table arrows from N0 (showing shortcuts) -->
-  <text x="250" y="45" text-anchor="middle" font-size="9" fill="#4a90d9">finger[1]: N7</text>
-  <!-- Arrow N0->N7 -->
-  <line x1="237" y1="87" x2="153" y2="100" stroke="#4a90d9" stroke-width="1" stroke-dasharray="4,2" marker-end="url(#arrf)"/>
-  <!-- Arrow N0->N21 (finger[4]) -->
-  <line x1="263" y1="87" x2="374" y2="208" stroke="#2196f3" stroke-width="1" stroke-dasharray="4,2" marker-end="url(#arrf)"/>
-
-  <!-- Clockwise label -->
-  <text x="250" y="220" text-anchor="middle" font-size="10" fill="#888" font-style="italic">clockwise</text>
-  <text x="250" y="235" text-anchor="middle" font-size="10" fill="#888" font-style="italic">successor</text>
-
-  <!-- Legend -->
-  <rect x="15" y="380" width="12" height="12" fill="#cce5ff" stroke="#4a90d9" stroke-width="1"/>
-  <text x="32" y="391" font-size="10" fill="#555">Node (hashed ID)</text>
-  <rect x="140" y="380" width="12" height="12" fill="#fff3cd" stroke="#f0ad4e" stroke-width="1"/>
-  <text x="157" y="391" font-size="10" fill="#555">Key (stored at successor)</text>
-  <line x1="310" y1="386" x2="340" y2="386" stroke="#4a90d9" stroke-width="1" stroke-dasharray="4,2" marker-end="url(#arrf)"/>
-  <text x="345" y="391" font-size="10" fill="#555">Finger shortcut</text>
-
-  <!-- Arrow markers -->
-  <defs>
-    <marker id="arrf" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
-      <path d="M0,0 L0,6 L7,3 z" fill="#4a90d9"/>
-    </marker>
-    <marker id="arrok" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
-      <path d="M0,0 L0,6 L7,3 z" fill="#f0ad4e"/>
-    </marker>
-  </defs>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 500 420" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;">
+    <g transform="matrix(1,0,0,1,250,20)">
+        <text x="-54.435px" y="0px" style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:14px;fill:rgb(51,51,51);">Chord DHT Ring</text>
+    </g>
+    <circle cx="250" cy="220" r="140" style="fill:none;stroke:rgb(170,170,170);stroke-width:1.5px;stroke-dasharray:6,7.5,0,0,0,0;"/>
+    <g transform="matrix(1,0,0,1,250.028564,59.608698)">
+        <text x="-13.133px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:9px;fill:rgb(153,153,153);">0 / 2</text>
+        <text x="4.379px" y="-2.997px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:5.247px;fill:rgb(153,153,153);">160</text>
+    </g>
+    <use xlink:href="#_Image1" x="267.574" y="74.459" width="92px" height="59px"/>
+    <g transform="matrix(0.712916,0.652838,-0.746948,0.815688,232.477396,-100.863699)">
+        <g transform="matrix(0.762929,-0.610612,0.698636,0.666805,-106.89675,209.209882)">
+            <use xlink:href="#_Image2" x="360.018" y="137.997" width="38px" height="101px"/>
+        </g>
+    </g>
+    <g transform="matrix(0.031155,0.789648,-0.903481,0.035646,450.402664,36.264381)">
+        <g transform="matrix(0.049886,-1.10511,1.264418,0.043601,-68.322209,496.163247)">
+            <use xlink:href="#_Image3" x="340.331" y="248.924" width="52px" height="78px"/>
+        </g>
+    </g>
+    <g transform="matrix(-0.63814,-0.428119,0.608046,-0.906333,260.358923,491.201652)">
+        <g transform="matrix(-1.080662,0.510466,-0.725001,-0.760883,637.481806,240.842482)">
+            <use xlink:href="#_Image4" x="104.58" y="219.053" width="38px" height="88px"/>
+        </g>
+    </g>
+    <g transform="matrix(-0.736085,0.174255,-0.258425,-1.091638,448.70365,399.183685)">
+        <g transform="matrix(-1.286443,-0.205351,0.304542,-0.867442,455.6636,438.410404)">
+            <use xlink:href="#_Image5" x="149.645" y="315.823" width="83px" height="50px"/>
+        </g>
+    </g>
+    <g transform="matrix(-0.396958,0.643903,-0.954928,-0.588701,516.706984,206.024609)">
+        <g transform="matrix(-0.693756,-0.758809,1.125338,-0.467796,126.621251,488.459496)">
+            <use xlink:href="#_Image6" x="249.415" y="327.538" width="88px" height="39px"/>
+        </g>
+    </g>
+    <g transform="matrix(-0.192021,-0.789999,1.206819,-0.293335,66.236459,436.612723)">
+        <g transform="matrix(-0.290514,0.7824,-1.195211,-0.190174,541.086902,31.209008)">
+            <use xlink:href="#_Image7" x="104.824" y="114.177" width="53px" height="89px"/>
+        </g>
+    </g>
+    <g transform="matrix(0.398064,-0.620776,0.837582,0.537088,-4.935875,232.260906)">
+        <g transform="matrix(0.73198,0.846036,-1.141515,0.542509,268.742187,-121.827673)">
+            <use xlink:href="#_Image8" x="165.673" y="73.896" width="83px" height="39px"/>
+        </g>
+    </g>
+    <circle cx="250" cy="80" r="16" style="fill:rgb(204,229,255);stroke:rgb(74,144,217);stroke-width:2px;"/>
+    <g transform="matrix(1,0,0,1,250,85)">
+        <text x="-7.031px" y="0px" style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:11px;fill:rgb(26,74,128);">N0</text>
+    </g>
+    <g transform="matrix(1,0,0,1,-8.882087,18.790609)">
+        <circle cx="361" cy="106" r="16" style="fill:rgb(204,229,255);stroke:rgb(74,144,217);stroke-width:2px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,352.117913,129.790609)">
+        <text x="-10.09px" y="0px" style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:11px;fill:rgb(26,74,128);">N14</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0.368184,11.65621)">
+        <circle cx="390" cy="220" r="16" style="fill:rgb(204,229,255);stroke:rgb(74,144,217);stroke-width:2px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,390.368184,236.65621)">
+        <text x="-10.09px" y="0px" style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:11px;fill:rgb(26,74,128);">N21</text>
+    </g>
+    <circle cx="349" cy="319" r="16" style="fill:rgb(204,229,255);stroke:rgb(74,144,217);stroke-width:2px;"/>
+    <g transform="matrix(1,0,0,1,349,324)">
+        <text x="-10.09px" y="0px" style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:11px;fill:rgb(26,74,128);">N32</text>
+    </g>
+    <circle cx="250" cy="360" r="16" style="fill:rgb(204,229,255);stroke:rgb(74,144,217);stroke-width:2px;"/>
+    <g transform="matrix(1,0,0,1,250,365)">
+        <text x="-10.09px" y="0px" style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:11px;fill:rgb(26,74,128);">N42</text>
+    </g>
+    <circle cx="151" cy="319" r="16" style="fill:rgb(204,229,255);stroke:rgb(74,144,217);stroke-width:2px;"/>
+    <g transform="matrix(1,0,0,1,151,324)">
+        <text x="-10.09px" y="0px" style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:11px;fill:rgb(26,74,128);">N51</text>
+    </g>
+    <circle cx="110" cy="220" r="16" style="fill:rgb(204,229,255);stroke:rgb(74,144,217);stroke-width:2px;"/>
+    <g transform="matrix(1,0,0,1,110,225)">
+        <text x="-10.09px" y="0px" style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:11px;fill:rgb(26,74,128);">N63</text>
+    </g>
+    <g transform="matrix(1,0,0,1,11.453217,13.790609)">
+        <circle cx="139" cy="106" r="16" style="fill:rgb(204,229,255);stroke:rgb(74,144,217);stroke-width:2px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,150.453217,124.790609)">
+        <text x="-7.031px" y="0px" style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:11px;fill:rgb(26,74,128);">N7</text>
+    </g>
+    <circle cx="392" cy="160" r="10" style="fill:rgb(255,243,205);stroke:rgb(240,173,78);stroke-width:1.5px;"/>
+    <g transform="matrix(0.237076,0,0,0.237076,296.066159,166.06782)">
+        <circle cx="392" cy="160" r="10" style="fill:rgb(244,196,126);"/>
+    </g>
+    <g transform="matrix(1,0,0,1,392,164)">
+        <text x="-8.255px" y="0px" style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:9px;fill:rgb(125,90,0);">K18</text>
+    </g>
+    <path d="M391,170L389,204" style="fill:none;fill-rule:nonzero;stroke:rgb(240,173,78);stroke-width:1.2px;stroke-dasharray:4.8,4.8,0,0,0,0;"/>
+    <g transform="matrix(1,0,0,1,401.723145,176.693959)">
+        <text x="0px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:9px;fill:rgb(160,96,0);">successor</text>
+    </g>
+    <g transform="matrix(1,0,0,1,250,45)">
+        <g transform="matrix(9,0,0,9,-24.512695,0)">
+        </g>
+        <g transform="matrix(9,0,0,9,-22.012207,0)">
+        </g>
+        <text x="-24.513px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:9px;fill:rgb(74,144,217);">ﬁnger[1]: N7</text>
+    </g>
+    <path d="M234,87L166.015,116.455" style="fill:none;fill-rule:nonzero;stroke:rgb(74,144,217);stroke-width:1.2px;stroke-dasharray:4.8,4.8,0,0,0,0;"/>
+    <path d="M264.387,87L376.693,223.109" style="fill:none;fill-rule:nonzero;stroke:rgb(33,150,243);stroke-width:1.2px;stroke-dasharray:4.8,4.8,0,0,0,0;"/>
+    <g transform="matrix(1,0,0,1,250,220)">
+        <text x="-21.394px" y="0px" style="font-family:'Arial-ItalicMT', 'Arial', sans-serif;font-style:italic;font-size:10px;fill:rgb(136,136,136);">clockwise</text>
+    </g>
+    <g transform="matrix(1,0,0,1,250,235)">
+        <text x="-22.507px" y="0px" style="font-family:'Arial-ItalicMT', 'Arial', sans-serif;font-style:italic;font-size:10px;fill:rgb(136,136,136);">successor</text>
+    </g>
+    <rect x="15" y="380" width="12" height="12" style="fill:rgb(204,229,255);stroke:rgb(74,144,217);stroke-width:1px;"/>
+    <g transform="matrix(1,0,0,1,32,391)">
+        <text x="0px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:10px;fill:rgb(85,85,85);">Node (hashed ID)</text>
+    </g>
+    <rect x="140" y="380" width="12" height="12" style="fill:rgb(255,243,205);stroke:rgb(240,173,78);stroke-width:1px;"/>
+    <g transform="matrix(1,0,0,1,157,391)">
+        <text x="0px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:10px;fill:rgb(85,85,85);">Key (stored at successor)</text>
+    </g>
+    <path d="M310,386L340,386" style="fill:none;fill-rule:nonzero;stroke:rgb(74,144,217);stroke-width:1px;stroke-dasharray:4,2;"/>
+    <g transform="matrix(1,0,0,1,345,391)">
+        <text x="0px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:10px;fill:rgb(85,85,85);">Finger shortcut</text>
+    </g>
+    <defs>
+        <image id="_Image1" width="92px" height="59px" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFwAAAA7CAYAAAD2Hu26AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAELklEQVR4nO2cf1MTORjHPysgBx4gOETlTgfBufOcceZeWF7OvjlRPDlOKkFplR+lo3T942muO1DbbZtstm0+Mx067TR5+t2H5Mk32Sbk0eYOsAasA792Xm0DV8BZ59EkVRmRkUj+f6bNXWAXWB7wmWvgvPM4Ay7jBSiOCK7NEvAHMD9CG21uX4C2qwCnDSv4C+CeozYzRPgG0CBV3xy1OxUkaPMA2PbYxwVQR8RveexnIkjQZgeZJMugiWR+nVQ1S+qzUiRo8wq4G6DvFt1h5zxA/0FI0OZvYC5wHC3gBPhMqr4HjsUrCdr8xeBSsCwyZLw/mdasT9BmG3gQOpAeXNHN+uvQwbgi6dTgL0MH0oc23ay/CB3MuNg6/BmwETaUQlwCx0iVM5Gr2zudvwfAl5CBFGQZeAa8RJuySlmn5L2UBPgN2KR7IapOE6iRqnroQIqS3HpFmzlkeFlDHMPQJWMRmsARqWqEDmQQtwXPI1m/BKwg4q9Q7QtwiQhf2eGxv+C9kKomfwFGcRh9cwF8IFVnoQO5yfCC30SbX4BV4D5yAarEKfBflRzL8QXPo8083R2jVeftj8Y1Ivqn0IGAT0Fk8l1FxF8jfOVzDvwb2qUsJwNlr3QFGXbWCTfxZsjCqRZqV6r8f3kRfx2p913tMg1LC8n2r2V3HHaM1WYZEX6DMEPOKXBYpiVchUktv9jaROr+MvkGvCvLDq6G4Hm0uUc368uKL0Pq9mPfHVVPcIuck3mMePVlxdkA3vv036sruEWbReAR5QnfQoaYSx+NV19wiwhvM943GTKZnrhueHIEt4iV8JhyNkxOgQOXNfvkCW4R4X9HVrE+uQL2SdWVi8YmV3CLNveBp8CCx16ugbcuSsfJFxxsHb8FKI+9tJHJdCyvfToEt0gN/xR/52wypGw8HbWB6RIc7C6VQjLel11wSKrMKB+cPsEtsnB6gjiUPqiRqqNhPzS9glu02USE9/FdT5BsL3xGZvoFB+tK7gCLHlqvA/8UFX02BAdbyWzjZ4g5Q8rGgQuk2RHcos1D5MCT6+/+FRG9b6aH3mcsH7Fg9xAf3CWrFLh1Z/Yy3CInDHZwf7TDkKrDn705u4KDrdmfIBseLjkiVbVeb8y24BZtthAH0iUHvc7CRMEt2igk212yf/OAaRQ8jzYbyMTnSpcMeJM/4zh7VUo/xJTaR5xBFyTAbmfhBUTBbyP26x7igbtgDnje8Xai4D2Rm7de465WX0B2p+IY3hfZuP4Td7tJr2OG90N+jOEt7oaX9Sj4IOR8yj5ScYzLUhS8CFLWvXPQ0kIUvCiygDkYs5VWFHwYZKn+YYwWmlHwYUnVR2CUDeQM+BQFHwWxX4c9KnFMquKQMgbvgaJ3xtWBGsSFz/iIy7hF7xvF2sDHvDceBXdB9xdN7b2pGXKbYuPm4f4fxaok5tUXaRsAAAAASUVORK5CYII="/>
+        <image id="_Image2" width="38px" height="101px" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACYAAABlCAYAAAAh8ZFsAAAACXBIWXMAAA7EAAAOxAGVKw4bAAADd0lEQVRoge2bb1MTMRCHn14pMBUQtATREcV3frf7OPl6zgg6I5yAICL/WvDFXutBr9dLNmFuhvu9gQ63Ow+bZrPZ5DoUlWYd4BWwBqwCHeAGuAQOseaSJ1KnALUMfAReVDx/AuxhzV1crDFYmi0Bn4FuDZsz4AvW3EfkIsmHb7cmFMBLYCcekigBNqgevjINSLOVCDwTJUgEfPQhj3YUJcgM9NEysBWQ5YESQPMl3s4nTnAlwEhpH2UiJMAfpY810mwjBExRCZAF8POeNKubbmopyZeZM6WfHvAuAM9ESf7zG7pJALBJmrnmw5kSMGuugR8B/O2Eym1J4fcD4Erpr49UJ2r9B5NFeT+Az7chopY8+GTNOXCs9LkIDJQ+HoGJvgNDpd9t0qzMd21NG1szROA06gFG46D8v7LmGP2KsKVJulXh3kOX2xZQVB+zway5Qr9cGdJswcdw3hf0ANBsPLrAGx/DajCZCIc+jgvaJM16rkZ1pvQh+prNOWrzwawZIUOq0cB1htZNghm6pJsAr10N5kt23trqY9PlYZdl4wjpY/hqmTRbrftwfbAwUau9TLkutMfAtaNNUeuk2WKdB93ApGbT5rVaJZFPaXKCbjUY1Ckk3cEkr2mKyR7SyKmUbzH309NurLmpww9M9qLnXrailbyDOVOa8lcbtcrh1ICdArcK+/WqP/qDSeo48raHflVOU+1kkOHUlN8zo6YDs+YWXUMmEpjol8J2ddaeIATYGbrhLG1O68FkJdDktNLhDBExkNThq7WydkITwEpb+mHAZHZeKDxMDWeoiIEualPHP00BW3qcNsKBSa9D0yrtFz+EjBjoVoEHHe/QYJqeWlSwvwrbiGDW3OBfoy0UT/JCRwx0+WwyAZoGNhnOZwWmmQD98WY4PJiUQb6JNkFOVqJEDHTDGRVMM5xRwTQNvhbMVT2IBSYHF747p6gRA/+oNRasS5p1mwgG0IsJpmlRLTY1Yo0Fi/od07TcOzHBNB2gFsxVLZirWjBXtWCuep5gmnuxd00FG8UE87qelWvYRsxRbcRc1UbMVW3EXDTCmvsm7pJGELd34XsT9AbigvlegPsNccF8b7FEBvN7e+cEay4gbsQAviJvs9bRNYVXQ6K97TeR3LP+RMm5d0GnwH5+6A88BdhYcgfWAEtIO3OIHLyeYs3Uefo/SpLXxzRBI4AAAAAASUVORK5CYII="/>
+        <image id="_Image3" width="52px" height="78px" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAABOCAYAAABvwTVMAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAD8ElEQVRoge2b61ITMRSAP0pBUFBQ2CIoA8L4dHmcfTdnVEZwHLUBBQEt5dL647DTpXRvOdmLjN+vXjaZ/ZpscnKSTvEvYOwc0AHmgTngBvgDnAJHhMEwunSqlhvMi7FTwGtgheR77QEHhMFvgFZFt+bKFrBK+g8/D7zF2HkyLqwXY9eAjQIl+sC76ZJuR4d0tR2K9aA2cNnULreE3GBRlpsq9Myx3EJThRYdyw2bJ2TsLDDrWLqBQrCgKNt7aELn/4VKxdg2MvO70jAh5fNDGNw8JKEzaF5w+lRR9hyaJCRrHtXzA00SkvjNlT5hcAUPR+g8etEMIQl3nihq+BW9aIaQrnUGPDChU8JgEL2pX0iiA9flAsBJ/E39QrCsKDukgUKrirJnhMFN/IN6hYxdRDeZnox/UHcLaVoHGiVk7AzayfQ2OohTZwulpXfzcDzpw3qEJJGo6W4D4MekL+pqoSVgRlH+5/joFlGXUEdZ3iZ9Ub2QsUvoAtFzwqCX9GW1QvLsFNlRmMRh2pdVt9BzZAfOlWsSRreI6oSkddaVtRzGtx8nUWULreKes444yrqgGiFjp4GXylqOCYPLrIuqaqEObhtYcb7muah8IdnMXVPWckQYXOS5sFwhGQi20MVsQ+Bb3ovLbqEO8FhZh83z7ESUJySZUO0wPQC+FylQjpCfrgbQJQyuixQoq4VW0cVrIFFBt2gh/0LS1bTxGsD3pCVCGn6FZALd9VBvj5QlQhr+hOS52QYeKWsaAvtZMVsSPltoHfcTIHG6hMEf18J+hIxdRh8NAFxQYBKdhF5IQpstdT3Cfjzx7oJOSBLtRY+BJdGNTiVqcL+R0YimHQRADu/liqazcBMytoXIaCfPiANtV4soLjSS0ZwpiPONMDjzVFdBIZHZQbdBFecXylFtnPxCMnG+QXc4Is4F8Ml1Ak0in9BIxsfECXKQfM8lVssie50v3Wwb3dbHOPt5l9RFSReSPZxd9KvOOF8Jg3sbVb5IFpIIYBd9Li3OCWHgdRAYZ7KQsU+RZ8bnQfUesO+xvoncFzJ2BdjE798ILoAPZQwC49wVMnYdfYZznD4ic28/tAxGQsa+BgLP9V8C74ukobTIPGRsB/8yV1QsA9C6Pdr1ynO9kUzfc72ZtIAXnuu8Rp6ZUibOLFroDg+Nc4PIJO6Blk0bf3NNH/hYV8tEtPGzfP6NyBRK25ZBC5nBNZwgA0DtMiAtdIz7gq1LGHzxeD9qWoiQy6/7uWkyAK3brrKHpGDzMECel9QDEHUxCkAl+7lJ+hopWjY7p2rL5m5ELYnDDSRvEF8H9ZG9miPfOQDfJC8RZLXaRv5X4CVnVgV/ARHO94WsCWZBAAAAAElFTkSuQmCC"/>
+        <image id="_Image4" width="38px" height="88px" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACYAAABYCAYAAACZFYUfAAAACXBIWXMAAA7EAAAOxAGVKw4bAAADV0lEQVRoge2b0VLTQBSGv6QCYqtSGRZUBMcrHy6PkzfzDkfRYWRwhUEQAbEFL06iIU3a7J5dZZz+Ny3TnNNv/pzsbs8uCXVl9iEwBB4BPWAMXAKW3JxOXB9JSQUoBbaA1SnXXwBvyc3PyFwFmEC9BpY7xFwBO+TmR0Qu0uL1Gd2gABaBl1FoKkrJ7BKw7hg3KGoxmlKkyH20FhKkrhQYeMYuhgSpK1V8QXSwZOZVzfKN6yQN2E1IkLrmYK6ag7lqDuaqOZir7vTIP/aM7YUEqSsFRp6x0cHurGP+YJmNVmcaMIjomqbGIDLYnXXsvwS7FwqkLm2NRftBogW7HwqkrhTQ9CAiguXmCrj2jO/a73BW2VS59IzvkdkoD4AWDCLdzjmYq0KARXkASjDNkNGPsfwRsNxc4w/XI4JraeW95nYGb3tWwc4UeXzbpa2qgn1T5BmErrMq2Dn+S6AU6OtxbicU5eYGnWtB6yyt/a0BC1pnIcH6ISf022C5ucB/4Zggu3ZBVHcMdK5N27lzUhOYZk+yT2aDTOqhwSCQa5NgstT+rsi5GmKwbXIM4EiRc4EAY1ob2DG6Vqb6djaD5WYEfFXkXSGzC4r4VsdAdztT3HeNJxK06RTdr/Q1zUzQDiaT+j9zbZpjoAMDML6uTQeTufPcJ3Elv/ENnKUvPokrMmTWucHXBewIOZ3iqx4ers0Gk4fgwAOoqg0y69Tk6+IYwCE611Jg0zVgtsK4NiSzj7te3NUxkFrTHs/aKk5ezVR3MGkjaF1bBJ52udDFMZBa07q2TmZn9jrcwMS1z75EhRLkZN9UuToGMuBqT9sNyOzUY17uYOLani9RRS/I7IO2D30cg9ycIKtcjRLgVdt05Qcm2kO3DwWwBGw3feAPJkdO973j/2jYVG8ax0AeBM2yqNREvenAZKr6qMohmqg3rWOQm3PAqvPU6k0PJtpHt/ooNSzP14YBy80Y2CXMeZ9NCH0+J7MbwPMAmd6EupWi3Byg7xYBLIcFE+2iX4EshAeTvsd7dPV2EcMxyM0ZulkhEhiU9XbiEXlIbq7jgYk+4Da+jYFPEG6AbZbU2w7ddvZGwLsiJu45w9+SOXAbWGn5zjNgt+j/8vfASknn5wnSp00Ql46b/jHmF0/XyKL6fncAAAAAAElFTkSuQmCC"/>
+        <image id="_Image5" width="83px" height="50px" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFMAAAAyCAYAAAAgGuf/AAAACXBIWXMAAA7EAAAOxAGVKw4bAAADbklEQVR4nO2b2U4bMRRAT4YlkJZNBVdUUHWhtB/nz5lPa59oBVILBUMblrAladKHG8OQkHXsWWCOZBGQ5o45Mvb1tSkRRZsSsASsAnNAALSAM6BKqGoU9KV090mbMrCFSOzHMfCLULU89yuXiExt5oFPwMwIz1wBO4Sq6bFfuSTofH3HaCIBKsA22kx76VGOCdBmBRE0DvMUQnsIgFcTPlsI7SIAyjGeL4RGCIDZmDFk8SqEEgC3DuJUKIQSAK4S8WcvNAD+OoxXAb50NgDPjqCzRTx2GLOMCF1wGDMX2KR9H7h2GHca+ZOfNO3KJdG9+TSwjazOLvlNqA4cx8wkpQff+RNaBfaeeoGk1PMTf0IvgR+EquE4bmbolQk+hdaREXrhOG4meFwm+BQKcAgcEKq2h9ip0V8m+BZ6BewSqhsPsVNhsEywQj8zuAI/KS1gn1AZD7ETZ7hM8D1CAc6RuTTXi9NoMgG0mQLeIwduPmgCPwmVy+1toowuE+zp5QagvPRGuEQO7XJ3EjqeTIs2Cth025UeqojUuuf3OGMymQDaLAEfuN/f+6ANHAGHhOqfx/c4YXKZYI+It4hfrR9GEynG/MlybhpPJoA2M8BH4EXsWMNpIOXC4yye28eXCaBNgJy9rziJN5wWUtQ2hMpl6TAWbmRatFlDVnuf82g354jUswTf+ShuZQJoM4fko+NebIjLLZIBVAnVVcLvBnzIBJuPrndaGtSB006rJbVo+ZFp0eYlMkp9r/aDaPJQrLcUy69MsNvQTSa/huOaG2SXZdu1q5HrX6ZFLoi9RQ7bskQbKQeKWJkipI15zJKcTLDVp3VgLfF3T0aTqFxp18h00SM6nV9IVvwN/FWgfNMGLpAq111xO93Roc0iItVXndQ3LUToCaQtE2watQq8IXvz6ajsEKrz9GVaZNW382mSOygXNIBv2ZFpkcLJWqflaaTuZU+mRYonK8Br8jGnVrMrM4rcqFPActpdGcBNPmRa5N6nQnZTUyn3pptavmRaZApYREbqMtkQe5pPmVEktVrgXuyo/xzmmt38y+xGKlVWbFLXwevA16cnM4o2s8jZlG0V3OewbeB7tpL2JJApYR6RagXHSbvayJ3TM8jCdjJtZDErIwXsfq2bFnACHEUvSRQyhyGjeQaRWkLmx8ZjJbj/ThzlFeoL7XEAAAAASUVORK5CYII="/>
+        <image id="_Image6" width="88px" height="39px" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFgAAAAnCAYAAACL4Y8gAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAC4UlEQVRoge2a2U7bQBRAT8AsITSgQqcNpRTBU/9tPsd/1rdKbdUNiQkpZGHL2oeLlUV2Y8d77CPNizMejw/DnetrVygJhjabwFugBuy9HH0E7oFrbDWc7V5JdnY5R5sj4BSwPHqMgCtsZZwDpWA/aLMBfARe+zzjJ7ZqQil4OdrsAJdANeCZX7BVdyOGKa0P2tSBTwSXCxKnyxXsiTYN4CTECBPgs1ewLi6SJZwDhyFHqgDVUvAs2tQQubtRDVkKBidLeA+oiEeelIK1eYWkYDsRjzwCesUVLLH2FDiO6Qq32KqgK1ibQ+AM2IrpCgPgCooWg7XZQ2JtPcarTICv2GoARcmDtakiOW3Y1GsZA0TuvXNgvQXLY+4J/msIYegB35yV67CegrXZBhrAEcncowF+Y6vJ4g/rI1ibChJbj4EDkrm3MfADW/316pB/wRIGjhCxcWUFbjwjIeHhf53yKVhW6yEiNc6MwIsO8H3x7YUb+REscbU+0zZTmMUEyW+v3eKtG9kVLPWBfUTmAREWYFakh8TbpyAnZUOw/MtvI4XtKiJ2H8jCC4Ex8Ado+l21syQvWJstpiKdtks2ZC7SQVZtf9UBvAVLMWQb/zdeQR69LWQ3tzxaFkUuMgJ+YatW2IHmBWtjAe+QtKdYdYopt4jcwdKePpgKlgrTOenszlmgg3zTcL+0ZwBklUrR+YKsbHrJ0kPEduMY3HpJhy4pntwHRGw7zotYSKWpSGHhERF7l8TFLGRDKwJdoAncrZLProqFpGLrygBoATfY6jmNCeQlLw1KG7gB2kmuVjcs5K+8DjlvH5HaCvPkFTUWkliv8nFb2kyQj547QCfq/DUqHMEN8pGm9RGhbaCLrUYpz2cpIlUbBXxIdyquDJlfpYFKhVlg9lH5DHiT0jzGSH4633y8Mcg6i8WeOvLFS9TfaY2RzXQ4056YiszMphQ17nFXXiTWCC56xLxEabYah5hjrvkHmsDCdc5auPgAAAAASUVORK5CYII="/>
+        <image id="_Image7" width="53px" height="89px" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADUAAABZCAYAAACe0GxRAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAEF0lEQVR4nO2ba1MTMRSGHwpeGUVEVgfvDuKfy8/Z3+aM4x28ERUKQilFWz8cq6Vu292ck93I+H7sbM7mmTc9yUmyc/wrcn4RWAEWgYtADzgGvpJnu6OPztXfu4pyfh64DaxOeeoIeE2eHUHqUM4vABvApRJPnwDPyLPjdKGqAQ3VBZ7Ox+mRUs6fA55QDQhgAeikByVAG0gyCNFCWlDOn0ccCgUCmEsHSoA2gAvKSIMFg+7o9ceh8wbR+s1DOX8BccgCCKDdMgoUJnsggN3moGQeeowt0Bfy7KAZKOdbwDr6pDCqDrAF0JRTD5CFqZWOgOfkWR9kBq5Xzt8Blg0jdhCg78Mf6oVyfhW4aRjxEAH6MfpjfcPP+SXgnmHEQiCoyynnLwOPDCMeAC+KgKAOp2S1sG74rqlAENspqVrXgXNGEb8hQP1pD8V26h7Va6JJKgUEMaGcXwGuG0XrUBIIYkHJms4q0/WoAAQxoJyfQzKdRewfCNBJlUYxnFoDLhvEGQCvhtteVWQL5fwV4JZRtE3ybD+koR2UlBIPjaJ9JM++hDa2dOo+NvPRDnn2QRPABsr5G8A1g0gHwBttED2ULIPuquPItvFL8mygDWTh1B2jOG9GayKNdJ2RbGdR8G2HZroihUPJJGsx7DrAe4M4v6Vx6gb6xWofOVdS/49GFQYlJcWawfu3yLOuQZxTCnVqDX0ttquZYKepOpTzF5l+VFlGPWBTGWOiQpy6i/5Y9a1V+i5SNSjZEbqqfGfbMn0XqapT2uQwAN4pY8xUeSiZaLV10jZ5dqyMMVNVnNLurJ4An5QxSqkclGS8JeW73k/bq7NUWacy5Xs65NlXZYzSmg0lFe2K8j3R5qQilXFqteRzk7RDnh0q2lfW9M7KiZ929VBLchjVLAeW0e077IdscWk1C0qbxreV7YM0GUrOlDT1Ujf2cmiSpjmlLdMbcQniQX0HdhTtVSqGcv4SujsOvsophbUmOaVxqQ98VrRXKwZUO2YBWEZ/Q8niVXOJcHf2I3FV5JR26DWSxkdlDdVuMkEMdRpKzmo1E25b1RsjjTulKQT7wJ6ivZnGoTTX1fZSGHpgC5XE0INRKLnkHrqKGJDI0IPTTmlcOqhrU6WMrKBqLddn6QxDyangGYOStV7ojlGv6t2h2BqC6JJEYrKASmrowenhF6pkoUK/txggVwaSUutX5gvdsOxaXxewUAsBCj3DjX6AFqIWuk99elYdsVQL3VZYslBn0qn/UGM6c4mi3/Sm5SRpoJIceiBQoRVr0lChZUNya76hWoR3rvHt5UlqEXbid0zSTskFqKrnSeb3Xi01LD22gDLXbAbIhyXJugTjq3PnbyL3kIrSfBdxKLn6aVx/lxxSXy0hC915JOXvxbiVHEs/ASKOCGIz9bXkAAAAAElFTkSuQmCC"/>
+        <image id="_Image8" width="83px" height="39px" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFMAAAAnCAYAAABzAXTXAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAC70lEQVRogeWa2VLbMBSGv4DDVmhLAbUdKF2mnenD+XH0ZL3qRdfpQiu2wARMEpL04neIJ2VLYsk2fDMa25nER/6jI51z5Br3hdjVgTowlznOAREwA9TSlj0fvT4HEqAJOKzpZk3UQjxHMGIXAUvAA2CBoWB18n/WDvATaw4GH1RXzNjNMhRuKW3zBfTkC9YcQpXElHgPgUcMR14Z6AEfsSaJiu7JtWiee5y2Fcr5588AT4Fv5etc7BaReIMRWAW6wIdyjEwtHOvAGuVx33GYBRaKFTN2S8AG8AS5S6UJL2bsasAqEnE5uH1/9MOJqcVkHYlYD2Y3DO0wq7lCmmeA4Q648hXsg083lztvAM+92imeFuDA10PGbhXYpJiMJCRd4BPWnEPeQXDsVpCIVYkPp6GBcvPW4IN8xIzdHPACBdtVpJe2ftqy59nrNnAGNLHmZPQm04sZu3VgCwWuZeQcidBJj9lzHa3p5WFocjEV6rxEaV9Z6AInwOnF0Zp2KOOTiRm7NeTWRY/GBDhmKFzrhu97ZTwxNRq3KW5u7KMqdwM4Klq8UW4vpsKdbcLHjD3g6KKlYUgZuVlMBd9bKIMJSYKC4YO8FgjfXC+mSmNvUGE2BH3kwg5rmoFs5sbVYqpI+xZtSPmmA+wBu1jTCWDPC5eLqfnxFf4LEx1gB9jDmr5nW975X8zYbaIqj096wB/gb1Xmw9swFFOlstf4DcL7yJ13quzOV6EwJ3YzwDv8FigawC+sOfNoo1AGMeM2/oRsA9+x5tjT/UtDROyW0a6gD/aBH6Pv5NxVIrS5lTcdNBqPPNy7tETkv+AcoNFY2rTPF4PX6fKgi0bjYU73qxwRClemJQE+l62KE5oICTFNytgAvt6l4HtSIhRETzpv/saanRz7U2kiVCdMgMUxftdDo7HhpVcVRemkdhffc7vXVlpofkw89quSZHPzRbRBdl0mtItSwnsRhI/LZVWjVfSK3zxamM7Qbt8e1pwG7V3F+AcjWcvBpsf0wwAAAABJRU5ErkJggg=="/>
+    </defs>
 </svg>

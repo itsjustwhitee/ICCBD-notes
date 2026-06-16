@@ -399,10 +399,10 @@ Checkpoint at *entrance/exit* and in *specific decision points*.
 
 === Active Replication Model Details
 
-An activity executes the operation for any private data copy. Client external requests to the server can have an either *explicit* or *implicit* approach related to replication:
+Each copy runs the operation on its own private data. The client's view of replication can be:
 
-- If the *client has an explicit vision* of FT #arrow *no abstraction*. This organization lacks abstraction because all clients have too much visibility of internal FT details of servers.
-- If the *client has an implicit FT* #arrow *FT transparency*. Need of a support capable of getting the request and distributing copies to server copies and vice versa for results.
+- *Explicit* #arrow *no abstraction*: the client sees the internal FT details (how many copies, where they are), which is undesirable.
+- *Implicit* #arrow *FT transparency*: the client sees one logical service. A support layer fans each request out to the copies and collects their results.
 
 === Active Copies Replication: Manager Strategy
 
@@ -415,45 +415,39 @@ Fault tolerance is usually an *invisible internal detail* of the replicated reso
 
 === Active Copies Coordination
 
-Active models can decide different coordination models:
-- #hl[*Perfect synchrony*] (full consistency or strict consistency): #hl[all copies should agree and produce] #hl[a *completely synchronized view*, with the same internal copy scheduling for all copies] (difficult for nested actions or external actions).
-- *Different approaches to synchrony (less consistency)*: even if some minimal threshold can be considered, actions can complete before all copies agree on the final outcome, and the final agreement can take place later (also it does not apply even eventually).
+Active models choose how tightly copies stay in sync:
+- #hl[*Perfect (strict) synchrony*]: all copies agree and apply operations in the *same order*, giving a fully consistent view. Hard to keep for nested or external actions.
+- *Looser synchrony*: an operation can complete before all copies agree, and the agreement is reconciled later (sometimes not at all).
 #v(-0.7em)
-#note[Less synchronous strategies cost less in time, mainly client service time, and makes protocols easier and more viable but grant less in operation ordering and release some _semantic properties_. Some modern Cloud systems decide of abandoning *perfect synchrony* in favor of an *eventual synchrony*.]
+#note[Looser synchrony is cheaper (mainly in client response time) and simpler to implement, but gives weaker ordering guarantees and releases some _semantic properties_. Many modern Cloud systems trade *perfect synchrony* for *eventual synchrony*.]
 
 === Copies Coordination: Read/Write Actions
 
-Different actions on active copies have different requirements and management:
-- *Read actions*: typically actions that can occur easily in parallel and accessing a limited number of copies.
-- #hl[*Write actions*: those intrinsically require *coordination among copies*].
+Different actions need different amounts of coordination:
+- *Reads* run easily in parallel and touch few copies.
+- #hl[*Writes* change state, so they need *coordination among copies*] to propagate the change.
 
-Any action that can change the state implies more coordination to propagate such a change:
-- In case of a *clean state partitioning*, where any change applies to different partitions, those actions can proceed independently in parallel without any coordination.
-- Eventually, some actions can require a *copy reconciliation* of actions that could have been interfering.
+How much coordination depends on whether operations overlap:
+- With *clean state partitioning* (each change hits a different partition), writes proceed in parallel with no coordination.
+- Otherwise, interfering actions may need a later *copy reconciliation*.
 
-There are also actions with very specific intrinsic semantics. For instance, the *actions on a directory* can proceed with some more parallelism: add/delete of a file, read/write of a file, directory listing. Even semantic properties can distinguish operations and can make possible more efficient behavior and greater parallelism.
+*Operation semantics* can also unlock parallelism: on a directory, for instance, add/delete, read/write of a file, and listing can partly run at once.
 
 === Active Copies Updating
 
-When dealing with active copies updating, any action that requires to update the state of any copy:\
-The #hl[*update action* must occur *before delivering the answer* to grant a complete consistency] but that impacts on response time (more delay in case of failures) (*eager policies vs. lazy*).
+For full consistency, the #hl[*state update must finish before the answer is delivered*]. This raises response time (more so under failures), and is exactly the *eager vs lazy* choice.
 
-If the component employs *different managers for any operation*, it is a manager duty to command the internal actions. If the component defines *parallel operations*, all managers must negotiate and conciliate their decisions, causing some conflict to be solved and some actions in incorrect order to be *undone or redone*.
+With *one manager per operation*, that manager drives the internal actions. With *parallel operations* under different managers, the managers must negotiate, and conflicting or out-of-order actions get *undone or redone*.
 #v(-0.7em)
-#note[
-  In case of failure during one operation and before its correct completion, there should exist the feature of giving an answer anyway, because of the excess of accumulated delay in finishing internal agreement protocols.
-  ]
+#note[If a failure stalls the agreement protocol, the system should still be able to return an answer rather than wait out the accumulated delay.]
 
 === Active Copy Agreement
 
-Copies can reach an agreement before giving the answer:
-- *All copies should agree* on the specific action (*full agreement*).
-- #hl[*Majority voting* (not all copies must agree) *with a quorum*] (also weighted): correct copies can go on freely; other copies must agree on it and then reinserted in the group (recovery).
+Before answering, copies agree on the result:
+- *Full agreement*: every copy must agree.
+- #hl[*Majority voting with a quorum*] (possibly weighted): the agreeing copies proceed, while the others are recovered and *reinserted* into the group.
 
-*Failure detection*: _who is in charge? When? *Reinsertion detection*: who is in charge? When?_\
-There is a *strict need of monitoring* and execution control.
-
-*Group semantics*: in a group, depending on agreed semantics of actions, there may be also less expensive and less coordinated actions on execution orders. *The less the coordination, the less is the cost.*
+This needs *failure detection* and *reinsertion* (who does it, and when), so *monitoring and execution control* are essential. As always, *less coordination means less cost*, so weaker action semantics allow cheaper, looser execution ordering.
 
 == The Five Phases of Replication Operation
 
@@ -507,43 +501,33 @@ For the updating we can distinguish:
 
 === Eager Primary Copy
 
-Sticking to *one primary*, that copy executes and *gives back* the answer only after *having updated the state* of all copies in a pessimistic approach (*one operation at a time with faults*).
-
-In that case, the manager is in charge of the whole coordination, but the client receives a deferred answer (for correctness sake). If more operations are active over the replicated object that does not change, they can proceed in parallel.
+One *primary* executes and answers only *after* updating all copies (pessimistic, one operation at a time). The manager runs the whole coordination, so the client gets a *deferred* answer for correctness. Operations that do not touch the same object can still run in parallel.
 
 Flow: Phase 1 (Client Request) #arrow Phase 2 (Server Coordination) #arrow Phase 3 (Execution + Update) #arrow Phase 4 (Two Phase Commit Agreement) #arrow Phase 5 (Client Response).
 
 === Lazy Primary Copy
 
-On the opposite, the manager can first answer to the client and afterwards it updates the copies with an *optimistic approach* (_also several operations can go on at the same time_).
-
-In this case, the manager must also be able to control the possible reconciliation of the state of the copies ... and some problems may occur if there is a manager crash.
+The opposite: the manager *answers first* and updates the copies afterwards (optimistic, several operations can run at once). It must then handle *reconciliation* of the copy states, and a manager crash mid-update is a real risk.
 
 Flow: Phase 1 #arrow Phase 3 (Execution + Update primary) #arrow Phase 4 (Client Response) #arrow then Reconciliation with other copies.
 
 === Update of Active Copies
 
-#hl[*Eager policies* favor *consistency and correctness* ]of the operations, instead of the promptness of the answer to the client:
-- The goal is *not very fast precocious answers*, because that can lead to undo actions, that are not easy to be done, and, in some cases, impossible to backtrack.
+#hl[*Eager policies* favor *consistency and correctness*] over a fast answer: a too-early answer may force *undo* actions, which are costly and sometimes impossible to backtrack.
 
-Copy coordination is *two phases toward consistency granting* (specially in case of concurrent actions):
-- Those two phases are *not always needed*, but they can obtain the necessary coordination among copies and operations.
-- *A-posteriori coordination* to *verify consistency*: if it is not verified, some *undo* must be considered (two phase protocol and roll back).
-- *A-priori coordination* can ensure that all correct copies receive all correct messages and the right schedule is automatically enforced (e.g., *atomic multicast*).
+Coordination toward consistency (especially under concurrency) takes *two forms*:
+- *A-posteriori*: execute, then *check consistency*, and *undo* if it fails (two-phase commit + rollback).
+- *A-priori*: enforce the right schedule up front, so no check is needed (e.g. *atomic multicast*).
 
 === Optimistic Eager Update
 
-All copies are updated with some enforcing policies in an *optimistic approach* (*two-phase commit*), only afterwards the answer is provided to the client.
-
-After copy independent executions, the final coordination ensures an agreement, otherwise some backtracking is commanded (*possible undo*).
+All copies update optimistically, and only then is the answer given to the client. After the copies execute independently, a *final agreement* phase (two-phase commit) confirms the result, or *backtracks* (possible undo) if it fails.
 
 Flow: Phase 1 (Client) #arrow Phase 2 (Server Coordination) #arrow Phase 3 (Execution + Update all copies) #arrow Phase 4 (Two Phase Commit Agreement) #arrow Phase 5 (Client Response).
 
 === Pessimistic Eager Update
 
-A different approach for eager update implies coordination but tends to save the final phase. The agreement of results is granted via a delivery protocol *in a pessimistic approach*.
-
-An *atomic multicast can ensure* that any message is correctly sent to all copies in the same order, so that there is no need for a final check (*no undo*).
+This eager variant coordinates up front and *skips the final phase*. An *atomic multicast* delivers every message to all copies in the *same order*, so the result needs *no final check* and *no undo*.
 
 Flow: Phase 1 (Client) #arrow Phase 2 (Atomic Broadcast in Server Coordination) #arrow Phase 3 (Execution + Update all copies, skipping Phase 4) #arrow Phase 5 (Client Response).
 

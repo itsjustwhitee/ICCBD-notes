@@ -247,13 +247,13 @@ Complex systems organize as *self-managing and self-administering* entities. Als
 Middleware comes in three archetypes based on how it is used:
 === Scenario 1: Minimum Cost Middleware
 
-This scenario focuses on driving the configuration of a single application according to a fixed, internal interaction model, entirely excluding dynamic runtime scenarios. The system operates in a closed, highly stable environment, prioritizing #hl[*minimal operational cost* and *low software intrusion*].
+Drives a *single application* with a fixed interaction model and nothing dynamic at runtime. The environment is closed and stable, so the priorities are #hl[*minimal operational cost* and *low software intrusion*].
 
 #def("Disappearing Middleware")[
-      A #kw[disappearing middleware] is a lightweight, highly optimized middleware layer whose runtime footprint "disappears" because it avoids any dynamic management or discovery overhead.
-      - *Static Architecture:* It defines a fixed, statically determined set of nodes and hardware resources at deployment time.
-      - *Rigid Interaction:* Communication channels and interfaces are default, rigid, and non-adjustable, yet highly optimized for maximum performance.
-      - *No Operational Overhead:* It lacks support for dynamic reconfiguration, runtime resource provisioning (turning on/off resources), or dynamic service registries.
+  A #kw[disappearing middleware] is a lightweight, highly optimized layer whose runtime footprint "disappears" because it avoids all dynamic management and discovery overhead.
+  - *Static architecture*: a fixed set of nodes and resources, decided at deployment time.
+  - *Rigid interaction*: default, non-adjustable channels and interfaces, tuned for maximum performance.
+  - *No operational overhead*: no dynamic reconfiguration, runtime provisioning, or service registries.
 ]
 #v(-1em)
 #example("MOM")[
@@ -262,12 +262,12 @@ This scenario focuses on driving the configuration of a single application accor
 
 === Scenario 2: Middleware for Fast Applications
 
-Targeted at highly streamlined and optimized applications that require rapid, efficient service provisioning. Instead of relying on a heavy, permanent infrastructure, applications cooperatively provide services to one another, and the #hl[middleware dynamically coordinates these currently active] #hl[components to self-adapt to the real-time usage] situation.
+Targets applications that need *fast, efficient* service provisioning without a heavy permanent infrastructure. Applications provide services to one another, and the #hl[middleware dynamically coordinates the currently active components to self-adapt to real-time usage].
 
 #def("On-Demand Integration Middleware")[
-      An #kw[On-Demand Integration Middleware] is a flexible layer designed to facilitate straightforward cooperation and interoperability among running applications at execution time.
-      - *On-Demand Deployment:* The middleware infrastructure is spun up strictly on demand when applications need to interact (e.g., via Distributed Object Computing - DOC).
-      - *Tied Lifecycle:* The middleware's lifetime is tightly coupled to the lifecycle of the applications using it; it does not persist independently. When the last application exits, the middleware shuts down.
+  An #kw[On-Demand Integration Middleware] is a flexible layer for easy cooperation among *running* applications at execution time.
+  - *On-demand deployment*: spun up only when applications need to interact (e.g. via Distributed Object Computing, DOC).
+  - *Tied lifecycle*: it lives only as long as the applications using it, and shuts down when the last one exits.
 ]
 #v(-1em)
 #example("Microsoft Component Middleware")[
@@ -276,13 +276,13 @@ Targeted at highly streamlined and optimized applications that require rapid, ef
 
 === Scenario 3: Middleware for Continuity
 
-This paradigm targets large-scale, mature, and comprehensive enterprise environments where the fundamental requirement is to #hl[extend the lifetime of services indefinitely], moving toward an *infinite lifecycle*.
+Targets large, mature enterprise environments whose key requirement is to #hl[extend service lifetime indefinitely], toward an *infinite lifecycle*.
 
 #def("Evolving Ecosystem Middleware")[
-      An #kw[Evolving Ecosystem Middleware] is a permanent, heavy-duty infrastructure that serves as a continuous, shared foundation for an organization's entire software ecosystem.
-      - *Coarse-Grained Services:* It hosts a comprehensive catalog of high-level, coarse-grained features made readily accessible to streamline application development.
-      - *Incremental Enrichment:* Rather than requiring reboots or redeployments, the middleware updates and enriches itself seamlessly over time; it is continuously *populated by different applications* that introduce new services at runtime.
-      - *Continuous Availability:* it strictly maximizes system lifetime by exhibiting absolute zero downtime during upgrades or component modifications.
+  An #kw[Evolving Ecosystem Middleware] is a permanent, heavy-duty infrastructure that is the shared foundation for an organization's whole software ecosystem.
+  - *Coarse-grained services*: a rich catalog of high-level features that streamline application development.
+  - *Incremental enrichment*: it updates and grows over time with no reboot, continuously *populated by applications* that add new services at runtime.
+  - *Continuous availability*: it maximizes uptime, with zero downtime during upgrades or changes.
 ]
 #v(-1em)
 #example("CORBA & Enterprise .NET")[

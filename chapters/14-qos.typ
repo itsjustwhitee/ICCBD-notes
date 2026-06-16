@@ -8,7 +8,7 @@
   Package: QoS basis and protocols - `9 - QoS 26.pdf`
 ]
 
-Quality of Service (QoS) is the ability of a network or system to provide *differentiated, negotiated, and guaranteed levels of service* to applications. This chapter covers the fundamentals of QoS indicators, management models, protocols (IntServ, DiffServ, RSVP, RTP/RTCP, SIP), router scheduling policies, and congestion prevention.
+Quality of Service #hl[(QoS) is the ability of a network or system to provide *differentiated*, *negotiated*,] #hl[and *guaranteed levels of service*] to applications. This chapter covers the fundamentals of QoS indicators, management models, protocols (IntServ, DiffServ, RSVP, RTP/RTCP, SIP), router scheduling policies, and congestion prevention.
 
 // ─────────────────────────────────────────────────────────────
 // PART 1: QoS FUNDAMENTALS
@@ -16,10 +16,11 @@ Quality of Service (QoS) is the ability of a network or system to provide *diffe
 
 == QoS in Different Environments
 
-#prop("TCP/IP vs OSI")[
-  - *TCP/IP*: communicates using resources available during execution (dynamic), without any predefined commitment. The IP level is responsible for *best-effort semantics* (no guarantees).
-  - *OSI*: entities commit resources and can provide an SLA that must be respected from all parties in the path (including intermediate nodes).
-  - *Challenge*: how to guarantee QoS in TCP/IP best-effort environments? Users increasingly require new Internet application services with real guarantees.
+#example("TCP/IP vs OSI")[
+  The key difference is *whether resources are reserved before data is sent* - which is exactly what decides if QoS can be guaranteed:
+  - #hl(color: gray.lighten(70%))[*TCP/IP* (*best-effort*)]: *nothing is reserved in advance*. Each packet is forwarded using whatever capacity happens to be free at each hop, with no commitment. So the IP layer gives *no guarantee* on delay, bandwidth, or loss, it just "does its best".
+  - #hl(color: gray.lighten(70%))[*OSI* (*connection-oriented*)]: *every node along the path reserves the resources* it will need before data flows. This up-front commitment is what lets the network honor a *negotiated SLA end-to-end*, intermediate nodes included.
+  - *The challenge*: modern applications (streaming, VoIP, real-time) need *real guarantees*, yet the Internet runs on best-effort TCP/IP #swarrow the rest of this chapter is about *how to add QoS on top of a best-effort network* (IntServ, DiffServ, RSVP, ...).
 ]
 
 === Application Classification
@@ -27,10 +28,10 @@ Quality of Service (QoS) is the ability of a network or system to provide *diffe
 Applications are classified by their tolerance to QoS violations:
 
 #prop("Elastic Applications")[
-  Traditional applications: they do *not present quality constraints* but have requirements independent from delays:
+  #kw[Elastic applications] are the traditional: they do *not present quality constraints* but have requirements independent from delays:
   - Work better with low delays, worst during congestions.
   - Interactive apps require delays less than 200ms.
-  - Examples: telnet, X-windows (interactive), FTP, HTTP (bulk interactive), e-mail, voice (asynchronous).
+  - #extra[Examples: telnet, X-windows (interactive), FTP, HTTP (bulk interactive), e-mail, voice (asynchronous).]
 ]
 
 #prop("Non-Elastic: Real-Time Applications")[
@@ -50,7 +51,7 @@ Applications are classified by their tolerance to QoS violations:
 #v(-1em)
 #prop("Key QoS Metrics")[
   - *Promptness in reply*: delay, response time, *jitter* (variation in deliver delay).
-  - *Bandwidth (throughput)*: quantity of data transmitted by a channel with success per time unit (bit/byte per second). E.g., Ethernet: 10 Mbps.
+  - *Bandwidth (throughput)*: quantity of data transmitted by a channel with success per time unit (bit/byte per second).
   - *Throughput*: number of operations per second (transactions).
   - *Reliability*: percentage of successes/failures (MTBF: Mean Time Between Failures, MTTR: Mean Time To Repair).
 ]
@@ -58,18 +59,23 @@ Applications are classified by their tolerance to QoS violations:
 === Latency
 
 #def("Latency Time (RTT)")[
-  The time to send an information unit (bit), measured as the *Round Trip Time (RTT)*:
+  *Latency* is the delay for data to travel from sender to receiver. Measured there and back, it is the *Round Trip Time (RTT)*. It is the sum of three delays:
   $ T_L = T_"prop" + T_"tx" + T_q $
-  - $T_"prop"$: depends on light *speed* inside the medium (Space / Speed).
-  - $T_"tx"$: depends on *messages and bandwidths* (Dimension / Bandwidth).
-  - $T_q$: depends on *queuing delays* in different intermediate points (the critical time: it involves all waiting overheads).
+  - $T_"prop"$ (*propagation*): time for a bit to physically cross the distance, $= "distance" \/ "speed"$ (the signal moves near the speed of light in the medium). It depends on *how far* the nodes are, not on how much data is sent.
+  - $T_"tx"$ (*transmission*): time to push all the bits of the message onto the link, $= "message size" \/ "bandwidth"$. It depends on *how much data* there is and on the link speed.
+  - $T_q$ (*queuing*): time the data waits in buffers at intermediate nodes. This is the *most variable* part, since it grows with congestion, and usually the hardest to predict and control.
 ]
 #v(-1em)
 #important("Bandwidth-Delay Product")[
   A good service requires to identify bottlenecks and consider *resource management*:
   - Send/receive of 1 byte #arrow latency dominates RTT.
   - Send/receive of many megabytes #arrow bandwidth dominates.
-  - *Resource data channel* = Latency × Bandwidth. E.g., 40ms latency, 10Mbps bandwidth #arrow product is 50 KB (400 Kb): the sender must send 50 KB before the first bit arrives, and 100 KB before any answer returns.
+  - *Resource data channel* = Latency × Bandwidth. 
+    #extra[
+      With *40 ms one-way latency* and *10 Mbps bandwidth*: \
+      *One way* #arrow 10 Mbps × 40 ms = 10 000 000 bps × 0.04 s = 400 Kb = *50 KB*. By the time the first bit reaches the receiver, the sender has already put 50 KB onto the wire (the data "in flight"). \
+      *Round trip* (80 ms) #arrow 10 Mbps × 80 ms = 800 Kb = *100 KB*. So the sender can push 100 KB before any reply can come back, and it should keep about that much unacknowledged data in flight to keep the link busy.
+    ]
   - Infrastructures tend to keep *pipes full* to guarantee response time.
   - A *buffering time inside applications* is typically automatically considered.
 ]
@@ -77,11 +83,25 @@ Applications are classified by their tolerance to QoS violations:
 === Jitter and Skew
 
 #def("Jitter")[
-  #kw[Jitter] is defined as the *variance of latency* in a stream. Optimal situation: latency stable. High jitter breaks real-time playback.
+  #kw[Jitter] is defined as the *variance of latency* in a stream.\
+  Optimal situation: latency stable. #so High jitter breaks real-time playback.
 ]
 #v(-1em)
+#figure(
+  image("../assets/jitter.jpg", width: 55%),
+  caption: [Jitter graphical representation.]
+)
+
 #def("Skew")[
-  #kw[Skew] is the possible *offset between multiple flows* composing a unique stream (e.g., audio and video flows of the same session). Skew must be minimized to maintain synchronization.
+  #kw[Skew] is the possible *offset between multiple flows* (types) composing a unique stream (_e.g., audio and video flows of the same session_). Skew must be minimized to maintain synchronization.
+]
+#v(-1em)
+#note[
+  *Skew vs Jitter:*
+    - Skew is the *spatial/cross-flow* delta: $T_"audio" - T_"video"$ 
+      at a given frame (e.g., lip-sync errors).
+    - Jitter is the *temporal/intra-flow* delta: the packet-to-packet arrival time 
+      variance within a single flow over time ($T_(i+1) - T_i$).
 ]
 
 === User-Level QoS Indicators
@@ -95,7 +115,7 @@ Applications are classified by their tolerance to QoS violations:
 ]
 #v(-1em)
 #important("QoS Requires Negotiation")[
-  QoS can be guaranteed only through a *negotiated and controlled contract and after provisioning*. The system must be observed during execution to adjust the service dynamically (obeying user requests). This requires *monitoring and feedback* loops. The *negotiated SLA must be verified during execution* to undertake quickly corrective actions.
+  QoS can be guaranteed only through a *negotiated *and* controlled contract and after provisioning*. The system must be observed during execution to adjust the service dynamically (obeying user requests). This requires *monitoring and feedback* loops. The *negotiated SLA must be verified during execution* to undertake quickly corrective actions.
 ]
 
 // ─────────────────────────────────────────────────────────────
@@ -130,21 +150,23 @@ Applications are classified by their tolerance to QoS violations:
 
 === Active Path
 
-For streaming services, the management must find and maintain an *active path* between emitter and receiver:
+For #hl[streaming services, the management must find and maintain an *active path*] between emitter and receiver:
 - The best active path is found (even by flooding).
 - Among several paths, one is *chosen as the active path*.
 - The active path *must change during provisioning* in case of severe problems (failure recovery).
 
 === SLA Negotiation Example
 
-The SLA specification is *always a coordinated effort among emitters and receivers*:
-- Emitter: "I can send that specific streaming with bandwidth B and accuracy A."
-- Receiver: "I can accept streaming with bandwidth B1 and accuracy A, latency L."
-- *Agreement succeeds* when receivers accept a setting for their streaming.
-- The final agreement can define a *private setting* for the entire routing.
-- Some sharing of part of the active path can be convenient.
-- Difficult cases: receiver coordinates more emitters (multiple emitters sharing a path).
-- *Impossible agreement* #arrow look for other settings.
+#example("Example: SLA Negotiation")[
+  The SLA specification is *always a coordinated effort among emitters and receivers*:
+  - Emitter: _"I can send that specific streaming with bandwidth B and accuracy A."_
+  - Receiver: _"I can accept streaming with bandwidth B1 and accuracy A, latency L."_
+  - *Agreement succeeds* when receivers accept a setting for their streaming.
+  - The final agreement can define a *private setting* for the entire routing.
+  - Some sharing of part of the active path can be convenient.
+  - Difficult cases: receiver coordinates more emitters (multiple emitters sharing a path).
+  - *Impossible agreement* #arrow look for other settings.
+]
 
 // ─────────────────────────────────────────────────────────────
 // PART 3: VIDEO STREAMING
@@ -159,26 +181,39 @@ Effective video streaming requires thinking about: actors (senders and receivers
   - *Many-to-one*: many senders, one receiver, more intermediaries. Typical in CDN (Content Delivery Networks) with edge servers and media servers.
   - *Many-to-many*: many senders, many receivers, much more intermediaries. Requires multicast or overlay networks with distributors and relays.
 ]
+#figure(
+  grid(
+    align: center+horizon,
+    stroke: 0pt,
+    gutter: 1em, 
+    columns: (1.2fr,2fr,2.2fr),
+    image("../assets/streaming-one-to-one.jpg"),
+    image("../assets/streaming-many-to-one.jpg"),
+    image("../assets/streaming-many-to-many.jpg")
+  ),
+  caption: [Streaming topologies: one-to-one (left), many-to-one (center), many-to-many (right).]
+)
 
 === Three Operational Planes
 
-#def("Management and Monitoring Planes")[
+#important("Management and Monitoring Planes")[
   QoS management requires matching the application plane with efficiency control strategies:
   - *User Plane*: for defining user protocols (e.g., voice in telephony).
   - *Management Plane*: for service management and monitoring (e.g., QoS handling in telephony).
-  - *Control Plane / Signaling*: to establish connections, negotiate and signal between levels (*not necessarily in-band*; in telco, this level establishes the call before it starts).
+  - *Control Plane / Signaling*: to establish connections, negotiate and signal between levels (*not necessarily in-band*, in telco this level establishes the call before it starts).
 ]
 
 === RTSP: Real-Time Streaming Protocol
 
 #def("RTSP (RFC 2326)")[
-  #kw[RTSP] integrates web-based streaming transported to a final client (e.g., RealPlayer). Starts *after downloading the file specification from the server*.
+  #kw[RTSP] integrates web-based streaming transported to a final client. Starts *after downloading the file specification from the server*.
 ]
 #v(-1em)
 #prop("RTSP Operation")[
   - Player communicates with the server via UDP or TCP, trying to obtain better provisioning.
   - Exploits a *local receiver buffer strategy*: receiver does not wait for the entire file.
-  - UDP: wait 2-5 seconds before starting to show; TCP: a larger buffer is used.
+    - UDP: wait 2-5 seconds before starting to show
+    - TCP: a larger buffer is used.
   - *Pull and push policies* on the server with *watermark techniques* to synchronize: if below threshold, starts pulling requests.
   - *Interleaving* used to deal with packet loss.
 ]
@@ -202,22 +237,29 @@ The IntServ suite has three protocols:
 - *RTP* (in-band): real-time data transport.
 - *RTCP* (in-band): flow control and QoS monitoring.
 
+#figure(
+  image("../assets/intserv-control-planes.jpg", width: 40%),
+  caption: [Contron planes in IntServ.]
+)
+
 === RSVP: Resource Reservation Setup Protocol (RFC 2205)
 
 #def("RSVP")[
   #kw[RSVP] (Resource ReSerVation Protocol) specifies how to communicate between neighbor nodes to enable the *reservation of needed resources* to guarantee an agreed SLA, in a completely separate way from current Internet traffic.
   RSVP is a *static (out-of-band) two-phase protocol* with *soft-state*, where the receiver requests to enable resource reservation for the whole service duration.
-]
-#v(-1em)
-#prop("RSVP Two-Phase Protocol")[
-  - *Phase 1 - Path (sender to receivers)*: provider propagates announce messages (`Path`) with offers toward potential receivers. Identifies the active path.
+
+  - *Phase 1 - Path (sender to receivers)*: provider (sender) propagates announce messages (`Path`) with offers toward potential receivers. Identifies the active path.
   - *Phase 2 - Resv (receivers to sender)*: receivers propagate inversely their intention of creating an active path, requiring reservations (`Resv` with TSpec + optional RSpec).
   - *Soft-state*: the admitted state is maintained for a limited time and must be refreshed. Paths and resources are reserved locally either in a private or shared way.
   - *Teardown*: `PathTear` from sender or `ResvTear` from receiver, or timeout.
 ]
 #v(-1em)
+#note[
+  The `Path` message is not routed by the sender, so it use this message to discover the route in order to reserve resources (with `Resv`).  
+]
+#v(-1em)
 #prop("RSVP Key Properties")[
-  - Oriented to *receiver initiative* (receivers request resource reservation).
+  - Oriented to #hl[*receiver initiative*] (receivers request resource reservation).
   - Produces *state on every node* of the path established from sender to receiver (during phase 2).
   - Allows *sharing of active paths* (shared reservations for multicast groups).
   - Compatible with any routing protocol (unicast or multicast, IPv4 and IPv6).
@@ -226,23 +268,38 @@ The IntServ suite has three protocols:
   - Recommended only for *limited local networks*, not global environments (legacy application compatibility issues).
   - On router failure, QoS falls back to best-effort; RSVP must renegotiate the path reservation during provisioning.
 ]
+#figure(
+  image("../assets/rsvp.jpg", width: 40%),
+  caption: [RSVP `Path` and `Resv` flow.]
+)
 
 === RTP: Real-Time Transport Protocol (RFC 1889)
 
 #def("RTP")[
-  #kw[RTP] provides *general operational messages* for in-band flow management. Frames are sent with *progressive numbers* and *timestamps* associated with the data flow. Works at UDP even ports.
+  #kw[RTP] is the protocol that *carries the real-time media stream itself* (audio, video) from sender to receiver, *in-band* with the data. It runs over *UDP*, so there is no retransmission, which fits real-time traffic where a late packet is useless.
+
+  Every RTP packet carries two key fields:
+  - a *sequence number*, so the receiver can put packets back in *order* and *detect losses*.
+  - a *timestamp*, so the receiver can play the media at the *right time*, smooth out *jitter*, and keep flows *synchronized* (e.g. audio with video).
+
+  RTP uses an *even UDP port*, and its control companion *RTCP* uses the *next odd port*. By itself RTP gives *no delivery or QoS guarantee*, it only gives the receiver what it needs to cope with loss and jitter.
 ]
 #v(-1em)
 #prop("RTP Features")[
-  - Every packet (flow frame) identified with *progressive number tags*, identifiable by router classifiers.
-  - Provides precise indications on *transit time* in any path hop.
-  - In case of missing packets: suggestion is to *not retransmit, but to interpolate* previous packets.
-  - *Intermediate nodes* (mixers, translators) can insert information (timestamps) to add data toward SLA monitoring.
-  - Active path becomes a set of *sources for every node*:
-    - *SSRC* (Synchronization Source): primary source.
-    - *CSRC* (Contributing Source): contributing sources when mixed by an intermediate node (mixer).
-  - Supports *shared paths* producing complex graphs with nodes belonging to more paths (mixers).
+  - The *sequence number* lets the receiver reorder packets and notice gaps (lost packets).
+  - The *timestamp* lets the receiver reconstruct timing, measure *jitter*, and align playback.
+  - On a lost packet the receiver does *not retransmit but interpolates* from earlier packets, since a resent packet would arrive too late to use.
+  - *Intermediate nodes* can process the stream:
+    - a *mixer* combines several incoming streams into one and can add timestamps useful for monitoring.
+    - a *translator* forwards or transcodes one stream without merging it.
+  - Each source is tagged, so one path can carry *several sources*:
+    - *SSRC* (Synchronization Source): the identifier of a single stream source.
+    - *CSRC* (Contributing Source): the list of original sources that a *mixer* combined into one stream.
 ]
+#figure(
+  image("../assets/rtp.jpg", width: 70%),
+  caption: [RTP packet and flow scheme.]
+)
 
 === RTCP: Real-Time Transport Control Protocol
 
@@ -251,12 +308,17 @@ The IntServ suite has three protocols:
 ]
 #v(-1em)
 #prop("RTCP Message Types")[
-  - *RR/SR* (Receiver/Sender Report): QoS per flow: loss, delays, jitter, end system info, application specification.
-  - *SDES* (Source DEScription): ASCII strings: CNAME (canonical identifier, mandatory), NAME, EMAIL, PHONE, LOC, TOOL, NOTE, PRIV.
+  - *RR/SR* (Receiver/Sender Report): QoS per flow #swarrow loss, delays, jitter, end system info, application specification.
+  - *SDES* (Source DEScription): ASCII strings #swarrow CNAME (canonical identifier, mandatory), NAME, EMAIL, PHONE, LOC, TOOL, NOTE, PRIV.
   - *BYE*: specifies abandoning of an RTP session.
   - *APP*: application-specific packets.
 ]
 
+#figure(
+  image("../assets/rtcp.jpg", width: 50%),
+  caption: [RTCP messages of RR (right) and SR (left) type.]
+)
+#v(0.7em)
 #extra[
   *IntServ flow summary*: RSVP prepares the path and enables resource reservations (static phase). In provisioning, frames are associated with RTP and RTCP. In case of problems, a new path negotiation can occur locally (via RSVP).
 ]
@@ -271,7 +333,7 @@ The IntServ suite has three protocols:
   #kw[DiffServ] differentiates flows in *classes* handled together: greater scalability than IntServ by supporting *low-level differentiation* (work at network layer, not application layer). Do not work for each information flow separately, but *aggregate network-level classes of flows*. Suitable for legacy applications (less user involvement than IntServ).
 ]
 #v(-1em)
-#prop("DiffServ Classes")[
+#example("DiffServ Classes")[
   Example class structure:
   - *Gold*: 70% bandwidth
   - *Silver*: 20% bandwidth
@@ -306,11 +368,21 @@ The IntServ suite has three protocols:
   - *Shaper*: delays out-of-profile packets to smooth bursts.
 ]
 
-#figure(image("../assets/qos-intserv-diffserv.svg", width: 95%), caption: "IntServ (per-flow RSVP reservation, hop-by-hop) vs DiffServ (aggregate class queues, DS byte marking): the two main QoS models in IP networks.")
+#figure(
+  image("../assets/qos-traffic-conditioning.jpg", width: 40%),
+  caption: [QoS Meter, Marker, Dropper/Shaper.]
+)
+
+=== IntServ vs. DiffServ
+
+#figure(image("../assets/qos-intserv-diffserv.svg", width: 95%), caption: "IntServ (per-flow RSVP reservation, hop-by-hop) vs. DiffServ (aggregate class queues, DS byte marking).")
 
 === IntServ + DiffServ Together
 
-Both approaches cooperate. DiffServ is more scalable and supports legacy services; IntServ can grant specific QoS to specific flows. Often joined in connected areas: *IntServ* used in smaller, controlled domains; *DiffServ* in the wider Internet between domains.
+Both approaches cooperate.
+- DiffServ is more scalable and supports legacy services.
+- IntServ can grant specific QoS to specific flows.
+Often joined in connected areas: *IntServ* used in smaller, controlled domains, while *DiffServ* in the wider Internet between domains.
 
 // ─────────────────────────────────────────────────────────────
 // PART 6: SIP - SESSION INITIATION PROTOCOL
@@ -319,7 +391,7 @@ Both approaches cooperate. DiffServ is more scalable and supports legacy service
 == SIP: Session Initiation Protocol (RFC 2543/3261)
 
 #def("SIP")[
-  #kw[SIP] defines and manages sessions to support multimedia services. Has signaling capability for *establishing, modifying, and closing* multimedia sessions. Based on HTTP-compatible content: a *text-based, purely client/server* protocol. SIP itself does not carry media; other protocols (RTP) do.
+  #kw[SIP] defines and manages *sessions* to support multimedia services. Has signaling capability for *establishing, modifying, and closing* multimedia sessions. Based on HTTP-compatible content: a *text-based, purely client/server* protocol. SIP itself #underline[does not carry media] (other protocols dom like RTP).
 ]
 #v(-1em)
 #prop("SIP Entities")[
@@ -344,15 +416,18 @@ Both approaches cooperate. DiffServ is more scalable and supports legacy service
   SIP message structure: start-line (request-line or status-line), headers, optional message body. The body can contain *SDP* (Session Description Protocol) for audio/video format negotiation.
 ]
 
+#figure(
+  image("../assets/sip.jpg", width: 40%),
+  caption: [SIP flow.]
+)
+
 // ─────────────────────────────────────────────────────────────
 // PART 7: NETWORK MANAGEMENT
 // ─────────────────────────────────────────────────────────────
 
 == Network Management
 
-#important("Minimum Intrusion Principle")[
-  We need dynamic data collection mechanisms and policies that do *not require too many resources* (also used by application execution). Any correct management must reserve as few resources as possible. Performance area (monitor and data management) must define tools and policies that are *the least intrusive as possible*.
-]
+We need dynamic data collection mechanisms and policies that do *not require too many resources* (minimum intrusion principle). Any correct management must reserve as few resources as possible. Performance area (monitor and data management) must define tools and policies that are *the least intrusive as possible*.
 
 Management functional areas (FCAPS):
 - *Fault Management*
@@ -361,7 +436,7 @@ Management functional areas (FCAPS):
 - *Performance Management*
 - *Security Management*
 
-Standards: OSI/ISO (CMIB, CMISE), SNMP/IETF, TINA/CCITT.
+#extra[Standards: OSI/ISO (CMIB, CMISE), SNMP/IETF, TINA/CCITT.]
 
 === SNMP: Simple Network Management Protocol
 
@@ -379,11 +454,6 @@ Standards: OSI/ISO (CMIB, CMISE), SNMP/IETF, TINA/CCITT.
   - *SNMPv2*: overcomes C/S manager-agent hierarchy with *proxy agents* (act as both agent and manager), solving the *micro-management* congestion problem. Manager orders operations; proxies actuate them locally and send aggregated results.
   - *SNMPv3*: adds security (S-SNMP): integrity, masquerading prevention, privacy (prevent disclosure). Denial of service and traffic analysis not dealt with.
 ]
-#v(-1em)
-#note[
-  SNMP embeds CMIP and CMISE properties with a predetermined vision, with very little capacity for dynamically varying during runtime.
-]
-
 === RMON: Remote Monitor
 
 #def("RMON")[
@@ -391,6 +461,11 @@ Standards: OSI/ISO (CMIB, CMISE), SNMP/IETF, TINA/CCITT.
   - RMON1: multiple and grafted operations.
   - RMON2: guaranteed security.
 ]
+
+#figure(
+    image("../assets/rmon.jpg", width: 50%),
+    caption: [RMON probe.]
+  )
 
 === OSI Advanced Network Management
 
@@ -420,7 +495,7 @@ The standard Internet router (best-effort) executes for every packet:
 === Kleinrock Conservation Law
 
 #def("Kleinrock Conservation Law")[
-  For *work-conservative routers* (cannot be idle if there are packets on any port; cannot postpone arriving messages): given n flows, if flow n has service mean time $mu_n$, usage $rho_n = lambda_n / mu_n$, and mean waiting time $q_n$:
+  For *work-conservative routers* (cannot be idle if there are packets on any port and cannot postpone arriving messages): given $n$ flows with $lambda_n$ traffic $forall$ flow, if flow $n$ has service mean time $mu_n$, usage $rho_n = lambda_n mu_n$, and mean waiting time $q_n$:
   $ sum_n rho_n q_n = "Constant" $
   #so to give a lower delay or higher bandwidth to one flow, you *must* increase the delay or reduce the bandwidth of another.
 ]
@@ -433,27 +508,33 @@ The standard Internet router (best-effort) executes for every packet:
 
 #def("Leaky Bucket")[
   #kw[Leaky Bucket]: the router has limited memory (capacity C) and limited output flow (R). Models a router *actively shaping* services by limiting output flows:
-  - If data arrive too quickly beyond admissible output flow R: *delayed*.
-  - If data arrive beyond capacity C: *lost*.
+  - If data arrive too quickly beyond admissible output flow R #so *delayed*.
+  - If data arrive beyond capacity C #so *lost*.
   Aims at *switching off packet bursts*: smooths traffic to an admissible level.
 ]
 #v(-1em)
 #def("Token Bucket")[
-  #kw[Token Bucket]: tokens are generated uniformly by time ticking (r tokens/sec, capacity C). Each packet needs a token to pass:
-  - If bucket empty: packet waits.
-  - If bucket full: tokens available for packets.
+  #kw[Token Bucket]: tokens are generated uniformly by time ticking (r tokens/sec, capacity C). Each packet needs a token to pass, stored in the bucket:
+  - If bucket empty #so packet waits.
+  - If bucket full #so tokens available for packets.
   - Unlike leaky bucket: data beyond capacity are *not lost but only delayed*.
   - Allows *packet bursts*: if tokens have accumulated, a burst can pass immediately.
   Models flows *history* via tokens as authorization for passing.
 ]
 #v(-1em)
 #analogy("Leaky vs Token Bucket")[
-  Leaky bucket: a bucket with a hole; water (packets) drips out at a constant rate regardless of input. If too much comes in, it overflows (drops). Token bucket: a ticket machine where you need a ticket (token) to send a packet. Tokens accumulate when traffic is low, allowing bursts when traffic spikes.
+  Leaky bucket: a bucket with a hole; water (packets) drips out at a constant rate regardless of input. If too much comes in, it overflows (drops).\
+  Token bucket: a ticket machine where you need a ticket (token) to send a packet. Tokens accumulate when traffic is low, allowing bursts when traffic spikes.
 ]
 #v(-1em)
 #note[
-  Often leaky bucket and token bucket are used in *serial chain*. The token bucket allows bursts; the leaky bucket smooths the output.
+  Often leaky bucket and token bucket are used in *serial chain*. The token bucket allows bursts, while the leaky bucket smooths the output.
 ]
+
+#figure(
+  image("../assets/leaky-token-bucket.jpg"),
+  caption: [Leaky bucket (left) vs. token bucket (right).]
+)
 
 === Scheduling Policies
 
@@ -467,11 +548,28 @@ The standard Internet router (best-effort) executes for every packet:
 ==== Max-Min Fairness and GPS
 
 #def("Max-Min Fairness")[
-  General strategy: requests of different resources by different flows considered *in order of growing request* (first the ones that require less). Allocates to flow n: $m_n = min(X_n, M_n)$ where $M_n = (C - sum_{i=1}^{n-1} m_i) / (N - n + 1)$. Scaling down done only in lack of resources.
+  General strategy: requests of different resources by different flows considered *in order of growing request* (first the ones that require less). Allocates to flow n: 
+  $
+  m_n = min(X_n, M_n) space.quad space.quad M_n = (C - sum_(i=1)^(n-1) m_i) / (N - n + 1),
+  $
+  where:
+  - $C$ is the global max capacity of resources,
+  - $X_n$ are resources request by flow$space.hair_n$ ($X_1<X_2<...<X_N$),
+  - $m_n$ are previously allocated resources with success to flow$space.hair_n$,
+  - $M_n$ are available resources for flow$space.hair_n$
+  Scaling down done only in lack of resources.
 ]
 #v(-1em)
-#def("GPS: Generalized Processor Scheduling")[
+#note[
+  It is also possible to consider different weights for different flows.
+]
+#v(-0.5em)
+#def("GPS: Generalized Processor Scheduling Fluid Model")[
   *Fluid traffic model*: answers service requests one at a time in a very fair Round Robin order: serves only *one bit per flow* per round. Theoretically optimal for service scheduling, but *not implementable* in reality (can only serve packets, not bits). All practical policies are approximations of GPS.
+]
+#v(-1em)
+#note[
+  GPS is not implemented in reality.
 ]
 
 ==== Round Robin Variants
@@ -489,11 +587,20 @@ The standard Internet router (best-effort) executes for every packet:
   - More suitable and simple to implement: available on all routers including low-cost.
   - *Weighted Fair Queuing (WFQ)*: different weights associated to different flows.
 ]
+#extra[
+  - *GPS (Theoretical Fluid Model):* Serves queues simultaneously *per-bit* (like water splitting into parallel pipes). It provides perfect, instantaneous fairness but is physically impossible on real packet-switched hardware.
+  - *FQ (Practical Packet Model):* Emulates GPS by transmitting *one full packet at a time*. It runs a virtual GPS clock in the background and tags each incoming packet with its *virtual finishing time* (when it would finish service under GPS). The router then outputs packets sorted by the lowest tag first.
+]
+
+#figure(
+  image("../assets/fair-queuing.jpg", width: 70%),
+  caption: [Fair queuing example.]
+)
 
 === Congestion Prevention
 
 #def("RED: Random Early Detection")[
-  #kw[RED] is a *proactive* congestion prevention policy: a queue for every flow, queues with equal priority. Randomly discards packets *before* congestion occurs, based on queue length:
+  #kw[RED] is a *#underline[proactive]* congestion prevention policy: a queue for every flow, queues with equal priority. Randomly discards packets *before* congestion occurs, based on queue length:
   - Queue < minimum threshold: no action.
   - Queue > maximum threshold: all new packets discarded.
   - Otherwise: discard with *probability proportional to queue length*.

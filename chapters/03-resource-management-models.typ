@@ -134,6 +134,13 @@ Systems are extremely varied in requirements. There is no magic recipe. The desi
 
 - #hl[*Static (out-of-band)*]: decisions taken *before* execution. Complex algorithms are feasible here (no runtime cost).
 - #hl[*Dynamic (in-band)*]: decisions taken *during* execution. #hl[Must be fast and lightweight] to not interfere.
+#v(-0.5em)
+#important("In-band vs Out-of-band")[
+  The terms come from signaling: control work can travel on the *same channel as the data* (in-band) or on a *separate channel* (out-of-band).
+  - #hl[*Out-of-band*]: done *outside* the live service, on a separate path or *before* execution starts. It does not compete with the running application, so it can afford slow and complex algorithms.
+  - #hl[*In-band*]: done *inside* the live service, sharing the *same resources as the real traffic*. It competes with the application, so it must stay fast and lightweight.
+  This is exactly why *static* work is out-of-band and *dynamic* work is in-band.
+]
 
 Concurrency among services and management actions can introduce overhead, but also allows *load balancing* that improves average performance.
 

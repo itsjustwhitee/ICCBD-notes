@@ -173,6 +173,10 @@ Available namespace types:
 
 By #hl[combining namespaces] a container gets an #hl[isolated view of the world] while
 still sharing the *same kernel* as other containers.
+#v(-0.7em)
+#note[
+  Full isolation is only the *default*. A container can also *share* a namespace with the host or with another container when that is useful. A monitoring agent that must see the host processes is given the *same PID namespace*, and the containers of a Kubernetes Pod share one *NET namespace* so they reach each other on `localhost`.
+]
 #extra[
   Under the hood, namespaces work by decoupling a process from the global system tables and mapping its execution to private kernel pointers tree structuring links. Every node can see only itself. This abstraction enables dynamic translations, most notably within the `PID` namespace, where the main containerized process is assigned *PID 1* inside its isolated scope—behaving like the system init process—while the host OS simultaneously tracks it using a standard global PID. Similarly, the network stack isolation enforced by the `NET` namespace is bridged to the physical world by creating a virtual ethernet pair (`veth`), which acts as a software patch cord routing traffic between the container's private stack and the host's network bridge.
 ]
@@ -224,7 +228,12 @@ Key controllers:
 #important("Container vs VM")[
   - *VMs* virtualize hardware: each VM runs a full OS on a hypervisor. Strong isolation, heavy overhead.
   - *Containers* virtualize the OS user space: all containers share the host kernel. Much lighter, faster startup (seconds vs. minutes), but isolation is weaker than a VM.
+  - *No emulation*: because a container shares the host kernel, it *cannot present hardware the host lacks* (a different CPU architecture, an absent GPU). A VM can, because it virtualizes the hardware itself. This is the line between *virtualization* (same architecture, shared efficiently) and *emulation* (different architecture, reproduced in software).
   - *Bare processes*: no isolation at all, no resource limits, no reproducible environment.
+]
+#v(-1em)
+#note[
+  The container-vs-VM line is blurring. *MicroVMs* such as AWS *Firecracker* run each workload in a stripped-down virtual machine, giving *VM-grade isolation at almost container speed and density*. AWS Lambda and Fargate use them to run untrusted code safely.
 ]
 
 #important("Why Containers for Microservices")[

@@ -433,6 +433,15 @@ Key extensions:
 
   *Service Models*: SaaS, PaaS, IaaS.
 ]
+#v(-0.7em)
+#prop("NIST Cloud Actors")[
+  The NIST reference architecture also names *five actors* in a cloud ecosystem:
+  - *Consumer*: uses the service.
+  - *Provider*: offers and runs the service.
+  - *Auditor*: an independent third party that assesses the service (security, performance, compliance).
+  - *Broker*: mediates between providers, and between provider and consumer, integrating or repackaging services.
+  - *Carrier*: provides the connectivity (network transport) that links consumer and provider.
+]
 
 *Deployment Models*:
 #v(-0.8em)

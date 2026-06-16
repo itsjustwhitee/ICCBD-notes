@@ -1,109 +1,210 @@
-<svg viewBox="0 0 620 340" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="10">
-
-  <!-- Title -->
-  <text x="310" y="18" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">QoS Models: IntServ vs DiffServ</text>
-
-  <!-- ===== INTSERV (left panel) ===== -->
-  <rect x="10" y="28" width="290" height="295" rx="8" fill="#f0fff4" stroke="#28a745" stroke-width="1.5"/>
-  <text x="155" y="48" text-anchor="middle" font-size="12" font-weight="bold" fill="#155724">IntServ (per-flow)</text>
-  <text x="155" y="62" text-anchor="middle" font-size="9" fill="#555">RFC 2210 — Hop-by-hop reservation</text>
-
-  <!-- Sender -->
-  <rect x="100" y="70" width="110" height="24" rx="4" fill="#cce5ff" stroke="#4a90d9" stroke-width="1"/>
-  <text x="155" y="86" text-anchor="middle" font-weight="bold" fill="#1a4a80">Sender (emitter)</text>
-
-  <!-- RSVP Path arrow down -->
-  <line x1="155" y1="94" x2="155" y2="120" stroke="#28a745" stroke-width="1.5" marker-end="url(#ag)"/>
-  <text x="170" y="113" font-size="8" fill="#155724">RSVP Path</text>
-
-  <!-- Router 1 -->
-  <rect x="80" y="120" width="150" height="24" rx="4" fill="#d4edda" stroke="#28a745" stroke-width="1.2"/>
-  <text x="155" y="136" text-anchor="middle" font-size="10" fill="#155724">Router 1 (reserves resources)</text>
-
-  <!-- Arrow -->
-  <line x1="155" y1="144" x2="155" y2="168" stroke="#28a745" stroke-width="1.5" marker-end="url(#ag)"/>
-
-  <!-- Router 2 -->
-  <rect x="80" y="168" width="150" height="24" rx="4" fill="#d4edda" stroke="#28a745" stroke-width="1.2"/>
-  <text x="155" y="184" text-anchor="middle" font-size="10" fill="#155724">Router 2 (reserves resources)</text>
-
-  <!-- Arrow -->
-  <line x1="155" y1="192" x2="155" y2="216" stroke="#28a745" stroke-width="1.5" marker-end="url(#ag)"/>
-
-  <!-- Receiver -->
-  <rect x="100" y="216" width="110" height="24" rx="4" fill="#cce5ff" stroke="#4a90d9" stroke-width="1"/>
-  <text x="155" y="232" text-anchor="middle" font-weight="bold" fill="#1a4a80">Receiver</text>
-
-  <!-- Resv back arrow -->
-  <line x1="130" y1="216" x2="130" y2="94" stroke="#4a90d9" stroke-width="1" stroke-dasharray="4,2" marker-end="url(#ab)"/>
-  <text x="80" y="165" font-size="8" fill="#4a90d9">RSVP Resv</text>
-  <text x="80" y="175" font-size="8" fill="#4a90d9">(soft-state)</text>
-
-  <!-- Protocols box -->
-  <rect x="18" y="250" width="272" height="62" rx="4" fill="#fff3cd" stroke="#f0ad4e" stroke-width="0.8"/>
-  <text x="154" y="265" text-anchor="middle" font-size="9" font-weight="bold" fill="#7d5a00">Suite: RSVP + RTP + RTCP</text>
-  <text x="154" y="278" text-anchor="middle" font-size="9" fill="#7d5a00">+ Fine-grained per-flow SLA</text>
-  <text x="154" y="291" text-anchor="middle" font-size="9" fill="#7d5a00">- Scales poorly (state per flow per router)</text>
-  <text x="154" y="304" text-anchor="middle" font-size="9" fill="#7d5a00">Best for: small controlled networks</text>
-
-  <!-- ===== DIFFSERV (right panel) ===== -->
-  <rect x="320" y="28" width="290" height="295" rx="8" fill="#e8f4ff" stroke="#4a90d9" stroke-width="1.5"/>
-  <text x="465" y="48" text-anchor="middle" font-size="12" font-weight="bold" fill="#1a4a80">DiffServ (per-class)</text>
-  <text x="465" y="62" text-anchor="middle" font-size="9" fill="#555">RFC 2474/2475 — Aggregate classes</text>
-
-  <!-- Ingress router / classifier -->
-  <rect x="355" y="70" width="220" height="24" rx="4" fill="#cce5ff" stroke="#4a90d9" stroke-width="1"/>
-  <text x="465" y="86" text-anchor="middle" font-weight="bold" fill="#1a4a80">Ingress Router (Classifier + Marker)</text>
-
-  <!-- Three queues -->
-  <line x1="400" y1="94" x2="370" y2="118" stroke="#4a90d9" stroke-width="1.5" marker-end="url(#ab)"/>
-  <line x1="465" y1="94" x2="465" y2="118" stroke="#4a90d9" stroke-width="1.5" marker-end="url(#ab)"/>
-  <line x1="530" y1="94" x2="560" y2="118" stroke="#4a90d9" stroke-width="1.5" marker-end="url(#ab)"/>
-
-  <!-- Gold queue -->
-  <rect x="330" y="118" width="80" height="24" rx="4" fill="#ffd700" stroke="#b8860b" stroke-width="1"/>
-  <text x="370" y="134" text-anchor="middle" font-size="9" font-weight="bold" fill="#5a4000">Gold (70%)</text>
-
-  <!-- Silver queue -->
-  <rect x="425" y="118" width="80" height="24" rx="4" fill="#c0c0c0" stroke="#708090" stroke-width="1"/>
-  <text x="465" y="134" text-anchor="middle" font-size="9" font-weight="bold" fill="#333">Silver (20%)</text>
-
-  <!-- Bronze queue -->
-  <rect x="520" y="118" width="80" height="24" rx="4" fill="#cd7f32" stroke="#8b5a00" stroke-width="1"/>
-  <text x="560" y="134" text-anchor="middle" font-size="9" font-weight="bold" fill="#fff">Bronze (10%)</text>
-
-  <!-- PHB annotation -->
-  <text x="465" y="158" text-anchor="middle" font-size="9" fill="#333" font-style="italic">Per-Hop Behavior (PHB) at each router</text>
-
-  <!-- Core routers -->
-  <line x1="370" y1="142" x2="430" y2="165" stroke="#555" stroke-width="1" marker-end="url(#ag)"/>
-  <line x1="465" y1="142" x2="465" y2="165" stroke="#555" stroke-width="1" marker-end="url(#ag)"/>
-  <line x1="560" y1="142" x2="500" y2="165" stroke="#555" stroke-width="1" marker-end="url(#ag)"/>
-
-  <rect x="370" y="165" width="190" height="24" rx="4" fill="#d4edda" stroke="#28a745" stroke-width="1.2"/>
-  <text x="465" y="181" text-anchor="middle" font-size="10" fill="#155724">Core Routers (classify by DS byte)</text>
-
-  <!-- Arrow to egress -->
-  <line x1="465" y1="189" x2="465" y2="213" stroke="#28a745" stroke-width="1.5" marker-end="url(#ag)"/>
-
-  <!-- Egress -->
-  <rect x="380" y="213" width="170" height="24" rx="4" fill="#cce5ff" stroke="#4a90d9" stroke-width="1"/>
-  <text x="465" y="229" text-anchor="middle" font-weight="bold" fill="#1a4a80">Egress Router / Receiver</text>
-
-  <!-- Notes box -->
-  <rect x="328" y="250" width="272" height="62" rx="4" fill="#fff3cd" stroke="#f0ad4e" stroke-width="0.8"/>
-  <text x="464" y="265" text-anchor="middle" font-size="9" font-weight="bold" fill="#7d5a00">EF (Expedited): low loss/delay/jitter</text>
-  <text x="464" y="278" text-anchor="middle" font-size="9" fill="#7d5a00">AF (Assured): 4 classes × 3 drop levels</text>
-  <text x="464" y="291" text-anchor="middle" font-size="9" fill="#7d5a00">+ Scalable, works with legacy apps</text>
-  <text x="464" y="304" text-anchor="middle" font-size="9" fill="#7d5a00">Best for: wide-area / ISP networks</text>
-
-  <!-- Markers -->
-  <defs>
-    <marker id="ag" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
-      <path d="M0,0 L0,6 L7,3 z" fill="#28a745"/>
-    </marker>
-    <marker id="ab" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
-      <path d="M0,0 L0,6 L7,3 z" fill="#4a90d9"/>
-    </marker>
-  </defs>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 606 299" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;">
+    <g transform="matrix(1,0,0,1,-7,-26)">
+        <path d="M300,36L300,315C300,319.415 296.415,323 292,323L18,323C13.585,323 10,319.415 10,315L10,36C10,31.585 13.585,28 18,28L292,28C296.415,28 300,31.585 300,36Z" style="fill:rgb(240,255,244);stroke:rgb(40,167,69);stroke-width:1.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,148,22)">
+        <g transform="matrix(12,0,0,12,21.345703,0)">
+        </g>
+        <g transform="matrix(12,0,0,12,25.341797,0)">
+        </g>
+        <text x="-49.336px" y="0px" style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:12px;fill:rgb(21,87,36);">IntServ (per-ﬂow)</text>
+    </g>
+    <g transform="matrix(1,0,0,1,148,36)">
+        <text x="-74.533px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:9px;fill:rgb(85,85,85);">RFC 2210 — Hop-by-hop reservation</text>
+    </g>
+    <g transform="matrix(1,0,0,1,-7,-26)">
+        <path d="M210,74L210,90C210,92.208 208.208,94 206,94L104,94C101.792,94 100,92.208 100,90L100,74C100,71.792 101.792,70 104,70L206,70C208.208,70 210,71.792 210,74Z" style="fill:rgb(204,229,255);stroke:rgb(74,144,217);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,148,60)">
+        <text x="-38.342px" y="0px" style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:10px;fill:rgb(26,74,128);">Sender (emitter)</text>
+    </g>
+    <g transform="matrix(1,0,0,1,-18.490423,-26)">
+        <path d="M155,94L155,120" style="fill:none;fill-rule:nonzero;"/>
+        <g transform="matrix(1,-0,-0,1,18.490423,26)">
+            <path d="M139.885,71.151L136.51,68.901L133.135,71.151" style="fill:none;fill-rule:nonzero;stroke:rgb(216,167,94);stroke-width:1.5px;stroke-linecap:round;stroke-miterlimit:10;"/>
+            <path d="M136.51,68.901L136.51,94" style="fill:none;fill-rule:nonzero;stroke:rgb(216,167,94);stroke-width:1.5px;stroke-linecap:round;"/>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,166.027474,83.863281)">
+        <text x="0px" y="0px" style="font-family:'Arial-ItalicMT', 'Arial', sans-serif;font-style:italic;font-size:8px;fill:rgb(185,93,111);">RSVP<tspan x="21.488px 23.711px " y="0px 0px "> P</tspan>ath</text>
+    </g>
+    <g transform="matrix(1,0,0,1,-7,-26)">
+        <path d="M230,124L230,140C230,142.208 228.208,144 226,144L84,144C81.792,144 80,142.208 80,140L80,124C80,121.792 81.792,120 84,120L226,120C228.208,120 230,121.792 230,124Z" style="fill:rgb(212,237,218);stroke:rgb(40,167,69);stroke-width:1.2px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,-18.490423,-26)">
+        <path d="M155,144L155,168" style="fill:none;fill-rule:nonzero;"/>
+        <g transform="matrix(1,-0,-0,1,18.490423,26)">
+            <path d="M139.885,121.151L136.51,118.901L133.135,121.151" style="fill:none;fill-rule:nonzero;stroke:rgb(216,167,94);stroke-width:1.5px;stroke-linecap:round;stroke-miterlimit:10;"/>
+            <path d="M136.51,118.901L136.51,142" style="fill:none;fill-rule:nonzero;stroke:rgb(216,167,94);stroke-width:1.5px;stroke-linecap:round;"/>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,147.787598,108.587891)">
+        <text x="-66.411px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:10px;fill:rgb(21,87,36);">Router 1 (reserves resources)</text>
+    </g>
+    <g transform="matrix(1,0,0,1,-7,-26)">
+        <path d="M230,172L230,188C230,190.208 228.208,192 226,192L84,192C81.792,192 80,190.208 80,188L80,172C80,169.792 81.792,168 84,168L226,168C228.208,168 230,169.792 230,172Z" style="fill:rgb(212,237,218);stroke:rgb(40,167,69);stroke-width:1.2px;"/>
+    </g>
+    <g transform="matrix(1,0,0,0.945102,8,-16.777098)">
+        <path d="M155,144L155,168" style="fill:none;fill-rule:nonzero;"/>
+        <g transform="matrix(1,-0,-0,1.058087,-8,17.751632)">
+            <path d="M166.284,138.934L163,141.123L159.716,138.934" style="fill:none;fill-rule:nonzero;stroke:rgb(167,40,67);stroke-width:1.46px;stroke-linecap:round;stroke-miterlimit:10;"/>
+            <path d="M163,119.318L163,141.123" style="fill:none;fill-rule:nonzero;stroke:rgb(167,40,67);stroke-width:1.46px;stroke-linecap:round;"/>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,150.019348,156.587891)">
+        <text x="-66.411px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:10px;fill:rgb(21,87,36);">Router 2 (reserves resources)</text>
+    </g>
+    <g transform="matrix(1,0,0,0.958267,8,-20.99209)">
+        <path d="M155,94L155,120" style="fill:none;fill-rule:nonzero;"/>
+        <g transform="matrix(1,-0,-0,1.04355,-8,21.906296)">
+            <path d="M166.305,90.914L163,93.117L159.695,90.914" style="fill:none;fill-rule:nonzero;stroke:rgb(167,40,67);stroke-width:1.47px;stroke-linecap:round;stroke-miterlimit:10;"/>
+            <path d="M163,69.085L163,93.117" style="fill:none;fill-rule:nonzero;stroke:rgb(167,40,67);stroke-width:1.47px;stroke-linecap:round;"/>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,0.945102,8,-14.141984)">
+        <path d="M155,192L155,216" style="fill:none;fill-rule:nonzero;"/>
+        <g transform="matrix(1,-0,-0,1.058087,-8,14.963451)">
+            <path d="M166.284,186.934L163,189.123L159.716,186.934" style="fill:none;fill-rule:nonzero;stroke:rgb(167,40,67);stroke-width:1.46px;stroke-linecap:round;stroke-miterlimit:10;"/>
+            <path d="M163,167.318L163,189.123" style="fill:none;fill-rule:nonzero;stroke:rgb(167,40,67);stroke-width:1.46px;stroke-linecap:round;"/>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,-18.490423,-26)">
+        <path d="M155,192L155,216" style="fill:none;fill-rule:nonzero;"/>
+        <g transform="matrix(1,-0,-0,1,18.490423,26)">
+            <path d="M139.885,169.151L136.51,166.901L133.135,169.151" style="fill:none;fill-rule:nonzero;stroke:rgb(216,167,94);stroke-width:1.5px;stroke-linecap:round;stroke-miterlimit:10;"/>
+            <path d="M136.51,166.901L136.51,190" style="fill:none;fill-rule:nonzero;stroke:rgb(216,167,94);stroke-width:1.5px;stroke-linecap:round;"/>
+        </g>
+    </g>
+    <g transform="matrix(1,0,0,1,-7,-26)">
+        <path d="M210,220L210,236C210,238.208 208.208,240 206,240L104,240C101.792,240 100,238.208 100,236L100,220C100,217.792 101.792,216 104,216L206,216C208.208,216 210,217.792 210,220Z" style="fill:rgb(204,229,255);stroke:rgb(74,144,217);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,148,206)">
+        <text x="-20.85px" y="0px" style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:10px;fill:rgb(26,74,128);">Receiver</text>
+    </g>
+    <g transform="matrix(1,0,0,1,90.862115,181.233299)">
+        <text x="0px" y="0px" style="font-family:'Arial-ItalicMT', 'Arial', sans-serif;font-style:italic;font-size:8px;fill:rgb(216,167,94);">RSVP<tspan x="21.488px 23.711px " y="0px 0px "> R</tspan>esv</text>
+    </g>
+    <g transform="matrix(0.688431,0,0,0.688431,136.998271,163.148193)">
+        <text x="0px" y="0px" style="font-family:'Arial-ItalicMT', 'Arial', sans-serif;font-style:italic;font-size:8px;fill:rgb(89,111,134);">(soft-state)</text>
+    </g>
+    <g transform="matrix(0.688431,0,0,0.688431,136.998271,114.701958)">
+        <text x="0px" y="0px" style="font-family:'Arial-ItalicMT', 'Arial', sans-serif;font-style:italic;font-size:8px;fill:rgb(89,111,134);">(soft-state)</text>
+    </g>
+    <g transform="matrix(1,0,0,1,-7,-26)">
+        <path d="M290,254L290,308C290,310.208 288.208,312 286,312L22,312C19.792,312 18,310.208 18,308L18,254C18,251.792 19.792,250 22,250L286,250C288.208,250 290,251.792 290,254Z" style="fill:rgb(255,243,205);stroke:rgb(240,173,78);stroke-width:0.8px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,147,239)">
+        <text x="-57.349px" y="0px" style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:9px;fill:rgb(125,90,0);">Suite: RSVP<tspan x="-5.502px -3.001px " y="0px 0px "> +</tspan> RTP<tspan x="22.592px 25.093px " y="0px 0px "> +</tspan> RTCP</text>
+    </g>
+    <g transform="matrix(1,0,0,1,147,252)">
+        <g transform="matrix(9,0,0,9,20.636719,0)">
+        </g>
+        <g transform="matrix(9,0,0,9,23.137207,0)">
+        </g>
+        <text x="-56.153px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:9px;fill:rgb(125,90,0);">+ Fine-grained per-ﬂow SLA</text>
+    </g>
+    <g transform="matrix(1,0,0,1,147,265)">
+        <g transform="matrix(9,0,0,9,21.010254,0)">
+        </g>
+        <g transform="matrix(9,0,0,9,23.510742,0)">
+        </g>
+        <text x="-81.532px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:9px;fill:rgb(125,90,0);">- Scales poorly (state per ﬂow per router)</text>
+    </g>
+    <g transform="matrix(1,0,0,1,147,278)">
+        <text x="-68.526px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:9px;fill:rgb(125,90,0);">Best for: small controlled networks</text>
+    </g>
+    <g transform="matrix(1,0,0,1,-7,-26)">
+        <path d="M610,36L610,315C610,319.415 606.415,323 602,323L328,323C323.585,323 320,319.415 320,315L320,36C320,31.585 323.585,28 328,28L602,28C606.415,28 610,31.585 610,36Z" style="fill:rgb(232,244,255);stroke:rgb(74,144,217);stroke-width:1.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,458,22)">
+        <g transform="matrix(12,0,0,12,-42.873047,0)">
+        </g>
+        <g transform="matrix(12,0,0,12,-39.023438,0)">
+        </g>
+        <text x="-54.873px" y="0px" style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:12px;fill:rgb(26,74,128);">DiﬀServ (per-class)</text>
+    </g>
+    <g transform="matrix(1,0,0,1,458,36)">
+        <text x="-75.544px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:9px;fill:rgb(85,85,85);">RFC 2474/2475 — <tspan x="1.501px 7.504px " y="0px 0px ">Ag</tspan>gregate classes</text>
+    </g>
+    <g transform="matrix(1,0,0,1,-7,-26)">
+        <path d="M575,74L575,90C575,92.208 573.208,94 571,94L359,94C356.792,94 355,92.208 355,90L355,74C355,71.792 356.792,70 359,70L571,70C573.208,70 575,71.792 575,74Z" style="fill:rgb(204,229,255);stroke:rgb(74,144,217);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,458,60)">
+        <g transform="matrix(10,0,0,10,21.52832,0)">
+        </g>
+        <g transform="matrix(10,0,0,10,24.858398,0)">
+        </g>
+        <text x="-84.614px" y="0px" style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:10px;fill:rgb(26,74,128);">Ingress Router (Classiﬁer + Marker)</text>
+    </g>
+    <g transform="matrix(1,0,0,1,-7,-26)">
+        <path d="M400,94L370,118" style="fill:none;fill-rule:nonzero;stroke:rgb(74,144,217);stroke-width:1.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,-7,-26)">
+        <path d="M465,94L465,118" style="fill:none;fill-rule:nonzero;stroke:rgb(74,144,217);stroke-width:1.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,-7,-26)">
+        <path d="M530,94L560,118" style="fill:none;fill-rule:nonzero;stroke:rgb(74,144,217);stroke-width:1.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,-7,-26)">
+        <path d="M410,122L410,138C410,140.208 408.208,142 406,142L334,142C331.792,142 330,140.208 330,138L330,122C330,119.792 331.792,118 334,118L406,118C408.208,118 410,119.792 410,122Z" style="fill:rgb(255,215,0);stroke:rgb(184,134,11);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,363.017578,107.329102)">
+        <text x="-23.502px" y="0px" style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:9px;fill:rgb(90,64,0);">Gold (70%)</text>
+    </g>
+    <g transform="matrix(1,0,0,1,-7,-26)">
+        <path d="M505,122L505,138C505,140.208 503.208,142 501,142L429,142C426.792,142 425,140.208 425,138L425,122C425,119.792 426.792,118 429,118L501,118C503.208,118 505,119.792 505,122Z" style="fill:rgb(192,192,192);stroke:rgb(112,128,144);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,458.070312,107.329102)">
+        <text x="-25.512px" y="0px" style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:9px;fill:rgb(51,51,51);">Silver (20%)</text>
+    </g>
+    <g transform="matrix(1,0,0,1,-7,-26)">
+        <path d="M600,122L600,138C600,140.208 598.208,142 596,142L524,142C521.792,142 520,140.208 520,138L520,122C520,119.792 521.792,118 524,118L596,118C598.208,118 600,119.792 600,122Z" style="fill:rgb(205,127,50);stroke:rgb(139,90,0);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,552.90332,107.329102)">
+        <text x="-28.505px" y="0px" style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:9px;fill:white;">Bronze (10%)</text>
+    </g>
+    <g transform="matrix(1,0,0,1,-7,-26)">
+        <path d="M370,142L430,165" style="fill:none;fill-rule:nonzero;stroke:rgb(85,85,85);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,-7,-26)">
+        <path d="M465,142L465,165" style="fill:none;fill-rule:nonzero;stroke:rgb(85,85,85);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,-7,-26)">
+        <path d="M560,142L500,165" style="fill:none;fill-rule:nonzero;stroke:rgb(85,85,85);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,-7,-26)">
+        <path d="M560,169L560,185C560,187.208 558.208,189 556,189L374,189C371.792,189 370,187.208 370,185L370,169C370,166.792 371.792,165 374,165L556,165C558.208,165 560,166.792 560,169Z" style="fill:rgb(212,237,218);stroke:rgb(40,167,69);stroke-width:1.2px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,456.618286,159.680127)">
+        <text x="-51.266px" y="0px" style="font-family:'Arial-ItalicMT', 'Arial', sans-serif;font-style:italic;font-size:5.9px;fill:rgb(51,51,51);">Per<tspan x="-42.192px -40.227px " y="0px 0px ">-H</tspan>op Behavior (PHB) at each router</text>
+    </g>
+    <g transform="matrix(1,0,0,1,457.931641,151.280273)">
+        <text x="-76.689px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:10px;fill:rgb(21,87,36);">Core Routers (classify by DS byte)</text>
+    </g>
+    <g transform="matrix(1,0,0,1,-7,-26)">
+        <path d="M465,189L465,213" style="fill:none;fill-rule:nonzero;stroke:rgb(40,167,69);stroke-width:1.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,-7,-26)">
+        <path d="M550,217L550,233C550,235.208 548.208,237 546,237L384,237C381.792,237 380,235.208 380,233L380,217C380,214.792 381.792,213 384,213L546,213C548.208,213 550,214.792 550,217Z" style="fill:rgb(204,229,255);stroke:rgb(74,144,217);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,458,203)">
+        <text x="-59.194px" y="0px" style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:10px;fill:rgb(26,74,128);">Egress Router / Receiver</text>
+    </g>
+    <g transform="matrix(1,0,0,1,-7,-26)">
+        <path d="M600,254L600,308C600,310.208 598.208,312 596,312L332,312C329.792,312 328,310.208 328,308L328,254C328,251.792 329.792,250 332,250L596,250C598.208,250 600,251.792 600,254Z" style="fill:rgb(255,243,205);stroke:rgb(240,173,78);stroke-width:0.8px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,457,239)">
+        <text x="-75.764px" y="0px" style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:9px;fill:rgb(125,90,0);">EF (Expedited): low loss/delay/jitter</text>
+    </g>
+    <g transform="matrix(1,0,0,1,457,252)">
+        <text x="-78.407px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:9px;fill:rgb(125,90,0);">AF (Assured): 4 classes × 3 drop levels</text>
+    </g>
+    <g transform="matrix(1,0,0,1,457,265)">
+        <text x="-69.91px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:9px;fill:rgb(125,90,0);">+ Scalable, works with legacy apps</text>
+    </g>
+    <g transform="matrix(1,0,0,1,457,278)">
+        <text x="-67.946px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:9px;fill:rgb(125,90,0);">Best for: wide-area / ISP<tspan x="29.432px 31.933px " y="0px 0px "> n</tspan>etworks</text>
+    </g>
 </svg>

@@ -126,9 +126,7 @@ In a #hl[client/server interaction, both sides monitor each other]:
 
 The difficulty is that neither side can directly distinguish a crashed server from a very slow one, or a lost message from a delayed one. This ambiguity is why *fault assumptions* matter: by agreeing in advance on what kinds of faults can occur and how many simultaneously, designers can keep detection and recovery protocols tractable.
 
-The number of message retransmissions also determines how many faults can be masked: more retransmissions mean more fault coverage, but also higher latency and communication overhead in the normal case.
-
-#note[Fault tolerance design can be very intricate. Fault assumptions (explicit agreements about what can go wrong and how often) are the engineering tool that keeps the complexity manageable.]
+The number of message retransmissions also sets how many faults can be masked: more retransmissions mean more fault coverage, but also higher latency and overhead in the normal case.
 
 === Single Point of Failure (SPoF)
 
@@ -278,8 +276,6 @@ The goal is a *fail-safe* system that tolerates any single hardware fault:
 #v(-0.7em)
 #note[The cost is very high: double hardware, strict synchrony overhead. This makes TANDEM a special-purpose solution for mission-critical environments like banking and financial transaction processing.]
 
-#hl[Replication can follow two strategies: execute every action on *both* copies] simultaneously (active replication), #hl[or execute on *one* copy and use the other purely as a hot standby backup].
-
 === RAID: Redundant Array of Inexpensive Disks
 
 #def("RAID")[
@@ -336,19 +332,17 @@ Redundancy can suggest architectures to get a better QoS: *replication of proces
 
 === Abstract Unique Resource Model
 
-The #hl[#kw[replication degree] is the number of copies (*[\# copies]*) of the entity to replicate]. The greater the number of copies, the greater the redundancy. The better the reliability and availability. *The greater the cost and the overhead.*
+The #hl[#kw[replication degree] is the number of copies (*[\# copies]*) of the entity to replicate]. More copies mean more redundancy, so better reliability and availability, but also *more cost and overhead*.
 
-Two extreme models of FT architectures:
-1. *One only executes* (master-slave).
-2. *All execute* (copies are active and peer).
-
-With variations in between.
+The two extreme architectures are *master-slave* (one copy executes) and *active* (all copies execute as peers), with variations in between.
 
 === Replication Architectures: Passive Model (Master-Slave)
 
 #def("Passive Model (Master-Slave)")[
-  *Only one copy executes, the others are back-ups.* This is the first replication model well spread in industrial plants. The *master* is externally visible and manages the whole resource. The slaves must control the master for errors and faults.
+  *Only one copy executes, the others are back-ups.* This is the first replication model, widely used in industrial plants. The *master* is externally visible and manages the whole resource. The slaves watch the master for errors and faults.
 ]
+
+One *active process only* (the master) works on the data. The other copies become operational only when the master *fails*. *Only one copy is fresh*, the others may be stale (*cold* or *hot* copies), so on a failure with cold copies recovery must replay from the last saved state to rebuild the current one.
 
 Structure: MASTER #arrow CHECKPOINTING #arrow CONTROL (slaves observe).
 
@@ -359,20 +353,10 @@ Structure: MASTER #arrow CHECKPOINTING #arrow CONTROL (slaves observe).
 ]
 
 In *TMR* (Triple Modular Redundancy) *three copies* are used: we can tolerate on faults and can identify up to two faults. In software FT, different copies can use *different algorithms* toward the goal.
-=== Passive Replication Model
-
 #figure(
   image("../assets/replication-models.svg", width: 95%),
-  caption: "Passive (master-slave) vs. active (TMR) replication: trade-off between simplicity and fault masking strength."
+  caption: "Passive (master-slave) vs. active (TMR) replication: trade-off between simplicity and fault masking strength.",
 )
-
-
-The *passive model* (master/slave or primary/backup):
-- Has one *active process only* (the master or primary) actively executing over data; the other copies (passive ones or backups) become operational only in *case of failure* of the master.
-- *Only one copy is fresh and updated*; the others can also be obsolete in state and not updated (*cold* or *hot* copies).
-
-This mode can produce a possible conflict between the state of the master and the state of the slaves:
-- In case of a failure and cold copies, one must start repeating from the previous state, to produce the updated state.
 
 === Master-Slave: Architecture
 
@@ -485,23 +469,23 @@ To make clear the needs of different steps and one general workflow, we can mode
 
 === Phase 1: Client Request
 
-The client initiates the operation by sending its request to the replicated resource. It has two options: send to *one copy only* (a designated manager, which then internally forwards the request to all other replicas), or send directly to *all copies simultaneously*. Sending to one copy is simpler for the client but puts more coordination responsibility on that copy; sending to all is more robust against a single-copy failure at the cost of requiring the client to know the full replica set. Which copy acts as manager can be fixed at deployment time or elected dynamically per operation.
+The client sends its request to the replicated resource in one of two ways: to *one copy only* (a designated manager that then forwards it to the other replicas), or to *all copies at once*. Sending to one copy is simpler but loads that copy with the coordination. Sending to all is more robust to a single-copy failure, but the client must know the full replica set. The manager can be fixed at deployment time or elected per operation.
 
 === Phase 2: Copy Coordination
 
-Before executing, copies must coordinate to agree on *when and in which order to run* the operation. This is critical when multiple operations may be in flight simultaneously: without prior coordination, different replicas could apply concurrent operations in different orders, leading to divergent states. #hl[One copy acts as *manager* for this operation, proposing an execution schedule]. Copies may carry different weights (as in weighted quorum protocols) and play different roles. This is the *first coordination phase*.
+Before executing, copies must agree on *when and in what order to run* the operation. This matters when several operations are in flight at once: without coordination, different replicas could apply them in different orders and diverge. #hl[One copy acts as *manager* and proposes an execution schedule]. Copies may carry different weights (as in weighted quorum) and play different roles. This is the *first coordination phase*.
 
 === Phase 3: Copy Execution
 
-With coordination complete, copies actually run the operation. In an *active model*, all replicas execute independently and produce their own result; in a *passive model*, only the master executes while backups wait. Some local freedom may still exist: for instance, a copy may skip execution if it has already received the committed result from the manager. Conflicting executions due to concurrent overlapping operations are resolved here or corrected in the next phase.
+Now the copies run the operation. In an *active model* all replicas execute independently and produce their own result. In a *passive model* only the master executes while backups wait. A copy may have some local freedom, for example skipping execution if it already received the committed result from the manager. Conflicts from concurrent overlapping operations are resolved here or corrected in the next phase.
 
 === Phase 4: Copy Agreement
 
-#hl[After executing, all copies must agree on the *final result*] before it is delivered to the client. Some copies may have produced divergent outputs due to faults or concurrent operations from other managers. #hl[The group votes: if a quorum agrees on the same result, that becomes the committed answer]; divergent copies are excluded from the group and must be recovered and re-synchronized before they can rejoin. #hl[If agreement cannot be reached] (too many copies failed), #hl[the operation is rolled back]. This is the *second coordination phase*.
+#hl[After executing, all copies must agree on the *final result*] before it is delivered to the client. Some copies may have produced different outputs due to faults or to concurrent operations from other managers. #hl[The group votes: if a quorum agrees on the same result, that becomes the committed answer]. Divergent copies are dropped from the group and must be recovered and re-synchronized before they rejoin. #hl[If no agreement is reached] (too many copies failed), #hl[the operation is rolled back]. This is the *second coordination phase*.
 
 === Phase 5: Result Delivery
 
-Finally, the agreed result is returned to the waiting client. The preferred form is a *single unified answer*: the client should not need to know that replication exists. If the client sent its request to all copies directly in Phase 1, it may receive multiple identical responses and must accept the first valid one while discarding duplicates. Minimizing complexity on the client side is a key design goal.
+Finally, the agreed result is returned to the client. The preferred form is a *single unified answer*, so the client never needs to know replication exists. If the client sent its request to all copies in Phase 1, it may receive several identical responses and should accept the first valid one and discard the rest. Keeping the client side simple is a key design goal.
 
 === Observations on Active Copies Operations
 

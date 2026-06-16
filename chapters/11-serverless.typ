@@ -38,6 +38,10 @@ scheduling, scaling, isolation, and billing.
   - #hl[*Zero-scaling*] #swarrow cost is based on number of activations; idle functions cost nothing.
   - *Developer focuses only on business logic* #swarrow infrastructure is fully abstracted away.
 ]
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_What is serverless? General definition._]\
+  A cloud model where the *provider manages all the infrastructure*, resources are *allocated dynamically* by load, and you *pay per execution* (not for allocated resources). "It costs nothing if nobody uses it" (scale-to-zero). It differs from IaaS/PaaS in *granularity*: you pay per single function execution, not per VM or container.
+]
 
 === Serverless as BaaS + FaaS
 
@@ -175,6 +179,10 @@ Every FaaS platform must include #underline[at least] three components:
   image("../assets/faas-components.jpg",width: 60%),
   caption: [FaaS components.]
 )
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_What are the three elements of a serverless/FaaS architecture?_]\
+  *Trigger / Event Source*: the event that starts execution (HTTP, timer, queue message, DB event). *Controller*: receives the trigger and decides *where and how* to run the function (location transparency, scaling, lifecycle, async delivery). *Function Executor*: runs the function in an *isolated, reproducible* environment, like a container optimized for fast startup.
+]
 
 === The Trigger
 
@@ -200,6 +208,10 @@ Every FaaS platform must include #underline[at least] three components:
   - Delivery of events with different *QoS* levels.
   - #hl[*Load balancing* across function instances].
   - #hl[*Asynchronous delivery* via a MOM].
+]
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_Does it make sense to add a MOM to a FaaS architecture? What does it enable?_]\
+  Yes. A MOM (NATS, Kafka, RabbitMQ) decouples in *time and space* (the producer need not know the consumer's location or be active at the same time). Placed between event source and controller it adds: *spike absorption* (buffer), *delivery semantics* (at-least-once, exactly-once), *automatic retries* on executor failure, and *event persistence* for replay and debugging.
 ]
 
 === The Function Executor
@@ -310,6 +322,10 @@ Other composition examples:
   - *Facade pattern*: a single function aggregates multiple downstream APIs.
   - *Conditional chaining*: branches based on function output.
   - *Map-reduce*: parallel map functions feed a reduce stage.
+]
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_What is function chaining and function composition?_]\
+  *Function chaining* is *sequential*: each function's output is the next one's input, and if one fails the chain stops. *Function composition* is *parallel*: several functions run on different parts of the input and a final function aggregates the results. Chaining = dependent steps, composition = independent branches.
 ]
 
 === Example: E-Commerce Order Workflow
@@ -516,6 +532,10 @@ Suitable for edge, IoT, and single-node deployments.
   on Kubernetes. It simplifies deployment, scaling, and event-driven architectures.\
   *Knative is #underline[not a FaaS]*: it abstracts Kubernetes resources, exposing them as
   serverless workloads (microservices, not functions).
+]
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_What is Knative? How does it map onto Kubernetes? Trade-offs?_]\
+  Knative runs serverless workloads *on Kubernetes*. It is *not a pure FaaS*: it exposes K8s resources as serverless *Pods*, not ephemeral per-event functions. It uses *Serving* (autoscaler with scale-to-zero, controller via the Operator pattern, queue-proxy sidecar) and *Eventing*. Trade-offs vs pure FaaS: *slower cold start* (Pod startup), but *maximum control* (full K8s, any runtime). Scale-to-zero works, but with latency.
 ]
 #extra[
 Roles in the Knative ecosystem:

@@ -120,6 +120,10 @@ The three CAP combinations:
 - *CA* (Consistency + Availability): single-site or clustered databases. When a partition occurs, no work can go on and reconnection must be awaited.
 - *CP* (Consistency + Partition Tolerance): consistent even during partitions, but some requests may not get answers.
 - *AP* (Availability + Partition Tolerance): #hl[the Cloud choice]. Work during partitions, reconcile afterwards. DNS, web caches, and most internet-scale systems follow this.
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_I want something consistent and partition tolerant. Can I?_]\
+  Yes, that is a *CP* system. By CAP you get at most two of the three, so a CP system (like *RAFT/etcd*) keeps *consistency* during a partition by making the nodes without quorum *unavailable* (it sacrifices A). For strict consistency on top of Kubernetes: lock on etcd, or use a broker with exactly-once (Kafka transactions).
+]
 
 === Consistency: Two Perspectives
 

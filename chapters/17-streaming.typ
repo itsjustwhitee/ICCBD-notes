@@ -91,6 +91,10 @@ The core idea behind Spark Streaming is *discretization*: instead of processing 
 #analogy("Film Frames")[
   A cinema projects 24 still frames per second: your eye perceives smooth motion. Spark Streaming takes a continuous stream and "samples" it into mini-batches at fixed intervals, giving the illusion of real-time processing while reusing the well-understood batch machinery underneath.
 ]
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_What happens if Spark's window is too empty or too large?_]\
+  The window sets the interval over which data is aggregated. *Too small*: too few data points (statistically weak), high per-batch overhead, and small fluctuations look like spikes. *Too large*: high latency (less real-time), high memory, *back-pressure* if data arrives faster than it is processed, and more data lost on a crash. It is a trade-off between *latency* (small window) and *statistical accuracy* (large window).
+]
 
 === DStream: The Core Abstraction
 
@@ -282,4 +286,12 @@ The mechanism uses four steps:
 
 #note[
   The fundamental trade-off: Spark Streaming is *simpler* to reason about (batch semantics) and integrates naturally with the Spark ecosystem. Flink achieves *lower latency* and richer stateful processing but at the cost of more complex internals. For latency requirements of seconds, both work; for sub-second requirements, Flink is the right choice.
+]
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_Difference between Spark and Flink? Why is Flink more used for streaming?_]\
+  *Spark Streaming* uses *micro-batching*: records are grouped into batches of X seconds, so the minimum latency is the batch window (seconds). *Flink* is *true streaming*: it processes each record *as it arrives* (millisecond latency), with *permanent, always-active* functions waiting for data. Flink uses *distributed snapshots* (Chandy-Lamport) for exactly-once and keeps state explicitly. That is why Flink is preferred for real streaming.
+]
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_Difference between Flink and a serverless engine? Trade-offs?_]\
+  *Flink*: *permanent, always-active* functions, *no cold start*, predictable *millisecond* latency, *explicit persistent state*, but *fixed cost* (resources always allocated). *Serverless/FaaS*: *ephemeral* functions, *cold starts*, variable latency, *stateless* by default, but *pay-per-use* (can be zero when idle). Flink wins for *continuous high-frequency streams*, FaaS for *intermittent, bursty* workloads.
 ]

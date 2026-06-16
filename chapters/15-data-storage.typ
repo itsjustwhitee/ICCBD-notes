@@ -110,6 +110,10 @@ Traditional RDBMS store an *entire row together* on disk. NoSQL systems typicall
 #why("Why Column-Oriented Storage?")[
   Range searches *within a column* are fast: you do not need to fetch the entire database. For example: "Get all blog\_ids from the blog table updated in the past month": search the `last_updated` column, fetch corresponding `blog_id` column, without touching other columns. This dramatically reduces I/O for analytical workloads.
 ]
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_Difference between a column-oriented and a document-oriented database?_]\
+  *Column-oriented* (Cassandra) stores columns together, so reading one column touches only that column, ideal for *column range queries* and *write-heavy* loads. *Document-oriented* (MongoDB) stores a whole entity in one BSON/JSON document, so a *single read* returns it with no joins, ideal for *retrieving complete documents*. Both avoid joins.
+]
 
 == Cassandra
 
@@ -230,6 +234,10 @@ How it works: on insert, all hashed bits are set. On "check-if-present", return 
 
 #analogy("Bloom Filter")[
   Think of a bouncer with a list of VIPs. The bouncer occasionally lets in impostors (false positive), but *never* turns away a real VIP (no false negative). It is a probabilistic early rejection layer.
+]
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_How does data storing work in Cassandra?_]\
+  A distributed *column-oriented* store, *in-memory first*, with *no single point of failure*. Keys map to nodes on a *ring-based DHT* (consistent hashing). A write goes to the *commit log*, then the in-memory *Memtable*, later flushed to an *immutable SSTable* on disk (sorted by key). A *Bloom filter* avoids disk reads for absent keys. Consistency is *BASE* (eventually consistent), not ACID.
 ]
 
 === Compaction
@@ -415,6 +423,10 @@ Uses an *oplog (operation log)* for data sync:
 - *Strongly Consistent*: Read Preference is Primary
 - *Eventually Consistent*: Read Preference is Secondary (or Tertiary)
 - *CAP Theorem*: with Strong Consistency, under partition, MongoDB becomes write-unavailable (thereby ensuring consistency)
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_What happens if a partition grows too large in MongoDB? Is it a problem?_]\
+  MongoDB *shards* by a shard key. When a *chunk* grows too big it is handled automatically: *Splitting* (the chunk is split in two) and *Balancing* (the balancer migrates chunks from overloaded shards to lighter ones). It becomes a *problem* if the *shard key is poor* (e.g. a monotonic timestamp sends every new chunk to one shard, a hot-spot) or if balancing floods the network. The shard key *cannot be changed* after the collection is sharded.
+]
 
 == ACID vs. BASE: A Fundamental Trade-Off
 

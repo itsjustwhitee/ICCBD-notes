@@ -1,111 +1,184 @@
-<svg viewBox="0 0 640 320" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="10">
-
-  <!-- Title -->
-  <text x="320" y="16" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">Spark Streaming vs Apache Flink</text>
-
-  <!-- ===== LEFT: SPARK STREAMING ===== -->
-  <rect x="10" y="28" width="300" height="278" rx="8" fill="#f0fff4" stroke="#28a745" stroke-width="1.5"/>
-  <text x="160" y="46" text-anchor="middle" font-size="12" font-weight="bold" fill="#155724">Spark Streaming (Micro-batching)</text>
-
-  <!-- Timeline bar -->
-  <rect x="25" y="60" width="270" height="14" rx="3" fill="#dee2e6" stroke="#adb5bd" stroke-width="0.5"/>
-  <text x="160" y="71" text-anchor="middle" font-size="8" fill="#555">Continuous input stream</text>
-
-  <!-- Micro-batches -->
-  <rect x="25"  y="82" width="52" height="30" rx="3" fill="#d4edda" stroke="#28a745" stroke-width="1"/>
-  <text x="51"  y="101" text-anchor="middle" font-size="8" font-weight="bold" fill="#155724">Batch t₁</text>
-  <rect x="83"  y="82" width="52" height="30" rx="3" fill="#d4edda" stroke="#28a745" stroke-width="1"/>
-  <text x="109" y="101" text-anchor="middle" font-size="8" font-weight="bold" fill="#155724">Batch t₂</text>
-  <rect x="141" y="82" width="52" height="30" rx="3" fill="#d4edda" stroke="#28a745" stroke-width="1"/>
-  <text x="167" y="101" text-anchor="middle" font-size="8" font-weight="bold" fill="#155724">Batch t₃</text>
-  <rect x="199" y="82" width="52" height="30" rx="3" fill="#d4edda" stroke="#28a745" stroke-width="1"/>
-  <text x="225" y="101" text-anchor="middle" font-size="8" font-weight="bold" fill="#155724">Batch t₄</text>
-  <rect x="257" y="82" width="38" height="30" rx="3" fill="#c3e6cb" stroke="#28a745" stroke-width="0.8" stroke-dasharray="3,2"/>
-  <text x="276" y="101" text-anchor="middle" font-size="7" fill="#888">...</text>
-
-  <!-- Bracket + label -->
-  <line x1="25" y1="118" x2="245" y2="118" stroke="#28a745" stroke-width="1"/>
-  <line x1="25" y1="114" x2="25" y2="122" stroke="#28a745" stroke-width="1"/>
-  <line x1="245" y1="114" x2="245" y2="122" stroke="#28a745" stroke-width="1"/>
-  <text x="135" y="131" text-anchor="middle" font-size="8" fill="#155724">Δt ≈ ½–1 second per batch</text>
-
-  <!-- Arrow down -->
-  <line x1="160" y1="134" x2="160" y2="152" stroke="#28a745" stroke-width="1.5" marker-end="url(#ag)"/>
-
-  <!-- Spark RDD box -->
-  <rect x="60" y="152" width="200" height="28" rx="4" fill="#cce5ff" stroke="#4a90d9" stroke-width="1.5"/>
-  <text x="160" y="170" text-anchor="middle" font-size="10" font-weight="bold" fill="#1a4a80">Spark Batch Engine (RDD)</text>
-
-  <!-- Arrow down -->
-  <line x1="160" y1="180" x2="160" y2="200" stroke="#28a745" stroke-width="1.5" marker-end="url(#ag)"/>
-
-  <!-- Output -->
-  <rect x="60" y="200" width="200" height="28" rx="4" fill="#e9ecef" stroke="#adb5bd" stroke-width="1"/>
-  <text x="160" y="218" text-anchor="middle" font-size="10" fill="#555">Results (HDFS / DB / dashboard)</text>
-
-  <!-- Properties -->
-  <rect x="18" y="240" width="280" height="56" rx="4" fill="#fff3cd" stroke="#f0ad4e" stroke-width="0.8"/>
-  <text x="158" y="256" text-anchor="middle" font-size="9" font-weight="bold" fill="#7d5a00">Properties</text>
-  <text x="158" y="270" text-anchor="middle" font-size="9" fill="#7d5a00">Latency: ~1 second</text>
-  <text x="158" y="283" text-anchor="middle" font-size="9" fill="#7d5a00">Fault tolerance: RDD lineage + replication</text>
-  <text x="158" y="296" text-anchor="middle" font-size="9" fill="#7d5a00">Exactly-once via batch atomicity</text>
-
-  <!-- ===== RIGHT: FLINK ===== -->
-  <rect x="330" y="28" width="300" height="278" rx="8" fill="#e8f4ff" stroke="#4a90d9" stroke-width="1.5"/>
-  <text x="480" y="46" text-anchor="middle" font-size="12" font-weight="bold" fill="#1a4a80">Apache Flink (True Streaming)</text>
-
-  <!-- Continuous stream -->
-  <rect x="345" y="60" width="270" height="14" rx="3" fill="#dee2e6" stroke="#adb5bd" stroke-width="0.5"/>
-  <text x="480" y="71" text-anchor="middle" font-size="8" fill="#555">Continuous input stream</text>
-
-  <!-- Events flowing one by one -->
-  <circle cx="358" cy="96" r="7" fill="#ffc107" stroke="#e65c00" stroke-width="1"/>
-  <text x="358" y="100" text-anchor="middle" font-size="7" fill="#7d3200">e1</text>
-  <circle cx="376" cy="96" r="7" fill="#ffc107" stroke="#e65c00" stroke-width="1"/>
-  <text x="376" y="100" text-anchor="middle" font-size="7" fill="#7d3200">e2</text>
-  <circle cx="394" cy="96" r="7" fill="#ffc107" stroke="#e65c00" stroke-width="1"/>
-  <text x="394" y="100" text-anchor="middle" font-size="7" fill="#7d3200">e3</text>
-  <!-- barrier -->
-  <line x1="408" y1="84" x2="408" y2="108" stroke="#e65c00" stroke-width="2"/>
-  <text x="408" y="78" text-anchor="middle" font-size="7" fill="#e65c00" font-weight="bold">||barrier</text>
-  <circle cx="422" cy="96" r="7" fill="#ffc107" stroke="#e65c00" stroke-width="1"/>
-  <text x="422" y="100" text-anchor="middle" font-size="7" fill="#7d3200">e4</text>
-  <circle cx="440" cy="96" r="7" fill="#ffc107" stroke="#e65c00" stroke-width="1"/>
-  <text x="440" y="100" text-anchor="middle" font-size="7" fill="#7d3200">e5</text>
-  <text x="465" y="100" text-anchor="start" font-size="8" fill="#888">→ continuous</text>
-
-  <!-- Arrow -->
-  <line x1="480" y1="112" x2="480" y2="130" stroke="#4a90d9" stroke-width="1.5" marker-end="url(#ab)"/>
-
-  <!-- TaskManager / Operator chain -->
-  <rect x="345" y="130" width="270" height="40" rx="4" fill="#d4edda" stroke="#28a745" stroke-width="1.5"/>
-  <text x="480" y="148" text-anchor="middle" font-size="9" font-weight="bold" fill="#155724">TaskManager: chained operators</text>
-  <text x="480" y="161" text-anchor="middle" font-size="8" fill="#155724">Source → Filter → Map → Agg (pipelined, in-thread)</text>
-
-  <!-- Arrow -->
-  <line x1="480" y1="170" x2="480" y2="190" stroke="#4a90d9" stroke-width="1.5" marker-end="url(#ab)"/>
-
-  <!-- Snapshot / checkpoint -->
-  <rect x="370" y="190" width="220" height="28" rx="4" fill="#ffe0cc" stroke="#e8721a" stroke-width="1.5"/>
-  <text x="480" y="208" text-anchor="middle" font-size="9" font-weight="bold" fill="#7d2e00">Checkpoint (barrier-triggered snapshot)</text>
-
-  <!-- Arrow -->
-  <line x1="480" y1="218" x2="480" y2="238" stroke="#4a90d9" stroke-width="1.5" marker-end="url(#ab)"/>
-
-  <!-- Output -->
-  <rect x="380" y="238" width="200" height="28" rx="4" fill="#e9ecef" stroke="#adb5bd" stroke-width="1"/>
-  <text x="480" y="256" text-anchor="middle" font-size="10" fill="#555">Results (low-latency, continuous)</text>
-
-  <!-- Properties -->
-  <rect x="338" y="278" width="280" height="22" rx="4" fill="#fff3cd" stroke="#f0ad4e" stroke-width="0.8"/>
-  <text x="478" y="292" text-anchor="middle" font-size="9" fill="#7d5a00">Latency: sub-second | Exactly-once via distributed snapshots</text>
-
-  <defs>
-    <marker id="ag" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
-      <path d="M0,0 L0,6 L7,3 z" fill="#28a745"/>
-    </marker>
-    <marker id="ab" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto">
-      <path d="M0,0 L0,6 L7,3 z" fill="#4a90d9"/>
-    </marker>
-  </defs>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 640 298" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;">
+    <g transform="matrix(1,0,0,1.009705,0,-22.27173)">
+        <path d="M310,35.923L310,298.077C310,302.45 306.415,306 302,306L18,306C13.585,306 10,302.45 10,298.077L10,35.923C10,31.55 13.585,28 18,28L302,28C306.415,28 310,31.55 310,35.923Z" style="fill:rgb(240,255,244);stroke:rgb(40,167,69);stroke-width:1.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,160,24)">
+        <text x="-96.346px" y="0px" style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:12px;fill:rgb(21,87,36);">Spark Streaming (Micro-batching)</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-22)">
+        <path d="M295,63L295,71C295,72.656 293.656,74 292,74L28,74C26.344,74 25,72.656 25,71L25,63C25,61.344 26.344,60 28,60L292,60C293.656,60 295,61.344 295,63Z" style="fill:rgb(222,226,230);stroke:rgb(173,181,189);stroke-width:0.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,160,49)">
+        <text x="-43.357px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:8px;fill:rgb(85,85,85);">Continuous input stream</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-22)">
+        <path d="M77,85L77,109C77,110.656 75.656,112 74,112L28,112C26.344,112 25,110.656 25,109L25,85C25,83.344 26.344,82 28,82L74,82C75.656,82 77,83.344 77,85Z" style="fill:rgb(212,237,218);stroke:rgb(40,167,69);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,51,79)">
+        <text x="-14.889px" y="0px" style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:8px;fill:rgb(21,87,36);">Batch t</text>
+        <text x="12.225px" y="0px" style="font-family:'MicrosoftSansSerif', 'Microsoft Sans Serif', sans-serif;font-size:8px;fill:rgb(21,87,36);">₁</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-22)">
+        <path d="M135,85L135,109C135,110.656 133.656,112 132,112L86,112C84.344,112 83,110.656 83,109L83,85C83,83.344 84.344,82 86,82L132,82C133.656,82 135,83.344 135,85Z" style="fill:rgb(212,237,218);stroke:rgb(40,167,69);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,109,79)">
+        <text x="-14.889px" y="0px" style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:8px;fill:rgb(21,87,36);">Batch t</text>
+        <text x="12.225px" y="0px" style="font-family:'MicrosoftSansSerif', 'Microsoft Sans Serif', sans-serif;font-size:8px;fill:rgb(21,87,36);">₂</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-22)">
+        <path d="M193,85L193,109C193,110.656 191.656,112 190,112L144,112C142.344,112 141,110.656 141,109L141,85C141,83.344 142.344,82 144,82L190,82C191.656,82 193,83.344 193,85Z" style="fill:rgb(212,237,218);stroke:rgb(40,167,69);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,167,79)">
+        <text x="-14.889px" y="0px" style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:8px;fill:rgb(21,87,36);">Batch t</text>
+        <text x="12.225px" y="0px" style="font-family:'MicrosoftSansSerif', 'Microsoft Sans Serif', sans-serif;font-size:8px;fill:rgb(21,87,36);">₃</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-22)">
+        <path d="M251,85L251,109C251,110.656 249.656,112 248,112L202,112C200.344,112 199,110.656 199,109L199,85C199,83.344 200.344,82 202,82L248,82C249.656,82 251,83.344 251,85Z" style="fill:rgb(212,237,218);stroke:rgb(40,167,69);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,225,79)">
+        <text x="-14.889px" y="0px" style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:8px;fill:rgb(21,87,36);">Batch t</text>
+        <text x="12.225px" y="0px" style="font-family:'MicrosoftSansSerif', 'Microsoft Sans Serif', sans-serif;font-size:8px;fill:rgb(21,87,36);">₄</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-22)">
+        <path d="M295,85L295,109C295,110.656 293.656,112 292,112L260,112C258.344,112 257,110.656 257,109L257,85C257,83.344 258.344,82 260,82L292,82C293.656,82 295,83.344 295,85Z" style="fill:rgb(195,230,203);stroke:rgb(40,167,69);stroke-width:0.8px;stroke-dasharray:3,2;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,276,79)">
+        <text x="-2.917px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:7px;fill:rgb(136,136,136);">...</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-22)">
+        <path d="M25,118L245,118" style="fill:none;fill-rule:nonzero;stroke:rgb(40,167,69);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-22)">
+        <path d="M25,114L25,122" style="fill:none;fill-rule:nonzero;stroke:rgb(40,167,69);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-22)">
+        <path d="M245,114L245,122" style="fill:none;fill-rule:nonzero;stroke:rgb(40,167,69);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,159.275391,106.501171)">
+        <text x="-47.785px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:8px;fill:rgb(21,87,36);">Δt ≈ ½–1 second per batch</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-22)">
+        <path d="M160,134L160,152" style="fill:none;fill-rule:nonzero;stroke:rgb(40,167,69);stroke-width:1.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-22)">
+        <path d="M260,156L260,176C260,178.208 258.208,180 256,180L64,180C61.792,180 60,178.208 60,176L60,156C60,153.792 61.792,152 64,152L256,152C258.208,152 260,153.792 260,156Z" style="fill:rgb(204,229,255);stroke:rgb(74,144,217);stroke-width:1.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,160,148)">
+        <text x="-62.786px" y="0px" style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:10px;fill:rgb(26,74,128);">Spark Batch Engine (RDD)</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-22)">
+        <path d="M160,180L160,200" style="fill:none;fill-rule:nonzero;stroke:rgb(40,167,69);stroke-width:1.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-22)">
+        <path d="M260,204L260,224C260,226.208 258.208,228 256,228L64,228C61.792,228 60,226.208 60,224L60,204C60,201.792 61.792,200 64,200L256,200C258.208,200 260,201.792 260,204Z" style="fill:rgb(233,236,239);stroke:rgb(173,181,189);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,160,196)">
+        <text x="-73.914px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:10px;fill:rgb(85,85,85);">Results (HDFS / DB / dashboard)</text>
+    </g>
+    <g transform="matrix(1,0,0,1.071429,0,-39.142857)">
+        <path d="M298,243.733L298,292.267C298,294.327 296.208,296 294,296L22,296C19.792,296 18,294.327 18,292.267L18,243.733C18,241.673 19.792,240 22,240L294,240C296.208,240 298,241.673 298,243.733Z" style="fill:rgb(255,243,205);stroke:rgb(240,173,78);stroke-width:0.8px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,158,230)">
+        <text x="-22.258px" y="0px" style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:9px;fill:rgb(125,90,0);">Properties</text>
+    </g>
+    <g transform="matrix(1,0,0,1,158,244)">
+        <text x="-39.153px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:9px;fill:rgb(125,90,0);">Latency: ~1 second</text>
+    </g>
+    <g transform="matrix(1,0,0,1,158,257)">
+        <text x="-83.419px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:9px;fill:rgb(125,90,0);">Fault tolerance: RDD lineage + replication</text>
+    </g>
+    <g transform="matrix(1,0,0,1,158,270)">
+        <text x="-64.026px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:9px;fill:rgb(125,90,0);">Exactly-once via batch atomicity</text>
+    </g>
+    <g transform="matrix(1,0,0,1.009705,0,-22.27173)">
+        <path d="M630,35.923L630,298.077C630,302.45 626.415,306 622,306L338,306C333.585,306 330,302.45 330,298.077L330,35.923C330,31.55 333.585,28 338,28L622,28C626.415,28 630,31.55 630,35.923Z" style="fill:rgb(232,244,255);stroke:rgb(74,144,217);stroke-width:1.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,480,24)">
+        <text x="-86.684px" y="0px" style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:12px;fill:rgb(26,74,128);">Apache Flink (T<tspan x="1.998px 6.668px " y="0px 0px ">ru</tspan>e Streaming)</text>
+    </g>
+    <g transform="matrix(1,0,0,3.751678,0,-187.100705)">
+        <path d="M615,60.8L615,73.2C615,73.642 613.656,74 612,74L348,74C346.344,74 345,73.642 345,73.2L345,60.8C345,60.358 346.344,60 348,60L612,60C613.656,60 615,60.358 615,60.8Z" style="fill:rgb(222,226,230);stroke:rgb(173,181,189);stroke-width:0.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,480,47)">
+        <text x="-43.357px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:8px;fill:rgb(85,85,85);">Continuous input stream</text>
+    </g>
+    <g transform="matrix(1,0,0,1,72.183596,-23.199063)">
+        <circle cx="358" cy="96" r="7" style="fill:rgb(255,193,7);stroke:rgb(230,92,0);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,430.183596,74.800937)">
+        <text x="-3.893px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:7px;fill:rgb(125,50,0);">e1</text>
+    </g>
+    <g transform="matrix(1,0,0,1,72.183596,-23.199063)">
+        <circle cx="376" cy="96" r="7" style="fill:rgb(255,193,7);stroke:rgb(230,92,0);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,448.183596,74.800937)">
+        <text x="-3.893px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:7px;fill:rgb(125,50,0);">e2</text>
+    </g>
+    <g transform="matrix(1,0,0,1,72.183596,-23.199063)">
+        <circle cx="394" cy="96" r="7" style="fill:rgb(255,193,7);stroke:rgb(230,92,0);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,466.183596,74.800937)">
+        <text x="-3.893px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:7px;fill:rgb(125,50,0);">e3</text>
+    </g>
+    <g transform="matrix(1,0,0,1,72.183596,-23.199063)">
+        <path d="M408,84L408,108" style="fill:none;fill-rule:nonzero;stroke:rgb(230,92,0);stroke-width:2px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,479.740234,57.870543)">
+        <g transform="matrix(7,0,0,7,11.0896,0)">
+        </g>
+        <text x="-11.09px" y="0px" style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:7px;fill:rgb(230,92,0);">barrier</text>
+    </g>
+    <g transform="matrix(1,0,0,1,72.183596,-23.199063)">
+        <circle cx="422" cy="96" r="7" style="fill:rgb(255,193,7);stroke:rgb(230,92,0);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,494.183596,74.800937)">
+        <text x="-3.893px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:7px;fill:rgb(125,50,0);">e4</text>
+    </g>
+    <g transform="matrix(1,0,0,1,72.183596,-23.199063)">
+        <circle cx="440" cy="96" r="7" style="fill:rgb(255,193,7);stroke:rgb(230,92,0);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,512.183596,74.800937)">
+        <text x="-3.893px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:7px;fill:rgb(125,50,0);">e5</text>
+    </g>
+    <g transform="matrix(1,0,0,1,526.248141,75.142734)">
+        <text x="0px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:8px;fill:rgb(136,136,136);">→ continuous</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-22)">
+        <path d="M480,112L480,130" style="fill:none;fill-rule:nonzero;stroke:rgb(74,144,217);stroke-width:1.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-22)">
+        <path d="M615,134L615,166C615,168.208 613.208,170 611,170L349,170C346.792,170 345,168.208 345,166L345,134C345,131.792 346.792,130 349,130L611,130C613.208,130 615,131.792 615,134Z" style="fill:rgb(212,237,218);stroke:rgb(40,167,69);stroke-width:1.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,480,125)">
+        <text x="-70.187px" y="0px" style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:9px;fill:rgb(21,87,36);">T<tspan x="-65.358px -60.352px " y="0px 0px ">as</tspan>kManager: chained operators</text>
+    </g>
+    <g transform="matrix(1,0,0,1,480,138)">
+        <text x="-92.707px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:8px;fill:rgb(21,87,36);">Source → Filter → Map → <tspan x="2.875px 8.211px " y="0px 0px ">Ag</tspan>g (pipelined, in-thread)</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-22)">
+        <path d="M480,170L480,190" style="fill:none;fill-rule:nonzero;stroke:rgb(74,144,217);stroke-width:1.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-22)">
+        <path d="M590,194L590,214C590,216.208 588.208,218 586,218L374,218C371.792,218 370,216.208 370,214L370,194C370,191.792 371.792,190 374,190L586,190C588.208,190 590,191.792 590,194Z" style="fill:rgb(255,224,204);stroke:rgb(232,114,26);stroke-width:1.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,480,185)">
+        <text x="-85.26px" y="0px" style="font-family:'Arial-BoldMT', 'Arial', sans-serif;font-weight:700;font-size:9px;fill:rgb(125,46,0);">Checkpoint (barrier-triggered snapshot)</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-22)">
+        <path d="M480,218L480,238" style="fill:none;fill-rule:nonzero;stroke:rgb(74,144,217);stroke-width:1.5px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-22)">
+        <path d="M580,242L580,262C580,264.208 578.208,266 576,266L384,266C381.792,266 380,264.208 380,262L380,242C380,239.792 381.792,238 384,238L576,238C578.208,238 580,239.792 580,242Z" style="fill:rgb(233,236,239);stroke:rgb(173,181,189);stroke-width:1px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,480,233)">
+        <text x="-72.993px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:10px;fill:rgb(85,85,85);">Results (low-latency<tspan x="15.737px 18.516px " y="0px 0px ">, </tspan>continuous)</text>
+    </g>
+    <g transform="matrix(1,0,0,1,0,-22)">
+        <path d="M618,282L618,296C618,298.208 616.208,300 614,300L342,300C339.792,300 338,298.208 338,296L338,282C338,279.792 339.792,278 342,278L614,278C616.208,278 618,279.792 618,282Z" style="fill:rgb(255,243,205);stroke:rgb(240,173,78);stroke-width:0.8px;"/>
+    </g>
+    <g transform="matrix(1,0,0,1,478,270)">
+        <text x="-121.735px" y="0px" style="font-family:'ArialMT', 'Arial', sans-serif;font-size:9px;fill:rgb(125,90,0);">Latency: sub-second | Exactly-once via distributed snapshots</text>
+    </g>
 </svg>

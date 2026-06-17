@@ -184,6 +184,10 @@ Nova is itself a distributed system, with dedicated daemons for each function:
 - *nova database*: stores build-time and run-time state of the cloud infrastructure (typically MySQL).
 - #hl[*Queue (RabbitMQ)*: the message bus that connects all Nova services]. Requests are enqueued, enabling async processing and decoupling.
 - *nova-console / nova-novncproxy / nova-consoleauth*: provide proxied console access to VM instance and authentication.
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_On how many nodes is nova-compute deployed?_]\
+  *nova-compute* runs on *every compute (hypervisor) node*, one instance per node that hosts VMs, since it drives the local hypervisor. The coordinating services (*nova-api*, *nova-scheduler*, *nova-conductor*) are few and centralized.
+]
 #v(-0.3em)
 #extra[
   #note[
@@ -343,6 +347,10 @@ an internal ring accessed only through the proxy.
 #note[
   Glance itself does not store image bits, it delegates that to an external
   repository (Swift, S3, filesystem). It is a metadata registry + delivery proxy.
+]
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_Where would you store a VM's image? Why not the compute node's local filesystem?_]\
+  Options are a *database*, the compute node's *local filesystem*, or a dedicated *image store*. Never the local filesystem: a node crash loses the image. Use a *durable, replicated* store, in OpenStack *Glance* backed by object storage (*Swift*), or *S3* for cross-region fault tolerance.
 ]
 
 #figure(

@@ -60,7 +60,7 @@ In general, a communication can involve *two kinds of proxies*:
   - *Servant*: the #hl[concrete language implementation] of a CORBA object (e.g., a Java class). Created by the language environment, *not by CORBA itself*.
   - *Interface*: declared in IDL. Defines the #hl[contract]: attributes, methods, exceptions.
   - *ORB*: the #hl[middleware bus]. Routes requests from clients to the correct servant, transparently.
-  - *POA* (Portable Object Adapter): on the server side, maps incoming requests to the correct servant instance.
+  - *Object Adapter (POA)*: on the server side, it *registers servants* and maps each incoming request to the correct servant (also creating references and activating/deactivating servants). The original *BOA (Basic Object Adapter)* was *vendor-specific*; the *POA (Portable Object Adapter)* replaced it, portable across ORBs from different vendors and able to serve *many servants with one adapter*.
 ]
 #v(-1em)
 #analogy("CORBA as an Object Phone Network")[
@@ -135,6 +135,14 @@ CORBA supports two invocation paths, which can coexist in the same system:
 ]
 #v(-1em)
 #note[POA, repositories, and the DII/DSI request objects are *pseudo-objects*: they have IDL-described interfaces but exist only locally and cannot be invoked remotely.]
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_Difference between a CORBA object, a pseudo-object, and a proxy?_]\
+  A *CORBA object* is a real, remotely-invocable entity with an IDL interface and an *IOR*. A *pseudo-object* has an IDL-described interface but lives *only locally* and cannot be invoked remotely (the ORB, the POA, the DII request, the repositories). A *proxy* is the local stand-in for a remote object: the *stub* (client) and *skeleton* (server) that marshal the call across the network.
+]
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_POA vs BOA?_]\
+  Both are *Object Adapters* (the server-side component that dispatches requests to servants). *BOA* was the original but *vendor-specific*, so a servant tied to one vendor's BOA would not run on another ORB. The *POA* is its *standardized, portable* replacement: the same servant runs on any vendor's ORB, it carries policies (activation, threading), and *one POA can manage many servants*. Both are pseudo-objects.
+]
 
 === CORBA IDL
 

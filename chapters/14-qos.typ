@@ -503,6 +503,10 @@ The standard Internet router (best-effort) executes for every packet:
 #important("Work Conservation")[
   A router in Internet *must* work according to work conservation: it cannot decide to postpone any message arriving. Any QoS router must break this by *conditioning traffic*: introducing monitoring and making actions to decide more sophisticated service policies (delay some packets, discard some packets).
 ]
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_State Kleinrock's conservation law. Why must a QoS router break it?_]\
+  For a *work-conserving* router, $sum_n rho_n q_n$ is *constant*, so you cannot lower one flow's delay without raising another's. To give real QoS guarantees the router must *break work conservation*: it *conditions traffic*, delaying or dropping some packets (shaping, scheduling, RED) instead of always forwarding whatever it can.
+]
 
 === Bucket Models for Traffic Shaping
 

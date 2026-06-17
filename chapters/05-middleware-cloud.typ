@@ -452,6 +452,10 @@ Key extensions:
   - #kw[Hybrid cloud]: composition of two or more clouds (private + public): a company uses an internal data center coupled with one or more external clouds.
   - #kw[Multi-cloud]: an organization uses offerings from *many different providers* to optimize costs, scalability, efficiency, flexibility, and geographic constraints, and crucially to *reduce lock-in*. As of 2020, 93% of enterprises use multi-cloud strategies.
 ]
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_Why use the cloud at all? Why hybrid? Why private? And what is scalability?_]\
+  *Cloud*: pay-per-use, elasticity, and no upfront capital or management burden. *Private*: full control, security, and compliance for sensitive data. *Hybrid*: keep sensitive workloads private and *burst* to the public cloud for peaks and scale. *Scalability*: the ability to absorb growing load by adding resources (scale-out), ideally with cost growing about *proportionally*, not faster.
+]
 
 == QoS-Related Properties
 

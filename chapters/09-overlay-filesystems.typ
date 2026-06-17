@@ -418,6 +418,10 @@ The write protocol carefully separates *control flow* from *data flow*:
 File namespace mutations (create/delete) are *atomic*. For file regions the state depends on success/failure of mutations and existence of concurrent mutations.
 
 *In case of inconsistent data or undefined, a data reconciliation must run.*
+#side-note(color: rgb("#002fff"))[
+  💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_Explain GFS's consistency model._]\
+  A region is *consistent* (all replicas equal), *defined* (consistent and the whole mutation is visible), *consistent but undefined* (concurrent writes leave a mix no client intended), or *inconsistent* (a failed mutation, replicas differ). *Record append* is *atomic and at-least-once*: data lands at the same offset on all replicas, but retries can leave duplicates or padding, so apps de-duplicate with checksums and unique IDs.
+]
 
 ==== Record Append Semantics and Undefined State Avoidance
 

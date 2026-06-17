@@ -67,7 +67,7 @@
   - *Monitoring*: collect current metrics (reactive, what is happening)
   - *Observability*: analyze + understand *why* + adapt (proactive)
 
-  *TINA-C:* 3-view architecture: *User*, *Provider*, *Vendor* over a Distributed Processing Environment (DPE).
+  *TINA-C* (telecom middleware, *separation of concerns*): roles are *User*, *Service Provider*, *Network Provider*. Two views: *User view* (network as a black box) and *Interaction view* (how providers and clients connect). Layer stack: HW #arrow *NCCE* #arrow *DPE* (the middleware that hides heterogeneity) #arrow apps.
 ])
 
 #def("SOA — 3 Actors")[*Provider* publishes interface to *Registry*. *Consumer* discovers and binds. Contract = interface, not implementation. Granularity problem: too fine = chatty; too coarse = inflexible.]

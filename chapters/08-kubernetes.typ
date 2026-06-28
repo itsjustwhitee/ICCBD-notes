@@ -551,6 +551,21 @@ Two fundamental types:
   💯 #text(fill: rgb("#002fff"))[*Prof. Question*]: #text(fill: rgb("#002fff").lighten(50%))[_How does networking work in Kubernetes (high-level)?_]\
   Every Pod gets its *own cluster-wide IP*, and every node its own IP. The core rule: *any Pod can talk to any other Pod directly*, on the same or a different node, *without NAT or proxies*. This flat model makes a remote Pod look like a local process.
 ]
+#v(-0.3em)
+#important("NAT in k8s")[
+  #hl[The "no NAT" rule is scoped strictly to *Pod-to-Pod* communication.] NAT is
+  deliberately introduced by *kube-proxy* at two other points:
+
+  - *Pod #arrow Service (DNAT)*: Pods are ephemeral, so their IPs change on every
+    restart. A Service gives a stable ClusterIP as entry point. kube-proxy intercepts packets sent to that ClusterIP and rewrites the destination to the real IP of a healthy backend Pod, before the packet even leaves the node.
+
+  - *External traffic via NodePort (DNAT + SNAT)*: an external client reaches the
+    cluster on a fixed port of any node. The node rewrites the destination to the chosen Pod's IP (DNAT). If that Pod lives on a *different node*, the initiating node also rewrites the source IP to its own (SNAT), so the Pod's reply comes back through the same node and avoids asymmetric routing.
+
+  - *Pod #arrow Internet (SNAT / Masquerade)*: Pod IPs (e.g. `10.244.0.0/16`)
+    are private addresses, not routable on the public Internet. When a Pod
+    makes an outbound request, the node replaces the Pod's source IP with its own public IP (MASQUERADE rule in iptables), so the response can find its way back.
+]
 
 === Kube-Proxy
 
@@ -577,6 +592,16 @@ communicates with the network plugin. Popular plugins:
     image("../assets/eBPF-vs-Standard.jpg", width: 75%),
     caption: [eBPF vs. standard k8s.]
   )
+#v(-0.7em)
+#note[
+  #hl[Cross-node Pod-to-Pod traffic uses *encapsulation*, not NAT].\
+  With Flannel (VXLAN), when Pod A (`10.244.1.5` on Node 1) talks to Pod B (`10.244.2.5`
+  on Node 2), Flannel wraps the packet in an outer UDP/IP envelope
+  (outer src = Node 1 IP, outer dst = Node 2 IP). The *inner* Pod IPs are never rewritten.
+  Node 2 strips the outer envelope and delivers the original packet: Pod B still sees `src = 10.244.1.5`. The flat model holds, no address translation ever occurs.\
+  NAT only enters when a *Service* or a *cluster boundary* is involved
+  (as described in the note above), not in raw Pod-to-Pod communication.
+]
 
 === Services
 

@@ -1,9 +1,12 @@
 AGENTS.md
 .claude
 .env
+.history
 claude/
 
 # Compiled PDFs are published as GitHub Release assets, not committed to the repo.
 # (This keeps `main` clean so CI never pushes back and pushing never conflicts.)
 /ICCBD-notes.pdf
 /ICCBD-summary.pdf
+
+*domande*

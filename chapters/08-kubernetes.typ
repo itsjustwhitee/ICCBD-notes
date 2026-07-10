@@ -581,6 +581,22 @@ Two fundamental types:
 The *Container Network Interface (CNI)* is a standard for how Kubernetes
 communicates with the network plugin. Popular plugins:
 
+#note[
+  #hl[CNI and kube-proxy are *independent* components that operate at different layers] (they stack, they do not overlap).
+  - *CNI* is called by the *kubelet* each time a Pod is created. It assigns the Pod an IP, creates a virtual ethernet pair (one end inside the Pod's network namespace, one on the host), and programs routes so Pods can reach each other across nodes.\
+    It is responsible for *physical packet delivery* #swarrow the flat Pod network.
+  - *kube-proxy* runs as a *background daemon*: it watches the API server for Service and EndpointSlice changes and proactively programs iptables/IPVS rules in the kernel.
+    The actual DNAT/SNAT happens in the *kernel* via those pre-written rules. It is responsible for the *Service abstraction*.
+
+  A packet through a Service travels both layers in sequence:
+  + Pod A sends to the Service *ClusterIP*.
+  + *kube-proxy (Node A)*'s kernel rule intercepts it and rewrites the destination to Pod B's real IP (DNAT).
+  + *CNI (Node A)* routes the packet physically across the network toward Node B.
+  + *CNI (Node B)* receives and decapsulates the packet, delivering it to Pod B through its veth interface.
+  + *kube-proxy (Node B)* does *not* intervene: the packet is already addressed to a real Pod IP, not a ClusterIP, so no Service rule fires.
+  + Pod B receives the packet.
+]
+
 - *Flannel*: simple overlay network using VXLAN tunnelling between nodes.
   Each node gets a subnet (e.g., `10.244.1.0/24`); Flannel tunnels
   inter-node Pod traffic through the underlay.
